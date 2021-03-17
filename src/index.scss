@@ -1,0 +1,192 @@
+// Required
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/utilities";
+
+// Include custom variable default overrides here
+
+// remove h1
+//$h1-font-size: null;
+
+$utilities: map-remove($utilities, "text-align", "background-color", "color");
+
+//@debug $theme-colors;
+
+// Internal Bootstrap function to turn maps into its negative variant.
+// It prefixes the keys with `n` and makes the value negative.
+@function add-class-suffix($map, $suffix: "") {
+    $result: ();
+    @each $key, $value in $map {
+        //@if $key != 0 {
+        $result: map-merge($result, ($key + "-" + $suffix: ($value)));
+        //}
+    }
+    @return $result;
+}
+
+//@debug add-class-suffix($theme-colors, "background-color");
+
+header {
+    background-color: yellow;
+}
+
+$custom_utils: (
+    text-align: (
+        responsive: true,
+        property: text-align,
+        class: has-text-align,
+        values: left right center justify
+    ),
+    // scss-docs-start utils-bg-color
+    background-color:
+        (
+            property: background-color,
+            class: has,
+            values:
+                add-class-suffix(
+                    map-merge(
+                        $theme-colors,
+                        (
+                            "body": $body-bg,
+                            "white": $white,
+                            "transparent": transparent
+                        )
+                    ),
+                    "background-color"
+                )
+        ),
+    // scss-docs-start utils-color
+    color:
+        (
+            property: color,
+            class: has,
+            values:
+                add-class-suffix(
+                    map-merge(
+                        $theme-colors,
+                        (
+                            "white": $white,
+                            "body": $body-color,
+                            "muted": $text-muted,
+                            "black-50": rgba($black, 0.5),
+                            "white-50": rgba($white, 0.5),
+                            "reset": inherit
+                        )
+                    ),
+                    "color"
+                )
+        )
+);
+
+// Merge the maps
+$utilities: map-merge($utilities, $custom_utils);
+
+$headings-font-weight: null;
+$display-font-weight: null;
+
+.has-huge-font-size {
+    @extend .display-1;
+}
+
+.has-large-font-size {
+    @extend .display-4;
+}
+
+.has-medium-font-size {
+    @extend .display-6;
+}
+
+.has-normal-font-size {
+    @extend h6;
+}
+
+.has-small-font-size {
+    @extend small;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+/*
+.wp-block-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.wp-block-buttons > .wp-block-button {
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.wp-block-button__link {
+    color: #fff;
+    background-color: #32373c;
+    border: none;
+    border-radius: 1.55em;
+    box-shadow: none;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.125em;
+    padding: 0.667em 1.333em;
+    text-align: center;
+    text-decoration: none;
+    overflow-wrap: break-word;
+}
+*/
+
+// Optional
+
+@import "../node_modules/bootstrap/scss/root";
+@import "../node_modules/bootstrap/scss/reboot";
+
+@import "../node_modules/bootstrap/scss/type";
+
+//@import "../node_modules/bootstrap/scss/images";
+
+@import "../node_modules/bootstrap/scss/containers";
+/*
+@import "../node_modules/bootstrap/scss/grid";
+@import "../node_modules/bootstrap/scss/tables";
+@import "../node_modules/bootstrap/scss/forms";
+@import "../node_modules/bootstrap/scss/buttons";
+@import "../node_modules/bootstrap/scss/transitions";
+@import "../node_modules/bootstrap/scss/dropdown";
+@import "../node_modules/bootstrap/scss/button-group";
+@import "../node_modules/bootstrap/scss/nav";
+@import "../node_modules/bootstrap/scss/navbar";
+@import "../node_modules/bootstrap/scss/card";
+@import "../node_modules/bootstrap/scss/breadcrumb";
+@import "../node_modules/bootstrap/scss/pagination";
+@import "../node_modules/bootstrap/scss/badge";
+@import "../node_modules/bootstrap/scss/alert";
+@import "../node_modules/bootstrap/scss/progress";
+@import "../node_modules/bootstrap/scss/list-group";
+@import "../node_modules/bootstrap/scss/close";
+@import "../node_modules/bootstrap/scss/toasts";
+@import "../node_modules/bootstrap/scss/modal";
+@import "../node_modules/bootstrap/scss/tooltip";
+@import "../node_modules/bootstrap/scss/popover";
+@import "../node_modules/bootstrap/scss/carousel";
+@import "../node_modules/bootstrap/scss/spinners";
+
+// Helpers
+@import "../node_modules/bootstrap/scss/helpers";
+*/
+
+// Utilities
+@import "../node_modules/bootstrap/scss/utilities/api";
+
+// font awesome
+$fa-font-path: "@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/variables";
+@import "~@fortawesome/fontawesome-free/scss/mixins";
+@import "~@fortawesome/fontawesome-free/scss/core";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/brands";

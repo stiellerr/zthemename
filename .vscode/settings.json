@@ -1,0 +1,4 @@
+{
+    "editor.formatOnSave": true,
+    "php.validate.executablePath": "C:/MAMP/bin/php/php7.3.7/php.exe"
+}
