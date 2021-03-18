@@ -124,13 +124,17 @@ module.exports = (env, argv) => {
         externals: {
             jquery: "jQuery",
             underscore: "_",
+            lodash: "lodash",
             "@wordpress/block-editor": ["wp", "blockEditor"],
             "@wordpress/rich-text": ["wp", "richText"],
             "@wordpress/components": ["wp", "components"],
             "@wordpress/i18n": ["wp", "i18n"],
             "@wordpress/dom": ["wp", "dom"],
             "@wordpress/primitives": ["wp", "primitives"],
-            "@wordpress/element": ["wp", "element"]
+            "@wordpress/element": ["wp", "element"],
+            "@wordpress/data": ["wp", "data"],
+            "@wordpress/compose": ["wp", "compose"],
+            "@wordpress/dom-ready": ["wp", "domReady"]
         }
     };
     return config;

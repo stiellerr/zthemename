@@ -181,13 +181,17 @@ function zthemename_editor_assets() {
         [
             "jquery",
             "underscore",
+            "lodash",
             "wp-block-editor",
             "wp-rich-text",
             "wp-components",
             "wp-i18n",
             "wp-dom",
             "wp-primitives",
-            "wp-element"
+            "wp-element",
+            "wp-data",
+            "wp-compose",
+            "wp-dom-ready"
             /*
             'wp-hooks',
             'wp-element',

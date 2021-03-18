@@ -17,5 +17,6 @@ ReactDOM.render(
 import "./index.scss";
 
 import "./inc/icon";
+import "./inc/justify";
 
 console.log("editor loaded");
