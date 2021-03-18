@@ -10,7 +10,7 @@ import _ from "underscore";
 import "@fortawesome/fontawesome-free/metadata/icons.yml";
 
 // styles
-import "./editor.scss";
+import "./style.scss";
 
 export default class IconPicker extends Component {
     // globals...

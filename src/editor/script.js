@@ -14,9 +14,13 @@ ReactDOM.render(
 
 //import "@fortawesome/fontawesome-free/metadata/icons.yml";
 
+//import { domReady } from "@wordpress/dom-ready";
+
 import "./index.scss";
 
 import "./inc/icon";
-import "./inc/justify";
+import "./inc/format";
+//import "./inc/justify";
+//import "./inc/underline";
 
 console.log("editor loaded");
