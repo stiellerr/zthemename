@@ -130,7 +130,7 @@ module.exports = (env, argv) => {
             "@wordpress/components": ["wp", "components"],
             "@wordpress/i18n": ["wp", "i18n"],
             "@wordpress/dom": ["wp", "dom"],
-            "@wordpress/primitives": ["wp", "primitives"],
+            //"@wordpress/primitives": ["wp", "primitives"],
             "@wordpress/element": ["wp", "element"],
             "@wordpress/data": ["wp", "data"],
             "@wordpress/compose": ["wp", "compose"],

@@ -1,26 +1,26 @@
-/*
-import React from "react";
-import ReactDOM from "react-dom";
-import MyComponent from "./inc/MyComponent";
+/**
+ * Wordpress dependencies
+ */
+//import domReady from "@wordpress/dom-ready";
 
+/**
+ * Internal dependencies
+ */
+//import "./zzzinc/icon";
+//import "./zzzinc/format";
 
+/**
+ * Styles
+ */
+//import "./index.scss";
 
-ReactDOM.render(<MyComponent title="Hey" />, document.getElementById('root'))
-ReactDOM.render(
-    React.createElement(MyComponent, { title: "Hello" }),
-    document.getElementById("root")
-);
-*/
+//domReady(() => {
+//console.log("wpDom loaded");
+//});
 
-//import "@fortawesome/fontawesome-free/metadata/icons.yml";
-
-//import { domReady } from "@wordpress/dom-ready";
-
-import "./index.scss";
-
-import "./inc/icon";
-import "./inc/format";
-//import "./inc/justify";
-//import "./inc/underline";
+/**
+ * Formats
+ */
+import "./formats/";
 
 console.log("editor loaded");

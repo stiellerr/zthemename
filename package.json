@@ -28,7 +28,7 @@
         "@wordpress/dom-ready": "^2.13.0",
         "@wordpress/element": "^2.19.1",
         "@wordpress/i18n": "^3.18.0",
-        "@wordpress/primitives": "^1.11.1",
+        "@wordpress/icons": "^2.10.0",
         "@wordpress/rich-text": "^3.24.8",
         "bootstrap": "^5.0.0-beta2",
         "jquery": "^3.6.0",

@@ -1,27 +1,31 @@
 /* global fa_icons */
 
 /**
+ * WordPress dependencies
+ */
+import { __ } from "@wordpress/i18n";
+import { Component } from "@wordpress/element";
+import { toggleFormat, insert, create } from "@wordpress/rich-text";
+import { getRectangleFromRange } from "@wordpress/dom";
+import { Popover, __experimentalInputControl as InputControl } from "@wordpress/components";
+import { RichTextShortcut, RichTextToolbarButton } from "@wordpress/block-editor";
+
+/**
  * External dependencies
  */
-import { Component } from "@wordpress/element";
-import { __experimentalInputControl as InputControl } from "@wordpress/components";
 import $ from "jquery";
 import _ from "underscore";
+
+/**
+ * Internal dependencies
+ */
 import "@fortawesome/fontawesome-free/metadata/icons.yml";
 
-// styles
-import "./style.scss";
-
-export default class IconPicker extends Component {
-    // globals...
+class Picker extends Component {
     itemList = {};
-
     self = null;
 
-    // onChange
     onChange = (value) => {
-        //console.log("onChange");
-
         this.itemList.hide();
 
         if (value && value.trim()) {
@@ -30,8 +34,6 @@ export default class IconPicker extends Component {
     };
 
     componentDidMount() {
-        //console.log("componentDidMount");
-
         // init icon picker...
         $.getJSON(fa_icons.data, (data) => {
             const icons = JSON.parse(JSON.stringify(data));
@@ -39,7 +41,6 @@ export default class IconPicker extends Component {
                 let arr = [];
                 if (data.search.terms.length) {
                     arr = data.search.terms;
-                    //console.log(arr);
                 }
                 arr.push(name);
                 _.each(data.styles, (suffix) => {
@@ -52,12 +53,8 @@ export default class IconPicker extends Component {
                         );
                 });
             });
-            //console.log("icons");
-            //console.log(icons);
-
             // init item list
             this.itemList = this.self.find(".zthemename-icon-picker__items").children();
-
             this.itemList.hide();
 
             // set default value
@@ -70,12 +67,10 @@ export default class IconPicker extends Component {
                 .find(".zthemename-icon-picker__items > i")
                 .on("click", ({ currentTarget }) => {
                     let e = $(currentTarget);
-
                     this.props.onChange({
                         iconClass: e.attr("class"),
                         iconContent: e.data("content")
                     });
-
                     this.itemList
                         .hide()
                         .filter(`[class="${e.attr("class")}"]`)
@@ -85,8 +80,6 @@ export default class IconPicker extends Component {
     }
 
     render = () => {
-        //console.log("render");
-
         return (
             <>
                 <div
@@ -109,4 +102,71 @@ export default class IconPicker extends Component {
             </>
         );
     };
+}
+
+export default class IconControl extends Component {
+    anchorRange = null;
+
+    render() {
+        const { isActive, onChange, value } = this.props;
+
+        const onToggle = () => {
+            // Set up the anchorRange when the Popover is opened.
+            const selection = window.getSelection();
+            this.anchorRange = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+            onChange(
+                toggleFormat(value, {
+                    type: "zthemename/icon"
+                })
+            );
+        };
+
+        // Pin the Popover to the caret position.
+        const anchorRect = () => {
+            return getRectangleFromRange(this.anchorRange);
+        };
+
+        if (isActive) {
+            return (
+                <Popover
+                    position="center"
+                    onClick={() => {}}
+                    getAnchorRect={anchorRect}
+                    expandOnMobile={true}
+                    headerTitle={__("Insert Icon", "zthemename")}
+                    onClose={() => {
+                        onChange(toggleFormat(value, { type: "zthemename/icon" }));
+                    }}
+                >
+                    <Picker
+                        onChange={({ iconClass, iconContent }) => {
+                            let html = `<i class="${iconClass}" data-content="${iconContent}">&#x200b;</i>&#x200b;`;
+                            onChange(
+                                insert(
+                                    value,
+                                    create({
+                                        html
+                                    })
+                                )
+                            );
+                        }}
+                    ></Picker>
+                </Popover>
+            );
+        }
+
+        return (
+            <>
+                <RichTextShortcut type="primary" character="e" onUse={onToggle} />
+                <RichTextToolbarButton
+                    icon={"editor-customchar"}
+                    title={__("Insert icon", "zthemename")}
+                    onClick={onToggle}
+                    isActive={isActive}
+                    shortcutType="primary"
+                    shortcutCharacter="e"
+                />
+            </>
+        );
+    }
 }

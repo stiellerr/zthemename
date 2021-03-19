@@ -187,7 +187,7 @@ function zthemename_editor_assets() {
             "wp-components",
             "wp-i18n",
             "wp-dom",
-            "wp-primitives",
+            //"wp-primitives",
             "wp-element",
             "wp-data",
             "wp-compose",
