@@ -1,6 +1,7 @@
 import "./index.scss";
 
-//import bootstrap from "bootstrap";
+import bootstrap from "bootstrap";
+//import "bootstrap/dist/css/bootstrap.min.css";
 //import "../node_modules/bootstrap/scss/utilities";
 
 //import "@fortawesome/fontawesome-free/metadata/icons.yml";

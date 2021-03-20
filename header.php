@@ -62,10 +62,17 @@
             </div>
         </div>
     </nav>
-    
+    <div>dynamic</div>
     
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
+
+            <!--<a class="navbar-brand" href="#">-->
+                <?php the_custom_logo(); ?>
+            <!--</a>-->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <?php wp_nav_menu([
                 "theme_location" => "menu-1",
                 "depth" => 2,
@@ -74,8 +81,13 @@
                 "menu_id" => "primary-menu",
                 "menu_class" => "navbar-nav me-auto",
                 "fallback_cb" => false
+                /*
+                "fallback_cb" => function () {
+                    echo "&nbsp";
+                }
+                */
             ]); ?>
-        <div>
+        </div>
 	</nav><!-- #site-navigation -->
 
 </header>

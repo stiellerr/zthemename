@@ -118,6 +118,10 @@ img {
 .current-menu-item > a {
     @extend .active;
 }
+
+.custom-logo-link {
+    @extend .navbar-brand;
+}
 //nav-item
 
 /*
