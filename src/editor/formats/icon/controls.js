@@ -14,7 +14,7 @@ import { RichTextShortcut, RichTextToolbarButton } from "@wordpress/block-editor
  * External dependencies
  */
 import $ from "jquery";
-import _ from "underscore";
+import { each } from "underscore";
 
 /**
  * Internal dependencies
@@ -37,13 +37,13 @@ class Picker extends Component {
         // init icon picker...
         $.getJSON(fa_icons.data, (data) => {
             const icons = JSON.parse(JSON.stringify(data));
-            _.each(icons, (data, name) => {
+            each(icons, (data, name) => {
                 let arr = [];
                 if (data.search.terms.length) {
                     arr = data.search.terms;
                 }
                 arr.push(name);
-                _.each(data.styles, (suffix) => {
+                each(data.styles, (suffix) => {
                     this.self
                         .find(".zthemename-icon-picker__items")
                         .append(
@@ -80,8 +80,19 @@ class Picker extends Component {
     }
 
     render = () => {
+        const { anchorRect, onClose, value } = this.props;
+
         return (
-            <>
+            <Popover
+                position="center"
+                onClick={() => {}}
+                getAnchorRect={anchorRect}
+                expandOnMobile={true}
+                headerTitle={__("Insert Icon", "zthemename")}
+                onClose={() => {
+                    onClose();
+                }}
+            >
                 <div
                     className="zthemename-icon-picker"
                     ref={(node) => {
@@ -93,13 +104,13 @@ class Picker extends Component {
                             onChange={this.onChange}
                             type="search"
                             placeholder="Type to filter"
-                            value={this.props.value ? this.props.value : ""}
+                            value={value ? value : ""}
                             autoComplete="off"
                         />
                     </div>
                     <div className="zthemename-icon-picker__items"></div>
                 </div>
-            </>
+            </Popover>
         );
     };
 }
@@ -128,30 +139,23 @@ export default class IconControl extends Component {
 
         if (isActive) {
             return (
-                <Popover
-                    position="center"
-                    onClick={() => {}}
-                    getAnchorRect={anchorRect}
-                    expandOnMobile={true}
-                    headerTitle={__("Insert Icon", "zthemename")}
+                <Picker
+                    anchorRect={anchorRect}
+                    onChange={({ iconClass, iconContent }) => {
+                        let html = `<i class="${iconClass}" data-content="${iconContent}">&#x200b;</i>&#x200b;`;
+                        onChange(
+                            insert(
+                                value,
+                                create({
+                                    html
+                                })
+                            )
+                        );
+                    }}
                     onClose={() => {
                         onChange(toggleFormat(value, { type: "zthemename/icon" }));
                     }}
-                >
-                    <Picker
-                        onChange={({ iconClass, iconContent }) => {
-                            let html = `<i class="${iconClass}" data-content="${iconContent}">&#x200b;</i>&#x200b;`;
-                            onChange(
-                                insert(
-                                    value,
-                                    create({
-                                        html
-                                    })
-                                )
-                            );
-                        }}
-                    ></Picker>
-                </Popover>
+                ></Picker>
             );
         }
 

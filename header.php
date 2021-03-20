@@ -28,11 +28,11 @@
 <div style="font-weight: bold;">This is the header!</div>
 <header>
 
+    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <img src="http://localhost/wp-content/uploads/automation-and-operational-technology-logo.png" style="max-width: 100%; max-height: 60px;">
-                <!--<a class="navbar-brand" href="#">Navbar Brand</a>-->
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -58,15 +58,26 @@
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>
-                <!--
-                <span class="navbar-text">
-                    Navbar text with an inline element
-                </span>
--->
                 <a class="wp-block-button__link">0800 007 003</a>
             </div>
         </div>
     </nav>
+    
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <?php wp_nav_menu([
+                "theme_location" => "menu-1",
+                "depth" => 2,
+                "container_id" => "navbarNav",
+                "container_class" => "collapse navbar-collapse",
+                "menu_id" => "primary-menu",
+                "menu_class" => "navbar-nav me-auto",
+                "fallback_cb" => false
+            ]); ?>
+        <div>
+	</nav><!-- #site-navigation -->
+
 </header>
 
 <!--
