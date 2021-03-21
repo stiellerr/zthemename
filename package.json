@@ -4,8 +4,8 @@
     "description": "New html document\r type \"!\" (exclamation mark) and press enter in vs code.",
     "main": "index.js",
     "scripts": {
-        "checkFormat": "prettier --check \"**/*.{js,json,css,scss,php}\"",
-        "format": "prettier --write \"**/*.{js,json,css,scss,php}\"",
+        "checkFormat": "prettier --check \"**/*.{js,json,css,scss}\"",
+        "format": "prettier --write \"**/*.{js,json,css,scss}\"",
         "lint": "eslint src",
         "start": "webpack --mode=development --watch",
         "build": "npm run lint && webpack --mode=production && gulp compress",
@@ -13,7 +13,7 @@
     },
     "lint-staged": {
         "src/**/*.js": "eslint",
-        "**/*.{js,json,css,scss,php}": "prettier --write"
+        "**/*.{js,json,css,scss}": "prettier --write"
     },
     "author": "",
     "license": "ISC",
@@ -43,7 +43,6 @@
         "@babel/preset-env": "^7.13.9",
         "@babel/preset-react": "^7.12.13",
         "@babel/register": "^7.13.8",
-        "@prettier/plugin-php": "^0.16.1",
         "@wordpress/browserslist-config": "^3.0.1",
         "autoprefixer": "^10.2.4",
         "babel-loader": "^8.2.2",

@@ -132,7 +132,7 @@ function zthemename_scripts() {
         get_template_directory_uri() . "/dist/js/script.js",
         [],
         _S_VERSION,
-        false
+        true
     );
     //wp_deregister_script( 'wp-embed' );
 }
@@ -225,3 +225,56 @@ function zthemename_editor_assets() {
 }
 
 add_action("enqueue_block_editor_assets", "zthemename_editor_assets");
+
+/**
+ * Add boostrap classes to menu elements.
+ */
+function zthemename_nav_menu_css_class($classes, $item, $args, $depth) {
+    if ($args->theme_location === "menu-1") {
+        $classes[] = "nav-item";
+        if (in_array("menu-item-has-children", $classes)) {
+            $classes[] = "dropdown";
+        }
+    }
+    return $classes;
+}
+
+add_filter("nav_menu_css_class", "zthemename_nav_menu_css_class", 10, 4);
+
+function zthemename_nav_menu_link_attributes($atts, $item, $args, $depth) {
+    if ($args->theme_location === "menu-1") {
+        if (
+            in_array("menu-item-has-children", $item->classes) &&
+            0 === $depth &&
+            $args->depth > 1
+        ) {
+            $atts["href"] = "#";
+            $atts["data-bs-toggle"] = "dropdown";
+            $atts["aria-expanded"] = "false";
+            $atts["role"] = "button";
+            $atts["class"] = "nav-link dropdown-toggle";
+            //$atts['id'] = 'menu-item-dropdown-' . $item->ID;
+        } else {
+            if ($depth > 0) {
+                $atts["class"] = "dropdown-item";
+            } else {
+                $atts["class"] = "nav-link";
+            }
+        }
+        if ($item->current) {
+            $atts["class"] .= " active";
+        }
+    }
+    return $atts;
+}
+
+add_filter("nav_menu_link_attributes", "zthemename_nav_menu_link_attributes", 10, 4);
+
+function zthemename_nav_menu_submenu_css_class($classes, $args, $depth) {
+    if ($args->theme_location === "menu-1") {
+        $classes = ["dropdown-menu"];
+    }
+    return $classes;
+}
+
+add_filter("nav_menu_submenu_css_class", "zthemename_nav_menu_submenu_css_class", 10, 3);

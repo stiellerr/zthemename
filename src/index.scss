@@ -111,17 +111,10 @@ img {
     height: auto;
 }
 
-.menu-item > a {
-    @extend .nav-link;
-}
-
-.current-menu-item > a {
-    @extend .active;
-}
-
 .custom-logo-link {
     @extend .navbar-brand;
 }
+
 //nav-item
 
 /*

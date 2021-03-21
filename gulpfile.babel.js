@@ -11,13 +11,16 @@ export const compress = () => {
         .src([
             "**/*",
             "!node_modules/**",
+            "!vendor/**",
             "!src/**",
             "!packaged/**",
             "!gulpfile.babel.js",
             "!webpack.config.js",
             "!readme.txt",
             "!package.json",
-            "!package-lock.json"
+            "!package-lock.json",
+            "!composer.json",
+            "!composer.lock"
         ])
         .pipe(replace("zthemename", info.name))
         .pipe(

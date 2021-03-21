@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import bootstrap from "bootstrap";
+import "bootstrap";
 //import "bootstrap/dist/css/bootstrap.min.css";
 //import "../node_modules/bootstrap/scss/utilities";
 
