@@ -20,7 +20,8 @@ export const compress = () => {
             "!package.json",
             "!package-lock.json",
             "!composer.json",
-            "!composer.lock"
+            "!composer.lock",
+            "!phpcs.xml.dist"
         ])
         .pipe(replace("zthemename", info.name))
         .pipe(

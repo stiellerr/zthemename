@@ -9,7 +9,8 @@
 ?>
 <!--
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?> class="container">
-	<?php the_content();
+	<?php $aaa = ['1'];
+	 the_content();
 /*
 	wp_link_pages(
 		array(
