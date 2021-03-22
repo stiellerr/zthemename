@@ -4,3 +4,4 @@ packaged
 .gitignore
 readme.txt
 vendor
+*.php

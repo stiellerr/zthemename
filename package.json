@@ -6,14 +6,15 @@
     "scripts": {
         "checkFormat": "prettier --check \"**/*.{js,json,css,scss}\"",
         "format": "prettier --write \"**/*.{js,json,css,scss}\"",
-        "lint": "eslint src",
+        "lint": "eslint src && \"vendor/bin/phpcs\" functions.php -n",
         "start": "webpack --mode=development --watch",
         "build": "npm run lint && webpack --mode=production && gulp compress",
         "prepare": "husky install"
     },
     "lint-staged": {
         "src/**/*.js": "eslint",
-        "**/*.{js,json,css,scss}": "prettier --write"
+        "**/*.{js,json,css,scss}": "prettier --write",
+        "**/*.php": "\"vendor/bin/phpcs\""
     },
     "author": "",
     "license": "ISC",

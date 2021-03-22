@@ -1,9 +1,12 @@
 <?php
 /**
- * The template for 
- * displaying the footer
+ * The template for displaying the footer
  *
  * Contains the closing of the #content div and all content after.
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ *
+ * @package zthemename
  */
 
 ?>
@@ -11,21 +14,16 @@
 	<footer id="colophon" class="site-footer">
 		<div class="site-info">
 			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'zthemename' ) ); ?>">
-				<?php 
+				<?php
 				/* translators: %s: CMS name, i.e. WordPress. */
-					printf( esc_html__( 'Proudly powered by %s', 'zthemename' ), 'WordPress' ); 
+				printf( esc_html__( 'Proudly powered by %s', 'zthemename' ), 'WordPress' );
 				?>
 			</a>
 			<span class="sep"> | </span>
-				 /* translators: 1: Theme name, 2: Theme author. */
-				 <?php
-					/* translators: 1: Theme name, 2: Theme author. */
-					?>
-					printf(
-		esc_html__('Theme: %1$s by %2$s.', "zthemename"),
-		"zthemename",
-		'<a href="http://underscores.me/">Underscores.me</a>'
-	); ?>
+				<?php
+				/* translators: 1: Theme name, 2: Theme author. */
+				printf( esc_html__( 'Theme: %1$s by %2$s.', 'zthemename' ), 'zthemename', '<a href="http://underscores.me/">Underscores.me</a>' );
+				?>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->
