@@ -6,12 +6,16 @@
  *
  * @package zthemename
  */
+
 ?>
 <!--
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?> class="container">
-	<?php $aaa = ['1'];
+	<?php 
+	$aaa = array( '1' );
 	 the_content();
-/*
+
+	/* 
+	TODO
 	wp_link_pages(
 		array(
 			'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'zthemename' ),
@@ -19,5 +23,5 @@
 		)
 	);
 	*/
-?>
+	?>
 </article>--><!-- #post-<?php the_ID(); ?> -->
