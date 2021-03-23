@@ -14,6 +14,8 @@ module.exports = (env, argv) => {
         entry: {
             "js/script": "./src/script.js",
             "js/admin": "./src/admin.js",
+            "js/customize-preview": "./src/customize-preview.js",
+            "js/customize-controls": "./src/customize-controls.js",
             "editor/js/script": "./src/editor/script.js"
         },
         output: {
