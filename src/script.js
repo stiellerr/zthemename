@@ -1,6 +1,10 @@
 import "./index.scss";
 
+//import "bootstrap/scss/bootstrap.scss";
 import "bootstrap";
+
+//alert("loaded!!! xxxx");
+//import "bootstrap";
 //import "bootstrap/dist/css/bootstrap.min.css";
 //import "../node_modules/bootstrap/scss/utilities";
 
@@ -10,7 +14,7 @@ import "bootstrap";
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 //let inline_css = document.getElementById("zthemename-inline-css");
-
+/*
 document.addEventListener("DOMContentLoaded", () => {
     const icons = document.querySelectorAll("i[data-content]");
 
@@ -32,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         style.appendChild(document.createTextNode(css));
     }
 });
+*/
 
 console.log("front end loaded");
 //alert("HI");

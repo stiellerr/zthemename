@@ -1,7 +1,7 @@
 {
     "name": "zthemename",
     "version": "1.0.0",
-    "description": "New html document\r type \"!\" (exclamation mark) and press enter in vs code.",
+    "description": "Save thousands and do all your digital marketing - Yourself.",
     "main": "index.js",
     "scripts": {
         "checkFormat": "prettier --check \"**/*.{js,json,css,scss}\"",
@@ -33,6 +33,7 @@
         "@wordpress/rich-text": "^3.24.8",
         "bootstrap": "^5.0.0-beta2",
         "jquery": "^3.6.0",
+        "lodash": "^4.17.21",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "underscore": "^1.12.1"

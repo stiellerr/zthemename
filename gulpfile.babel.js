@@ -24,6 +24,8 @@ export const compress = () => {
             "!phpcs.xml.dist"
         ])
         .pipe(replace("zthemename", info.name))
+        .pipe(replace("zdescription", info.description))
+        .pipe(replace("zversion", info.version))
         .pipe(
             rename((path) => {
                 path.dirname = `${info.name}/` + path.dirname;
