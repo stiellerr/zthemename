@@ -88,6 +88,7 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 		);
 
 		// Set up the WordPress core custom background feature.
+
 		add_theme_support(
 			'custom-background',
 			apply_filters(
@@ -98,6 +99,8 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 				)
 			)
 		);
+		
+		
 
 		// Editor color palette.
 		$primary = '#0d6efd';
@@ -325,3 +328,8 @@ function zthemename_nav_menu_submenu_css_class( $classes, $args, $depth ) {
 }
 
 add_filter( 'nav_menu_submenu_css_class', 'zthemename_nav_menu_submenu_css_class', 10, 3 );
+
+/**
+ * Customizer additions.
+ */
+require get_template_directory() . '/inc/customizer.php';

@@ -36,7 +36,6 @@
 	<exclude-pattern>/node_modules/*</exclude-pattern>
 	<exclude-pattern>/dist/*</exclude-pattern>
 	<exclude-pattern>/packaged/*</exclude-pattern>
-	<exclude-pattern>/inc/*</exclude-pattern>
 
 
 	<!--
