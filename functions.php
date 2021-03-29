@@ -87,21 +87,6 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 			)
 		);
 
-		// Set up the WordPress core custom background feature.
-
-		add_theme_support(
-			'custom-background',
-			apply_filters(
-				'zthemename_custom_background_args',
-				array(
-					'default-color' => 'ffffff',
-					'default-image' => '',
-				)
-			)
-		);
-		
-		
-
 		// Editor color palette.
 		$primary = '#0d6efd';
 

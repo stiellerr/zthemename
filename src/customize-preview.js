@@ -16,9 +16,9 @@ wp.customize("nav_color", (value) => {
     });
 });
 
-// Navbar color.
+// Navbar theme.
 wp.customize("nav_theme", (value) => {
     value.bind((to) => {
-        $("nav").removeClass("navbar-light navbar-dark").addClass(`navbar-${to}`);
+        $("nav").removeClass("navbar-light navbar-dark").addClass(to);
     });
 });

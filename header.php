@@ -63,7 +63,7 @@
 		</div>
 	</nav>
 	-->
-	<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+	<nav class="navbar navbar-expand-md bg-dark <?php echo get_theme_mod( 'nav_theme', 'navbar-light' ); ?>">
 		<div class="container">
 			<?php the_custom_logo(); ?>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
