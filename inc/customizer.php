@@ -17,6 +17,7 @@ function zthemename_customize_register( $wp_customize ) {
 		array(
 			'capability'        => 'edit_theme_options',
 			'default'           => 'navbar-light',
+			'sanitize_callback' => 'sanitize_nav_theme',
 			'transport'         => 'postMessage',
 		)
 	);
@@ -43,8 +44,6 @@ function zthemename_customize_preview() {
 }
 add_action( 'customize_preview_init', 'zthemename_customize_preview' );
 
-
-
 /**
  * Enqueue scripts for the customizer.
  */
@@ -53,3 +52,16 @@ function zthemename_customize_controls_enqueue_scripts() {
 	wp_enqueue_script( 'zthemename-customize-constrols', get_template_directory_uri() . '/dist/js/customize-controls.js', array( 'customize-controls', 'wp-color-picker' ), _S_VERSION, true );
 }
 add_action( 'customize_controls_enqueue_scripts', 'zthemename_customize_controls_enqueue_scripts' );
+
+/**
+ * Sanitize nav theme.
+ *
+ * @param string $input The input from the setting.
+ * @param object $setting The selected setting.
+ * @return string The input from the setting or the default setting.
+ */
+function sanitize_nav_theme( $input, $setting ) {
+	$input   = sanitize_key( $input );
+	$options = array( 'navbar-light', 'navbar-dark' );
+	return ( in_array( $input, $options, true ) ? $input : $setting->default );
+}
