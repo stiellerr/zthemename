@@ -43,6 +43,8 @@ function zthemename_customize_preview() {
 }
 add_action( 'customize_preview_init', 'zthemename_customize_preview' );
 
+
+
 /**
  * Enqueue scripts for the customizer.
  */
