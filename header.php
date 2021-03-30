@@ -66,6 +66,7 @@
 	<nav class="navbar navbar-expand-md bg-dark <?php echo get_theme_mod( 'nav_theme', 'navbar-light' ); ?>">
 		<div class="container">
 			<?php the_custom_logo(); ?>
+			<a class="order-md-last" href="tel:0275457737">027 545 7737</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -79,6 +80,7 @@
 					'container_class' => 'collapse navbar-collapse',
 					'menu_class'      => 'navbar-nav me-auto',
 					'fallback_cb'     => false,
+					// 'items_wrap'=> '<ul id="%1$s" class="zzz %2$s">%3$s</ul>',
 					
 					/*
 					'fallback_cb' => function () {
