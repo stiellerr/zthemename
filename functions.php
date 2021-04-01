@@ -132,7 +132,7 @@ function zthemename_scripts() {
 		array(),
 		_S_VERSION
 	);
-	wp_dequeue_style( 'wp-block-library' );
+	// wp_dequeue_style( 'wp-block-library' );.
 
 	wp_enqueue_script(
 		'zthemename',
@@ -318,3 +318,7 @@ add_filter( 'nav_menu_submenu_css_class', 'zthemename_nav_menu_submenu_css_class
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+// Custom color classes.
+require get_template_directory() . '/classes/class-zthemename-custom-colors.php';
+new Zthemename_Custom_Colors();

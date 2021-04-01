@@ -47,3 +47,7 @@ Notes:
 New html document
 type "!" (exclamation mark) and press enter in vs code.
 cmd + d select all of selected text
+
+    "browerslist": [
+        "extends @wordpress/browserslist-config"
+    ]

@@ -197,3 +197,20 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/brands";
+
+.wp-block-button__link {
+    background-color: var(--global--color-accent);
+    color: var(--global--color-nav);
+}
+
+nav.navbar {
+    background-color: var(--global--color-nav);
+}
+
+.navbar-light .is-style-outline .wp-block-button__link {
+    color: $navbar-light-color;
+}
+
+.navbar-dark .is-style-outline .wp-block-button__link {
+    color: $navbar-dark-color;
+}

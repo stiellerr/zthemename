@@ -32,6 +32,16 @@ function zthemename_customize_register( $wp_customize ) {
 		)
 	);
 
+	$wp_customize->add_setting(
+		'accent_color',
+		array(
+			'capability'        => 'edit_theme_options',
+			'default'           => '#0d6efd',
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'postMessage',
+		)
+	);
+
 }
 
 add_action( 'customize_register', 'zthemename_customize_register' );
