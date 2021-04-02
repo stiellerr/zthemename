@@ -214,3 +214,13 @@ nav.navbar {
 .navbar-dark .is-style-outline .wp-block-button__link {
     color: $navbar-dark-color;
 }
+
+.custom-logo-link {
+    flex: 1 0 0%;
+}
+
+@media (min-width: 576px) {
+    .custom-logo-link {
+        flex: initial;
+    }
+}
