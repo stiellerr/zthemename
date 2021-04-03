@@ -162,7 +162,7 @@ img {
 //@import "../node_modules/bootstrap/scss/grid";
 //@import "../node_modules/bootstrap/scss/tables";
 //@import "../node_modules/bootstrap/scss/forms";
-//@import "../node_modules/bootstrap/scss/buttons";
+@import "../node_modules/bootstrap/scss/buttons";
 @import "../node_modules/bootstrap/scss/transitions"; // navbar
 @import "../node_modules/bootstrap/scss/dropdown"; // navbar
 //@import "../node_modules/bootstrap/scss/button-group";
@@ -198,21 +198,31 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
-.wp-block-button__link {
-    background-color: var(--global--color-accent);
-    color: var(--global--color-nav);
-}
+nav {
+    &.navbar {
+        background-color: var(--global--color-nav);
+    }
+    .wp-block-button__link {
+        background-color: var(--global--color-accent);
+        color: var(--global--color-nav);
+    }
 
-nav.navbar {
-    background-color: var(--global--color-nav);
-}
-
-.navbar-light .is-style-outline .wp-block-button__link {
-    color: $navbar-light-color;
-}
-
-.navbar-dark .is-style-outline .wp-block-button__link {
-    color: $navbar-dark-color;
+    &.navbar-light .is-style-outline .wp-block-button__link {
+        color: $navbar-light-color;
+        &:hover {
+            color: var(--global--color-nav);
+            background-color: $navbar-light-color;
+            border-color: $navbar-light-color;
+        }
+    }
+    &.navbar-dark .is-style-outline .wp-block-button__link {
+        color: $navbar-dark-color;
+        &:hover {
+            color: var(--global--color-nav);
+            background-color: $navbar-dark-color;
+            border-color: $navbar-dark-color;
+        }
+    }
 }
 
 .custom-logo-link {
