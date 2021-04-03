@@ -23,81 +23,30 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <header>
-
-	<!--
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<?php $nav_theme = get_theme_mod( 'nav_theme', 'navbar-light' ); ?>
+	<nav id="site-navigation" class="navbar navbar-expand-md <?php echo $nav_theme; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
 		<div class="container">
-			
-			<a class="navbar-brand" href="#">
-				<img src="http://localhost/wp-content/uploads/automation-and-operational-technology-logo.png" style="max-width: 100%; max-height: 60px;">
-			</a>
-			
+			<?php the_custom_logo(); ?>
+			<div class="wp-block-button order-md-last me-3 me-sm-0">
+				<a class="wp-block-button__link" href="tel:0275457737" style="border-radius:4px;"><i class="fas fa-phone-alt" data-content="f879">&nbsp;</i>027 545 7737</a>
+			</div>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav me-auto">
-					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="#">Home</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Link</a>
-					</li>
-					
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="#">Action</a></li>
-							<li><a class="dropdown-item" href="#">Another action</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">Something else here</a></li>
-						</ul>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-					</li>
-				</ul>
-				<a class="wp-block-button__link">0800 007 003</a>
-			</div>
-		</div>
-	</nav><i class="fas fa-phone-alt" data-content="f879">&#8203;</i>
-	-->
-	<nav class="navbar navbar-expand-md <?php echo get_theme_mod( 'nav_theme', 'navbar-light' ); ?>">
-		<div class="container">
-
-				<?php the_custom_logo(); ?>
-
-				<div class="wp-block-button order-md-last me-3 me-sm-0">
-					<a class="wp-block-button__link" href="tel:0275457737" style="border-radius:4px;"><i class="fas fa-phone-alt" data-content="f879">&nbsp;</i>027 545 7737</a>
-				</div>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-			
-
 			<?php
-			wp_nav_menu(
-				array(
-					'theme_location'  => 'menu-1',
-					'depth'           => 2,
-					'container'       => 'div',
-					'container_id'    => 'navbarNav',
-					'container_class' => 'collapse navbar-collapse',
-					'menu_class'      => 'navbar-nav me-auto',
-					'fallback_cb'     => false,
-					// 'items_wrap'=> '<ul id="%1$s" class="zzz %2$s">%3$s</ul>',
-					
-					/*
-					'fallback_cb' => function () {
-						echo '&nbsp';
-					},
-					*/
-				
-				)
-			);
-			?>
-			</div>
+				wp_nav_menu(
+					array(
+						'theme_location'  => 'menu-1',
+						'depth'           => 2,
+						'container'       => 'div',
+						'container_id'    => 'navbarNav',
+						'container_class' => 'collapse navbar-collapse',
+						'menu_class'      => 'navbar-nav me-auto',
+						'fallback_cb'     => false,  
+					)
+				);
+				?>
+		</div>
 	</nav>
 
 </header>

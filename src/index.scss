@@ -198,19 +198,21 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
-nav {
-    &.navbar {
-        background-color: var(--global--color-nav);
-    }
-    .wp-block-button__link {
+#site-navigation {
+    background-color: var(--global--color-nav);
+    .wp-block-button:not(.is-style-outline) .wp-block-button__link {
         background-color: var(--global--color-accent);
         color: var(--global--color-nav);
+        &:hover {
+            color: var(--global--color-accent);
+            border-color: currentColor;
+            border: 2px solid;
+            background-color: transparent;
+        }
     }
-
     &.navbar-light .is-style-outline .wp-block-button__link {
         color: $navbar-light-color;
         &:hover {
-            color: var(--global--color-nav);
             background-color: $navbar-light-color;
             border-color: $navbar-light-color;
         }
@@ -218,10 +220,12 @@ nav {
     &.navbar-dark .is-style-outline .wp-block-button__link {
         color: $navbar-dark-color;
         &:hover {
-            color: var(--global--color-nav);
             background-color: $navbar-dark-color;
             border-color: $navbar-dark-color;
         }
+    }
+    .is-style-outline .wp-block-button__link:hover {
+        color: var(--global--color-nav);
     }
 }
 
