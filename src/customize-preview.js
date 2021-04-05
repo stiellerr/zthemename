@@ -9,36 +9,12 @@
 
 const $ = jQuery;
 
-/*
-const getButtonColor = (nav, accent) => {
-    const Color = window.parent.Color;
-
-    const nav_color = new Color(nav);
-    const acc_color = new Color(accent);
-
-    const lum = nav_color.getDistanceLuminosityFrom(acc_color);
-
-    // remove outline class
-    $(".wp-block-button").removeClass("is-style-outline");
-
-    if (4.5 > lum) {
-        $(".wp-block-button").addClass("is-style-outline");
-    }
-};
-*/
-
 // Navbar color.
 wp.customize("nav_color", (value) => {
-    /*
-    value.bind((to) => {
-        $("nav").css("background-color", to);
-    });
-    */
     value.bind((to) => {
         $("#zthemename-inline-css").html((index, currentcontent) => {
             return currentcontent.replace(/(--global--color-nav:\s)#[\d\w]+/, `$1${to}`);
         });
-        //getButtonColor(to, wp.customize.get().accent_color);
     });
 });
 
@@ -55,8 +31,6 @@ wp.customize("accent_color", (value) => {
         $("#zthemename-inline-css").html((index, currentcontent) => {
             return currentcontent.replace(/(--global--color-accent:\s)#[\d\w]+/, `$1${to}`);
         });
-        //
-        //getButtonColor(wp.customize.get().nav_color, to);
     });
 });
 
@@ -64,7 +38,7 @@ wp.customize("accent_color", (value) => {
 wp.customize("nav_btn_type", (value) => {
     value.bind((to) => {
         // remove outline class
-        $(".wp-block-button").removeClass(to);
+        $(".wp-block-button").removeClass("is-style-outline");
         if (to) {
             $(".wp-block-button").addClass(to);
         }

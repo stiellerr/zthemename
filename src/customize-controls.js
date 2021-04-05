@@ -10,24 +10,23 @@
 const $ = jQuery;
 
 const setNavButtonType = (nav, accent) => {
-    //console.log("iiii");
     const nav_color = new Color(nav);
     const acc_color = new Color(accent);
 
     const lum = nav_color.getDistanceLuminosityFrom(acc_color);
 
-    let cls = false;
+    let outline = false;
 
     if (4.5 > lum) {
-        cls = "is-style-outline";
+        outline = "is-style-outline";
     }
 
-    wp.customize("nav_btn_type").set(cls);
+    wp.customize("nav_btn_type").set(outline);
 };
 
 wp.customize.bind("ready", () => {
     // ready...
-    //console.log("customize controls ready...");
+    console.log("customize controls ready...");
 
     // Add color control for navbar.
     wp.customize.control.add(

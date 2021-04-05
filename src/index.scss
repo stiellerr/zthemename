@@ -229,6 +229,10 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
     }
 }
 
+footer {
+    background-color: var(--global--color-nav);
+}
+
 .custom-logo-link {
     flex: 1 0 0%;
 }
