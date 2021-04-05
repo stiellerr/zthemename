@@ -9,6 +9,7 @@
 
 const $ = jQuery;
 
+/*
 const getButtonColor = (nav, accent) => {
     const Color = window.parent.Color;
 
@@ -24,6 +25,7 @@ const getButtonColor = (nav, accent) => {
         $(".wp-block-button").addClass("is-style-outline");
     }
 };
+*/
 
 // Navbar color.
 wp.customize("nav_color", (value) => {
@@ -36,7 +38,7 @@ wp.customize("nav_color", (value) => {
         $("#zthemename-inline-css").html((index, currentcontent) => {
             return currentcontent.replace(/(--global--color-nav:\s)#[\d\w]+/, `$1${to}`);
         });
-        getButtonColor(to, wp.customize.get().accent_color);
+        //getButtonColor(to, wp.customize.get().accent_color);
     });
 });
 
@@ -54,6 +56,17 @@ wp.customize("accent_color", (value) => {
             return currentcontent.replace(/(--global--color-accent:\s)#[\d\w]+/, `$1${to}`);
         });
         //
-        getButtonColor(wp.customize.get().nav_color, to);
+        //getButtonColor(wp.customize.get().nav_color, to);
+    });
+});
+
+// Navbar color.
+wp.customize("nav_btn_type", (value) => {
+    value.bind((to) => {
+        // remove outline class
+        $(".wp-block-button").removeClass(to);
+        if (to) {
+            $(".wp-block-button").addClass(to);
+        }
     });
 });

@@ -9,9 +9,25 @@
 
 const $ = jQuery;
 
+const setNavButtonType = (nav, accent) => {
+    //console.log("iiii");
+    const nav_color = new Color(nav);
+    const acc_color = new Color(accent);
+
+    const lum = nav_color.getDistanceLuminosityFrom(acc_color);
+
+    let cls = false;
+
+    if (4.5 > lum) {
+        cls = "is-style-outline";
+    }
+
+    wp.customize("nav_btn_type").set(cls);
+};
+
 wp.customize.bind("ready", () => {
     // ready...
-    console.log("customize controls ready...");
+    //console.log("customize controls ready...");
 
     // Add color control for navbar.
     wp.customize.control.add(
@@ -38,13 +54,14 @@ wp.customize.bind("ready", () => {
             wp.customize("nav_theme").set(
                 nav_color.getMaxContrastColor()._color ? "navbar-dark" : "navbar-light"
             );
+            setNavButtonType(to, wp.customize.get().accent_color);
         });
     });
 
     wp.customize("accent_color", (value) => {
         // Add a listener for navbar color changes.
         value.bind((to) => {
-            const acc_color = new Color(to);
+            setNavButtonType(wp.customize.get().nav_color, to);
         });
     });
 });

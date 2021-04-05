@@ -26,8 +26,12 @@
 	<?php $nav_theme = get_theme_mod( 'nav_theme', 'navbar-light' ); ?>
 	<nav id="site-navigation" class="navbar navbar-expand-md <?php echo $nav_theme; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
 		<div class="container">
-			<?php the_custom_logo(); ?>
-			<div class="wp-block-button order-md-last me-3 me-sm-0">
+			<?php
+				the_custom_logo();
+				$nav_btn_type = get_theme_mod( 'nav_btn_type', false );
+				
+			?>
+			<div class="wp-block-button order-md-last me-3 me-sm-0<?php echo $nav_btn_type; ?>">
 				<a class="wp-block-button__link" href="tel:0275457737" style="border-radius:4px;"><i class="fas fa-phone-alt" data-content="f879">&nbsp;</i>027 545 7737</a>
 			</div>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
