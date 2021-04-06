@@ -38,11 +38,47 @@ header {
 */
 
 $custom_utils: (
+    display: (
+        responsive: false,
+        print: true,
+        property: display,
+        class: d,
+        values: flex
+    ),
+    flex-direction: (
+        responsive: false,
+        property: flex-direction,
+        class: flex,
+        //values: row column row-reverse column-reverse
+        values: column
+    ),
     text-align: (
-        responsive: true,
+        responsive: false,
         property: text-align,
         class: has-text-align,
         values: left right center justify
+    ),
+    min-viewport-height: (
+        property: min-height,
+        class: min-vh,
+        values: (
+            100: 100vh
+        )
+    ),
+    margin-top: (
+        responsive: false,
+        property: margin-top,
+        class: mt,
+        values: (
+            auto: auto
+        )
+    ),
+    order: (
+        responsive: true,
+        property: order,
+        values: (
+            last: 6
+        )
     ),
     // scss-docs-start utils-bg-color
     background-color:
@@ -86,7 +122,8 @@ $custom_utils: (
 );
 
 // Merge the maps
-$utilities: map-merge($utilities, $custom_utils);
+//$utilities: map-merge($utilities, $custom_utils);
+$utilities: $custom_utils;
 
 $headings-font-weight: null;
 $display-font-weight: null;
@@ -162,7 +199,7 @@ img {
 //@import "../node_modules/bootstrap/scss/grid";
 //@import "../node_modules/bootstrap/scss/tables";
 //@import "../node_modules/bootstrap/scss/forms";
-@import "../node_modules/bootstrap/scss/buttons";
+//@import "../node_modules/bootstrap/scss/buttons";
 @import "../node_modules/bootstrap/scss/transitions"; // navbar
 @import "../node_modules/bootstrap/scss/dropdown"; // navbar
 //@import "../node_modules/bootstrap/scss/button-group";

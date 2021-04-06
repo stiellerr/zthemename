@@ -1,7 +1,14 @@
 import "./index.scss";
 
 //import "bootstrap/scss/bootstrap.scss";
-import "bootstrap";
+//import "bootstrap";
+
+//import Collapse from "bootstrap/js/dist/collapse";
+//import Dropdown from "bootstrap/js/dist/dropdown";
+import "bootstrap/js/dist/collapse";
+import "bootstrap/js/dist/dropdown";
+
+//import { dropdown } from "bootstrap";
 
 //alert("loaded!!! xxxx");
 //import "bootstrap";
@@ -14,6 +21,9 @@ import "bootstrap";
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 //let inline_css = document.getElementById("zthemename-inline-css");
+//onDOMContentLoaded(() => {
+//console.log("hi");
+//});
 
 document.addEventListener("DOMContentLoaded", () => {
     const icons = document.querySelectorAll("i[data-content]");
