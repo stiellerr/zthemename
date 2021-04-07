@@ -14,9 +14,9 @@
 
 <footer class="mt-auto">
 	<div class="container">
-		<?php if ( is_active_sidebar( 'sidebar-1' ) ) { ?>
+		<?php if ( is_active_sidebar( 'sidebar-2' ) ) { ?>
 			<div class="wp-block-columns">
-				<?php dynamic_sidebar( 'sidebar-1' ); ?>
+				<?php dynamic_sidebar( 'sidebar-2' ); ?>
 			</div>
 		<?php } ?>
 	</div>

@@ -2,12 +2,17 @@
 /**
  * The header for our theme
  *
- * This is the template that displays all of the <head> section and everything up until <div id="content">
+ * This is the template that displays all of the <head> section and everything up until <div id="content"> data-content="f879"
  *
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
  * @package zthemename
  */
+
+// get theme options.
+$nav_theme        = get_theme_mod( 'nav_theme', 'navbar-light' );
+$nav_btn_type     = get_theme_mod( 'nav_btn_type', false );
+$zthemename_phone = get_theme_mod( 'zthemename_phone', '' );
 
 ?>
 <!doctype html>
@@ -23,17 +28,16 @@
 <body <?php body_class( 'min-vh-100 d-flex flex-column' ); ?>>
 <?php wp_body_open(); ?>
 <header>
-	<?php $nav_theme = get_theme_mod( 'nav_theme', 'navbar-light' ); ?>
-	<nav id="site-navigation" class="navbar navbar-expand-md <?php echo $nav_theme; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
+	<nav id="site-navigation" class="navbar navbar-expand-md <?php echo esc_html( $nav_theme ); ?>">
 		<div class="container">
 			<?php
-				the_custom_logo();
-				$nav_btn_type = get_theme_mod( 'nav_btn_type', false );
-				
-			?>
-			<div class="wp-block-button order-md-last me-3 me-sm-0<?php echo $nav_btn_type ? " {$nav_btn_type}" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
-				<a class="wp-block-button__link" href="tel:0275457737" style="border-radius:4px;"><i class="fas fa-phone-alt" data-content="f879">&nbsp;</i>027 545 7737</a>
-			</div>
+			the_custom_logo();
+			if ( $zthemename_phone || is_customize_preview() ) :
+				?>
+				<div class="wp-block-button order-md-last me-3 me-sm-0<?php $nav_btn_type && printf( ' %s', esc_html( $nav_btn_type ) ); ?>">
+					<?php $zthemename_phone && printf( '<a class="wp-block-button__link" href="tel:%1$s"><i class="fas fa-phone-alt">&nbsp;</i>%1$s</a>', esc_html( $zthemename_phone ) ); ?>			
+				</div>
+			<?php endif; ?>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -45,7 +49,7 @@
 						'container'       => 'div',
 						'container_id'    => 'navbarNav',
 						'container_class' => 'collapse navbar-collapse',
-						'menu_class'      => 'navbar-nav me-auto',
+						'menu_class'      => 'navbar-nav',
 						'fallback_cb'     => false,  
 					)
 				);

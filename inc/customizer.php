@@ -52,6 +52,16 @@ function zthemename_customize_register( $wp_customize ) {
 		)
 	);
 
+	$wp_customize->add_setting(
+		'zthemename_phone',
+		array(
+			'capability'        => 'edit_theme_options',
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'postMessage',
+		)
+	);
+
 }
 
 add_action( 'customize_register', 'zthemename_customize_register' );

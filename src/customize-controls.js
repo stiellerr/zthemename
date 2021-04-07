@@ -46,6 +46,16 @@ wp.customize.bind("ready", () => {
         })
     );
 
+    // Add text control for phone number.
+    wp.customize.control.add(
+        new wp.customize.Control("zthemename_phone", {
+            section: "colors",
+            label: "Phone Number.",
+            setting: "zthemename_phone",
+            type: "text"
+        })
+    );
+
     wp.customize("nav_color", (value) => {
         // Add a listener for navbar color changes.
         value.bind((to) => {

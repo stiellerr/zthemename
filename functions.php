@@ -128,14 +128,27 @@ add_action( 'after_setup_theme', 'zthemename_setup' );
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function zthemename_widgets_init() {
+
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Sidebar', 'zthemename' ),
+			'id'            => 'sidebar-1',
+			'description'   => esc_html__( 'Add widgets here to appear in your sidebar.', 'zthemename' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
+
 	register_sidebar(
 		array(
 			'name'          => esc_html__( 'Footer', 'zthemename' ),
-			'id'            => 'sidebar-1',
+			'id'            => 'sidebar-2',
 			'description'   => esc_html__( 'Add widgets here to appear in your footer.', 'zthemename' ),
 			// 'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			// 'after_widget'  => '</section>',
-			'before_widget' => '<div id=="%1$s" class="widget %2$s wp-block-column">',
+			'before_widget' => '<div id="%1$s" class="widget %2$s wp-block-column">',
 			'after_widget'  => '</div>',
 			'before_title'  => '<h2 class="widget-title">',
 			'after_title'   => '</h2>',

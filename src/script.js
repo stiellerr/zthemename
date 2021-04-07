@@ -26,25 +26,28 @@ import "bootstrap/js/dist/dropdown";
 //});
 
 document.addEventListener("DOMContentLoaded", () => {
+    let css = document.getElementById("zthemename-inline-css");
     const icons = document.querySelectorAll("i[data-content]");
-
-    let css = "";
+    // trim removes \n from end
+    css.innerHTML = css.innerHTML.trim() + ".fa-phone-alt:before { content: '\\f879'; }";
 
     Array.prototype.forEach.call(icons, (icon) => {
         const content = icon.dataset.content;
-        if (css.indexOf(content) !== -1) {
+        if (css.innerHTML.indexOf(content) !== -1) {
             return;
         }
         const match = icon.className.match(/fa(-[a-z]+)+/)[0];
-        css += `.${match}:before { content: '\\${content}'; }`;
+        css.innerHTML += `.${match}:before { content: '\\${content}'; }`;
     });
 
+    /*
     if (css) {
         let style = document.createElement("style");
         style.type = "text/css";
         document.getElementsByTagName("head")[0].appendChild(style);
         style.appendChild(document.createTextNode(css));
     }
+    */
 });
 
 console.log("front end loaded");

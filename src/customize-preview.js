@@ -44,3 +44,14 @@ wp.customize("nav_btn_type", (value) => {
         }
     });
 });
+
+// Navbar color.
+wp.customize("zthemename_phone", (value) => {
+    value.bind((to) => {
+        $(".wp-block-button").html("");
+        to.length &&
+            $(".wp-block-button").html(
+                `<a class="wp-block-button__link"><i class="fas fa-phone-alt">&nbsp;</i>${to}</a>`
+            );
+    });
+});
