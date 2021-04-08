@@ -5,8 +5,8 @@ import "./index.scss";
 import "bootstrap/js/src/collapse";
 import "bootstrap/js/src/dropdown";
 
-import "./js/font-loader.js";
-import "./js/mail.js";
+import "./js/fa-loader.js";
+import "./js/mailer.js";
 
 //import { dropdown } from "bootstrap";
 
@@ -25,6 +25,7 @@ import "./js/mail.js";
 //console.log("hi");
 //});
 
+/*
 import { onDOMContentLoaded } from "bootstrap/js/src/util/index";
 
 onDOMContentLoaded(() => {
@@ -44,6 +45,7 @@ onDOMContentLoaded(() => {
         inline_style.innerHTML += `.${match}:before { content: '\\${content}'; }`;
     });
 });
+*/
 
 console.log("front end loaded");
 //alert("HI");

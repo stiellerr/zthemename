@@ -5,7 +5,7 @@ import SelectorEngine from "bootstrap/js/src/dom/selector-engine";
 const SELECTOR_FORM = "form.needs-validation";
 const EVENT_SUBMIT = `submit`;
 
-class Mail {
+class Mailer {
     constructor(element) {
         if (!element) {
             return;
@@ -65,7 +65,7 @@ class Mail {
 }
 
 onDOMContentLoaded(() => {
-    SelectorEngine.find(SELECTOR_FORM).forEach((form) => new Mail(form));
+    SelectorEngine.find(SELECTOR_FORM).forEach((form) => new Mailer(form));
 });
 
-export default Mail;
+export default Mailer;

@@ -261,12 +261,18 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
+.wp-block-button {
+    > .wp-block-button__link {
+        border-radius: 4px;
+        &[disabled] {
+            opacity: 0.5;
+        }
+    }
+}
+
 #site-navigation {
     background-color: var(--global--color-nav);
     .wp-block-button {
-        > .wp-block-button__link {
-            border-radius: 4px;
-        }
         &:not(.is-style-outline) .wp-block-button__link {
             background-color: var(--global--color-accent);
             color: var(--global--color-nav);
