@@ -2,11 +2,11 @@ import "./index.scss";
 
 //import "bootstrap/scss/bootstrap.scss";
 //import "bootstrap";
+import "bootstrap/js/src/collapse";
+import "bootstrap/js/src/dropdown";
 
-//import Collapse from "bootstrap/js/dist/collapse";
-//import Dropdown from "bootstrap/js/dist/dropdown";
-import "bootstrap/js/dist/collapse";
-import "bootstrap/js/dist/dropdown";
+import "./js/font-loader.js";
+import "./js/mail.js";
 
 //import { dropdown } from "bootstrap";
 
@@ -25,29 +25,24 @@ import "bootstrap/js/dist/dropdown";
 //console.log("hi");
 //});
 
-document.addEventListener("DOMContentLoaded", () => {
-    let css = document.getElementById("zthemename-inline-css");
+import { onDOMContentLoaded } from "bootstrap/js/src/util/index";
+
+onDOMContentLoaded(() => {
+    console.log("bs dom loaded");
+    let inline_style = document.getElementById("zthemename-inline-css");
     const icons = document.querySelectorAll("i[data-content]");
     // trim removes \n from end
-    css.innerHTML = css.innerHTML.trim() + ".fa-phone-alt:before { content: '\\f879'; }";
+    inline_style.innerHTML =
+        inline_style.innerHTML.trim() + ".fa-phone-alt:before { content: '\\f879'; }";
 
     Array.prototype.forEach.call(icons, (icon) => {
         const content = icon.dataset.content;
-        if (css.innerHTML.indexOf(content) !== -1) {
+        if (inline_style.innerHTML.indexOf(content) !== -1) {
             return;
         }
         const match = icon.className.match(/fa(-[a-z]+)+/)[0];
-        css.innerHTML += `.${match}:before { content: '\\${content}'; }`;
+        inline_style.innerHTML += `.${match}:before { content: '\\${content}'; }`;
     });
-
-    /*
-    if (css) {
-        let style = document.createElement("style");
-        style.type = "text/css";
-        document.getElementsByTagName("head")[0].appendChild(style);
-        style.appendChild(document.createTextNode(css));
-    }
-    */
 });
 
 console.log("front end loaded");

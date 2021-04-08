@@ -85,6 +85,12 @@ $custom_utils: (
             auto: auto
         )
     ),
+    margin-bottom: (
+        responsive: false,
+        property: margin-bottom,
+        class: mb,
+        values: $spacers
+    ),
     order: (
         responsive: true,
         property: order,
@@ -218,7 +224,7 @@ img {
 @import "../node_modules/bootstrap/scss/containers";
 //@import "../node_modules/bootstrap/scss/grid";
 //@import "../node_modules/bootstrap/scss/tables";
-//@import "../node_modules/bootstrap/scss/forms";
+@import "../node_modules/bootstrap/scss/forms"; // form
 //@import "../node_modules/bootstrap/scss/buttons";
 @import "../node_modules/bootstrap/scss/transitions"; // navbar
 @import "../node_modules/bootstrap/scss/dropdown"; // navbar

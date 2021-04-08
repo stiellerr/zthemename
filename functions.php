@@ -154,6 +154,8 @@ function zthemename_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
+
+	register_widget( 'Zthemename_Contact_Form_Widget' );
 }
 add_action( 'widgets_init', 'zthemename_widgets_init' );
 
@@ -357,3 +359,7 @@ require get_template_directory() . '/inc/customizer.php';
 // Custom color classes.
 require get_template_directory() . '/classes/class-zthemename-custom-colors.php';
 new Zthemename_Custom_Colors();
+
+
+/** WP_Nav_Menu_Widget class */
+require_once get_template_directory() . '/classes/class-zthemename-contact-form-widget.php';

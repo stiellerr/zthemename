@@ -37,7 +37,6 @@
 	<exclude-pattern>/dist/*</exclude-pattern>
 	<exclude-pattern>/packaged/*</exclude-pattern>
 	<exclude-pattern>/classes/*</exclude-pattern>
-	<exclude-pattern>/inc/*</exclude-pattern>
 
 
 	<!--
