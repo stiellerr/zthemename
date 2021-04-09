@@ -4,7 +4,7 @@ import SelectorEngine from "bootstrap/js/src/dom/selector-engine";
 onDOMContentLoaded(() => {
     let css = SelectorEngine.findOne("#zthemename-inline-css");
 
-    css.innerHTML = css.innerHTML.trim() + ".fa-phone-alt:before { content: '\\f879'; }";
+    css.innerHTML = css.innerHTML.trim();
 
     SelectorEngine.find("i[data-content]").forEach((icon) => {
         const content = icon.dataset.content;

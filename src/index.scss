@@ -235,7 +235,7 @@ img {
 //@import "../node_modules/bootstrap/scss/breadcrumb";
 //@import "../node_modules/bootstrap/scss/pagination";
 //@import "../node_modules/bootstrap/scss/badge";
-//@import "../node_modules/bootstrap/scss/alert";
+@import "../node_modules/bootstrap/scss/alert"; //alert
 //@import "../node_modules/bootstrap/scss/progress";
 //@import "../node_modules/bootstrap/scss/list-group";
 //@import "../node_modules/bootstrap/scss/close";
@@ -260,6 +260,10 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/brands";
+
+.fa-phone-alt:before {
+    content: "\f879";
+}
 
 .wp-block-button {
     > .wp-block-button__link {
