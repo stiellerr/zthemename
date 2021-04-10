@@ -1,6 +1,6 @@
 <?php
 /**
- * Zthemename contact form custom widget
+ * Zthemename contact details custom widget
  *
  * @link https://developer.wordpress.org/themes/functionality/widgets/
  *
@@ -10,12 +10,12 @@
 if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 	
 	/**
-	 * Core class used to implement the Calendar widget.
+	 * Class used to implement the Contact Details widget.
 	 */
 	class Zthemename_Contact_Details_Widget extends WP_Widget {
 
 		/**
-		 * Sets up a new contact form widget instance.
+		 * Sets up a new contact details widget instance.
 		 */
 		public function __construct() {
 
@@ -37,7 +37,7 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 		}
 
 		/**
-		 * Outputs the content for the current Contact Form widget instance.
+		 * Outputs the content for the current Contact Details widget instance.
 		 *
 		 * @param array $args     Display arguments including 'before_title', 'after_title',
 		 *                        'before_widget', and 'after_widget'.
@@ -69,19 +69,27 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 
 			$this->company && printf( '<tr><td><i class="fas fa-user fa-fw" data-content="f007"></i></td><td>%s</td></tr>', esc_attr( $this->company ) );
 			$address && printf( '<tr><td><i class="fas fa-map-marker-alt fa-fw" data-content="f3c5"></i></td><td>%s</td></tr>', nl2br( $address ) );
-			$this->phone && printf( '<tr><td><i class="fas fa-phone fa-fw" data-content="f095"></i></td><td>%s</td></tr>', esc_attr( $this->phone ) );
-			$this->email && printf( '<tr><td><i class="fas fa-envelope fa-fw" data-content="f0e0"></i></td><td>%s</td></tr>', esc_attr( $this->email ) );
-			$this->web && printf( '<tr><td><i class="fas fa-globe fa-fw" data-content="f0ac"></i></td><td>%s</td></tr>', esc_attr( $this->web ) );
+			$this->phone && printf( '<tr><td><i class="fas fa-phone fa-fw" data-content="f095"></i></td><td><a href="tel:%1$s">%1$s</a></td></tr>', esc_attr( $this->phone ) );
+			$this->email && printf( '<tr><td><i class="fas fa-envelope fa-fw" data-content="f0e0"></i></td><td><a href="mailto:%1$s">%1$s</a></td></tr>', esc_attr( $this->email ) );
+			$this->web && printf( '<tr><td><i class="fas fa-globe fa-fw" data-content="f0ac"></i></td><td><a href="%1$s">%1$s</a></td></tr>', esc_attr( $this->web ) );
 
 			echo '</tbody></table>' . $args['after_widget'];
 		}
 
 		/**
-		 * Outputs the settings form for the Contact Form widget.
+		 * Outputs the settings form for the Contact Details widget.
 		 *
 		 * @param array $instance Current settings.
 		 */
 		public function form( $instance ) {
+
+			global $wp_customize;
+
+			if ( $wp_customize instanceof WP_Customize_Manager ) {
+				$customize_url = "javascript: wp.customize.section('colors').focus();" ;
+			} else {
+				$customize_url = admin_url( 'customize.php' );
+			}
 						
 			$instance = wp_parse_args(
 				(array) $instance,
@@ -91,34 +99,34 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 				)
 			);
 
+            $admin_url = admin_url( 'options-general.php' );		
+
 			?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'zthemename' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
+				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_html( $instance['title'] ); ?>">
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'company' ); ?>"><?php esc_html_e( 'Company Name:', 'zthemename' ); ?></label>&nbsp;<small><a href="#">edit.</a></small>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'company' ); ?>" type="text" value="<?php echo esc_attr( $this->company ); ?>" readonly>
+				<label for="<?php echo $this->get_field_id( 'company' ); ?>"><?php esc_html_e( 'Company Name:', 'zthemename' ); ?></label>&nbsp;<small><?php printf( '<a href="%s">edit.</a>', $admin_url ); ?></small>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'company' ); ?>" type="text" value="<?php echo esc_html( $this->company ); ?>" readonly>
 				<br/>
 				<label for="<?php echo $this->get_field_id( 'address' ); ?>"><?php esc_html_e( 'Address:', 'zthemename' ); ?></label>
-				<textarea class="widefat" rows="4" id="<?php echo $this->get_field_id( 'address' ); ?>" name="<?php echo $this->get_field_name( 'address' ); ?>" type="text"><?php echo esc_attr( $instance['address'] ); ?></textarea>
+				<textarea class="widefat" rows="4" id="<?php echo $this->get_field_id( 'address' ); ?>" name="<?php echo $this->get_field_name( 'address' ); ?>" type="text"><?php echo esc_html( $instance['address'] ); ?></textarea>
 				<br/>
-				<label for="<?php echo $this->get_field_id( 'phone' ); ?>"><?php esc_html_e( 'Phone:', 'zthemename' ); ?></label>&nbsp;<small><a href="#">edit.</a></small>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'phone' ); ?>" type="text" value="<?php echo esc_attr( $this->phone ); ?>" readonly>
+				<label for="<?php echo $this->get_field_id( 'phone' ); ?>"><?php esc_html_e( 'Phone:', 'zthemename' ); ?></label>&nbsp;<small><?php printf( '<a href="%s">edit.</a>', $customize_url ); ?></small>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'phone' ); ?>" type="text" value="<?php echo esc_html( $this->phone ); ?>" readonly>
 				<br/>
-				<label for="<?php echo $this->get_field_id( 'email' ); ?>"><?php esc_html_e( 'Email:', 'zthemename' ); ?></label>&nbsp;<small><a href="#">edit.</a></small>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'email' ); ?>" type="text" value="<?php echo esc_attr( $this->email ); ?>" readonly>
+				<label for="<?php echo $this->get_field_id( 'email' ); ?>"><?php esc_html_e( 'Email:', 'zthemename' ); ?></label>&nbsp;<small><?php printf( '<a href="%s">edit.</a>', $admin_url ); ?></small>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'email' ); ?>" type="text" value="<?php echo esc_html( $this->email ); ?>" readonly>
 				<br/>
-				<label for="<?php echo $this->get_field_id( 'web' ); ?>"><?php esc_html_e( 'Web:', 'zthemename' ); ?></label>&nbsp;<small><a href="#">edit.</a></small>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'web' ); ?>" type="text" value="<?php echo esc_attr( $this->web ); ?>" readonly>
-
-
+				<label for="<?php echo $this->get_field_id( 'web' ); ?>"><?php esc_html_e( 'Web:', 'zthemename' ); ?></label>&nbsp;<small><?php printf( '<a href="%s">edit.</a>', $admin_url ); ?></small>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'web' ); ?>" type="text" value="<?php echo esc_url( $this->web ); ?>" readonly>
 			</p>
 			<?php
 		}
 
 		/**
-		 * Handles updating settings for the current Links widget instance.
+		 * Handles updating settings for the contact details widget instance.
 		 *
 		 * @param array $new_instance New settings for this instance as input by the user via
 		 *                            WP_Widget::form().
