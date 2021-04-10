@@ -51,7 +51,7 @@ wp.customize("zthemename_phone", (value) => {
         $(".wp-block-button").html("");
         to.length &&
             $(".wp-block-button").html(
-                `<a class="wp-block-button__link"><i class="fas fa-phone-alt">&nbsp;</i>${to}</a>`
+                `<a class="wp-block-button__link"><i class="fas fa-phone-alt" data-content="f879">&nbsp;</i>${to}</a>`
             );
     });
 });

@@ -70,6 +70,12 @@ add_action( 'customize_register', 'zthemename_customize_register' );
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
 function zthemename_customize_preview() {
+	wp_enqueue_style(
+		'zthemename-admin',
+		get_template_directory_uri() . '/dist/css/admin.css',
+		array(),
+		_S_VERSION
+	);
 	wp_enqueue_script( 'zthemename-customize-preview', get_template_directory_uri() . '/dist/js/customize-preview.js', array( 'customize-preview' ), _S_VERSION, true );
 }
 add_action( 'customize_preview_init', 'zthemename_customize_preview' );

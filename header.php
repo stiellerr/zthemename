@@ -35,7 +35,7 @@ $zthemename_phone = get_theme_mod( 'zthemename_phone', '' );
 			if ( $zthemename_phone || is_customize_preview() ) :
 				?>
 				<div class="wp-block-button order-md-last me-3 me-sm-0<?php $nav_btn_type && printf( ' %s', esc_html( $nav_btn_type ) ); ?>">
-					<?php $zthemename_phone && printf( '<a class="wp-block-button__link" href="tel:%1$s"><i class="fas fa-phone-alt">&nbsp;</i>%1$s</a>', esc_html( $zthemename_phone ) ); ?>			
+					<?php $zthemename_phone && printf( '<a class="wp-block-button__link" href="tel:%1$s"><i class="fas fa-phone-alt"data-content="f879">&nbsp;</i>%1$s</a>', esc_html( $zthemename_phone ) ); ?>			
 				</div>
 			<?php endif; ?>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

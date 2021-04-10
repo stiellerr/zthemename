@@ -260,10 +260,7 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/brands";
-
-.fa-phone-alt:before {
-    content: "\f879";
-}
+@import "~@fortawesome/fontawesome-free/scss/fixed-width";
 
 .wp-block-button {
     > .wp-block-button__link {

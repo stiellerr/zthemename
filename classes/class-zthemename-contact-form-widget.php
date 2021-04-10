@@ -103,7 +103,6 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 		 * @param array $instance Current settings.
 		 */
 		public function form( $instance ) {
-		
 			$instance = wp_parse_args(
 				(array) $instance,
 				array(

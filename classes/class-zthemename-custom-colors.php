@@ -25,10 +25,10 @@ class Zthemename_Custom_Colors {
 		add_action( 'wp_enqueue_scripts', array( $this, 'custom_color_variables' ) );
 
 		// Enqueue color variables for editor.
-		//add_action( 'enqueue_block_editor_assets', array( $this, 'editor_custom_color_variables' ) );
+		// add_action( 'enqueue_block_editor_assets', array( $this, 'editor_custom_color_variables' ) );
 
 		// Add body-class if needed.
-		//add_filter( 'body_class', array( $this, 'body_class' ) );
+		// add_filter( 'body_class', array( $this, 'body_class' ) );
 	}
 
 	/**
@@ -63,17 +63,17 @@ class Zthemename_Custom_Colors {
 	 */
 	public function generate_custom_color_variables( $context = null ) {
 
-		$theme_css        = 'editor' === $context ? ':root .editor-styles-wrapper{' : ':root{';
-        //$background_color = get_theme_mod( 'background_color', 'D1E4DD' );
+		$theme_css = 'editor' === $context ? ':root .editor-styles-wrapper{' : ':root{';
+		// $background_color = get_theme_mod( 'background_color', 'D1E4DD' );
 		$accent_color = get_theme_mod( 'accent_color', 'D1E4DD' );
-		$nav_color = get_theme_mod( 'nav_color', 'D1E4DD' );
+		$nav_color    = get_theme_mod( 'nav_color', 'D1E4DD' );
 
 		$theme_css .= '--global--color-accent: ' . $accent_color . ';';
 		$theme_css .= '--global--color-nav: ' . $nav_color . ';';
 
-        /*
+		/*
 		if ( 'd1e4dd' !== strtolower( $background_color ) ) {
-            
+			
 			$theme_css .= '--global--color-background: #' . $background_color . ';';
 			$theme_css .= '--global--color-primary: ' . $this->custom_get_readable_color( $background_color ) . ';';
 			$theme_css .= '--global--color-secondary: ' . $this->custom_get_readable_color( $background_color ) . ';';
@@ -83,10 +83,10 @@ class Zthemename_Custom_Colors {
 			if ( '#fff' === $this->custom_get_readable_color( $background_color ) ) {
 				$theme_css .= '--table--stripes-border-color: rgba(240, 240, 240, 0.15);';
 				$theme_css .= '--table--stripes-background-color: rgba(240, 240, 240, 0.15);';
-            }
-            
-        }
-        */
+			}
+			
+		}
+		*/
 
 		$theme_css .= '}';
 
@@ -103,9 +103,9 @@ class Zthemename_Custom_Colors {
 	 * @return void
 	 */
 	public function custom_color_variables() {
-		//if ( 'd1e4dd' !== strtolower( get_theme_mod( 'background_color', 'D1E4DD' ) ) ) {
+		// if ( 'd1e4dd' !== strtolower( get_theme_mod( 'background_color', 'D1E4DD' ) ) ) {
 			wp_add_inline_style( 'zthemename', $this->generate_custom_color_variables() );
-		//}
+		// }
 	}
 
 	/**

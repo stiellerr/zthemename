@@ -155,7 +155,9 @@ function zthemename_widgets_init() {
 		)
 	);
 
+	register_widget( 'Zthemename_Contact_Details_Widget' );
 	register_widget( 'Zthemename_Contact_Form_Widget' );
+	register_widget( 'Zthemename_Social_Media_Widget' );
 }
 add_action( 'widgets_init', 'zthemename_widgets_init' );
 
@@ -187,15 +189,16 @@ add_action( 'wp_enqueue_scripts', 'zthemename_scripts' );
  * Register and Enqueue Admin Scripts and Styles.
  */
 function zthemename_admin_scripts() {
+
 	wp_enqueue_style(
-		'zthemename',
+		'zthemename-admin',
 		get_template_directory_uri() . '/dist/css/admin.css',
 		array(),
 		_S_VERSION
 	);
 
 	wp_enqueue_script(
-		'zthemename',
+		'zthemename-admin',
 		get_template_directory_uri() . '/dist/js/admin.js',
 		array(),
 		_S_VERSION,
@@ -363,3 +366,9 @@ new Zthemename_Custom_Colors();
 
 /** WP_Nav_Menu_Widget class */
 require_once get_template_directory() . '/classes/class-zthemename-contact-form-widget.php';
+
+/** WP_Nav_Menu_Widget class */
+require_once get_template_directory() . '/classes/class-zthemename-social-media-widget.php';
+
+/** WP_Nav_Menu_Widget class */
+require_once get_template_directory() . '/classes/class-zthemename-contact-details-widget.php';
