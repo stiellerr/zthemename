@@ -158,6 +158,7 @@ function zthemename_widgets_init() {
 	register_widget( 'Zthemename_Contact_Details_Widget' );
 	register_widget( 'Zthemename_Contact_Form_Widget' );
 	register_widget( 'Zthemename_Social_Media_Widget' );
+	register_widget( 'Zthemename_Business_Hours_Widget' );
 }
 add_action( 'widgets_init', 'zthemename_widgets_init' );
 
@@ -372,3 +373,6 @@ require_once get_template_directory() . '/classes/class-zthemename-social-media-
 
 /** WP_Nav_Menu_Widget class */
 require_once get_template_directory() . '/classes/class-zthemename-contact-details-widget.php';
+
+/** WP_Nav_Menu_Widget class */
+require_once get_template_directory() . '/classes/class-zthemename-business-hours-widget.php';

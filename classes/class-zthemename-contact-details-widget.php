@@ -111,7 +111,7 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 				<input class="widefat" id="<?php echo $this->get_field_id( 'company' ); ?>" type="text" value="<?php echo esc_html( $this->company ); ?>" readonly>
 				<br/>
 				<label for="<?php echo $this->get_field_id( 'address' ); ?>"><?php esc_html_e( 'Address:', 'zthemename' ); ?></label>
-				<textarea class="widefat" rows="4" id="<?php echo $this->get_field_id( 'address' ); ?>" name="<?php echo $this->get_field_name( 'address' ); ?>" type="text"><?php echo esc_html( $instance['address'] ); ?></textarea>
+				<textarea class="widefat" rows="4" id="<?php echo $this->get_field_id( 'address' ); ?>" name="<?php echo $this->get_field_name( 'address' ); ?>"><?php echo esc_html( $instance['address'] ); ?></textarea>
 				<br/>
 				<label for="<?php echo $this->get_field_id( 'phone' ); ?>"><?php esc_html_e( 'Phone:', 'zthemename' ); ?></label>&nbsp;<small><?php printf( '<a href="%s">edit.</a>', $customize_url ); ?></small>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'phone' ); ?>" type="text" value="<?php echo esc_html( $this->phone ); ?>" readonly>
