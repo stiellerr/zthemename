@@ -5,8 +5,44 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
-//div[id*="zthemename_business_hours"] > .widget-inside {
-//background-color: rgb(123, 255, 0);
+div[id*="zthemename_business_hours"].widget .widget-inside {
+    background-color: rgb(123, 255, 0);
+
+    /*
+    tr > td:last-of-type {
+        display: flex;
+        background-color: blueviolet;
+    }
+    */
+    /*
+    input[value="24 hours"] + input,
+    input[value="Closed"] + input,
+    input[value=""] + input {
+        visibility: hidden;
+    }
+*/
+
+    .widget-content > div {
+        display: flex;
+        margin: 2px 0;
+        > input {
+            flex: 1 0 0%;
+        }
+        > div {
+            align-self: center;
+            flex: 0 0 auto;
+            width: 70px;
+        }
+        //input[list] {
+        //width: auto;
+        //}
+        //align-items: center;
+        //background-color: orange;
+        //> div {
+
+        //}
+    }
+}
 /*
     input[id*="close"] {
         display: none;
@@ -16,3 +52,5 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 //display: none;
 //}
 //}
+
+//visibility:hidden;

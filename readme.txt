@@ -43,6 +43,9 @@ Notes...
 Gutenberg reference
 https://wordpress.github.io/gutenberg
 
+WP Admin reference
+https://wpadmin.bracketspace.com/
+
 Notes:
 New html document
 type "!" (exclamation mark) and press enter in vs code.
