@@ -13,15 +13,11 @@ $(document).on("ready", () => {
         "change",
         "div[id*=zthemename_business_hours].widget input:first-child",
         ({ currentTarget }) => {
-            let self = $(currentTarget);
-
-            self.attr("value", self.val());
-
-            console.log("first-child");
+            //let self = $(currentTarget);
+            // self.attr("value", self.val());
+            //console.log("first-child");
             //self.parent().next().first().css("");
-
             //self.parent().removeClass("single");
-
             //if (!self.val() || "Closed" === self.val() || "24 hours" === self.val()) {
             //self.parent().addClass("single");
             //.next().first().css("display", "none");
@@ -33,13 +29,22 @@ $(document).on("ready", () => {
     );
     $("body").on(
         "change",
-        "div[id*=zthemename_business_hours].widget input + input",
+        "div[id*=zthemename_business_hours].widget div > input",
         ({ currentTarget }) => {
             let self = $(currentTarget);
+            let val = self.val();
 
-            self.attr("value", self.val());
+            self.attr("value", val);
 
-            console.log("last-child");
+            //self.next("input").css("background-color", "red");
+
+            if (!val || "Closed" === val || "24 Hours" === val) {
+                if (self.next("input")) {
+                    self.next("input").val("11:11");
+                }
+            }
+
+            //console.log(self.val());
             //self.parent().next().first().css("");
 
             //self.parent().removeClass("single");

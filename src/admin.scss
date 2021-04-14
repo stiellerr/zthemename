@@ -25,14 +25,32 @@ div[id*="zthemename_business_hours"].widget .widget-inside {
     .widget-content > div {
         display: flex;
         margin: 2px 0;
-        > input {
-            flex: 1 0 0%;
-        }
-        > div {
+        > div:first-child {
             align-self: center;
             flex: 0 0 auto;
             width: 70px;
         }
+        > input,
+        div:not(:first-child) {
+            flex: 1 0 0%;
+            margin-right: 2px;
+        }
+        input[value="Closed"] + input,
+        input[value="24 Hours"] + input,
+        input[value=""] + input {
+            visibility: hidden;
+        }
+        /*
+        > div {
+
+        }
+        
+        > input {
+            flex: 1 0 0%;
+            margin-right: 2px;
+        }
+        */
+
         //input[list] {
         //width: auto;
         //}
