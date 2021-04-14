@@ -112,19 +112,6 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 			//add_action( 'admin_footer-widgets.php', array( 'WP_Widget_Text', 'render_control_template_scripts' ) );
 		}
 
-		public function print_hours( $open = '', $close = '' ) {
-
-			if ( ! $open || ! $close || 'Closed' === $open || 'Closed' === $close || $open === $close ) {
-				return 'Closed';
-			}
-
-			if ( 'Open 24Hrs' === $open || 'Open 24Hrs' === $close ) {
-				return 'Open 24Hrs';
-			}
-
-			return "<time>${open}</time> - <time>${close}</time>";
-		}
-
 		/**
 		 * Outputs the content for the current Business Hours widget instance.
 		 *
@@ -140,39 +127,59 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 			/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 			$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
-			//$skip = array( '', 'Closed', 'Open' );
-
-			$monday_open  = isset( $instance['monday-open'] ) ? $instance['monday-open'] : '';
-			$monday_close  = isset( $instance['monday-close'] ) ? $instance['monday-close'] : '';
-			$tuesday_open  = isset( $instance['tuesday-open'] ) ? $instance['tuesday-open'] : '';
-			$tuesday_close  = isset( $instance['tuesday-close'] ) ? $instance['tuesday-close'] : '';
-			$wednesday_open  = isset( $instance['wednesday-open'] ) ? $instance['wednesday-open'] : '';
-			$wednesday_close  = isset( $instance['wednesday-close'] ) ? $instance['wednesday-close'] : '';
-
+			// build array of hours...
+			$hours = array(
+				'Monday' => array(
+					'open'  => $instance['monday-open'],
+					'close' => $instance['monday-close'],
+				),
+				'Tuesday' => array(
+					'open'  => $instance['tuesday-open'],
+					'close' => $instance['tuesday-close'],
+				),
+				'Wednesday' => array(
+					'open'  => $instance['wednesday-open'],
+					'close' => $instance['wednesday-close'],
+				),
+				'Thursday' => array(
+					'open'  => $instance['thursday-open'],
+					'close' => $instance['thursday-close'],
+				),
+				'Friday' => array(
+					'open'  => $instance['friday-open'],
+					'close' => $instance['friday-close'],
+				),
+				'Saturday' => array(
+					'open'  => $instance['saturday-open'],
+					'close' => $instance['saturday-close'],
+				),
+				'Sunday' => array(
+					'open'  => $instance['sunday-open'],
+					'close' => $instance['sunday-close'],
+				),
+			);
+			
 			echo $args['before_widget'];
 
 			if ( $title ) {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
 
+			?>
 
-			
-
-			// bail if no links found.
-			//if ( ! $address ) {
-			    //echo $args['after_widget'];
-			    //return;
-			//}	
-
-			echo '<table style="width: 100%"><tbody>';
-
-			echo '<tr><td>Monday</td><td>' . $this->print_hours( $monday_open, $monday_close ) . '</td></tr>';
-			echo '<tr><td>Tuesday</td><td>' . $this->print_hours( $tuesday_open, $tuesday_close ) . '</td></tr>';
-			echo '<tr><td>Wednesday</td><td>' . $this->print_hours( $wednesday_open, $wednesday_close ) . '</td></tr>';
-
-			//$address && printf( '<tr><td><i class="fas fa-map-marker-alt fa-fw" data-content="f3c5"></i></td><td>%s</td></tr>', nl2br( $address ) );
-
-			echo '</tbody></table>';
+			<table>
+				<tbody>
+					<?php
+					foreach ( $hours as $day => $val ) {
+						if ( $val['open'] ) {
+							echo "<tr><td>{$day}</td>";
+							echo $val['close'] ? "<td>{$val['open']} - {$val['close']}</td>" : "<td>{$val['open']}</td></tr>";
+						}
+					}
+					?>
+				</tbody>
+			</table>
+			<?php
 			echo $args['after_widget'];
 		}
 
@@ -187,20 +194,20 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 				(array) $instance,
 				array(
 					'title'           => esc_html__( 'Business Hours.', 'zthemename' ),
-					'monday-open'     => '',
-					'monday-close'    => '',
-					'tuesday-open'    => '',
-					'tuesday-close'   => '',
-					'wednesday-open'  => '',
-					'wednesday-close' => '',
-					'thursday-open'   => '',
-					'thursday-close'  => '',
-					'friday-open'     => '',
-					'friday-close'    => '',
-					'saturday-open'   => '',
-					'saturday-close'  => '',
-					'sunday-open'     => '',
-					'sunday-close'    => '',
+					'monday-open'     => null,
+					'monday-close'    => null,
+					'tuesday-open'    => null,
+					'tuesday-close'   => null,
+					'wednesday-open'  => null,
+					'wednesday-close' => null,
+					'thursday-open'   => null,
+					'thursday-close'  => null,
+					'friday-open'     => null,
+					'friday-close'    => null,
+					'saturday-open'   => null,
+					'saturday-close'  => null,
+					'sunday-open'     => null,
+					'sunday-close'    => null,
 				)
 			);		
 
@@ -328,21 +335,21 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 			$new_instance = wp_parse_args(
 				(array) $new_instance,
 				array(
-					'title'         => '',
-					'monday-open'   => '',
-					'monday-close'  => '',
-					'tuesday-open'  => '',
-					'tuesday-close' => '',
-					'wednesday-open'  => '',
-					'wednesday-close' => '',
-					'thursday-open'  => '',
-					'thursday-close' => '',
-					'friday-open'  => '',
-					'friday-close' => '',
-					'saturday-open'  => '',
-					'saturday-close' => '',
-					'sunday-open'  => '',
-					'sunday-close' => '',
+					'title'         => null,
+					'monday-open'   => null,
+					'monday-close'  => null,
+					'tuesday-open'  => null,
+					'tuesday-close' => null,
+					'wednesday-open'  => null,
+					'wednesday-close' => null,
+					'thursday-open'  => null,
+					'thursday-close' => null,
+					'friday-open'  => null,
+					'friday-close' => null,
+					'saturday-open'  => null,
+					'saturday-close' => null,
+					'sunday-open'  => null,
+					'sunday-close' => null,
 				)
 			);
 
