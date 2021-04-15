@@ -17,21 +17,17 @@ $(document).on("ready", () => {
             let val = self.val();
 
             if (!val || "Closed" === val || "24 Hours" === val) {
-                if (self.next("input")) {
+                if (self.next("input").length) {
                     self.next("input").attr("value", null);
-                    //self.next("input").val(null);
+                    self.attr("value", val);
                 }
-                if (self.prev("input")) {
-                    //self.attr("value", null);
-                    //self.prev("input").val(val).attr("value", val);
-                    //self.attr("value", null);
-                    //self.prev("input").val(val).attr("value", val);
+                if (self.prev("input").length) {
+                    self.prev("input").attr("value", val);
+                    self.val(null);
                 }
+            } else {
+                self.attr("value", val);
             }
-
-            self.attr("value", val);
-            //
-            //self.val(val).attr("value", val);
         }
     );
 });
