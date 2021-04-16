@@ -14,15 +14,6 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 	 */
 	class Zthemename_Business_Hours_Widget extends WP_Widget {
 
-
-		/**
-		 * Whether or not the widget has been registered yet.
-		 *
-		 * @since 4.8.1
-		 * @var bool
-		 */
-		protected $registered = false;
-
 		/**
 		 * Sets up a new business hours instance.
 		 */
@@ -40,76 +31,48 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 
 		/**
 		 * Validates that a date string is in the right format
-		 * default format is 'H:i' to test for time only in this format '24:00'
-		 * but you can pass a new format to test against other formats
-		 * other formats here https://www.lehelmatyus.com/1003/android-change-date-format-from-utc-to-local-time
+		 *
+		 * @param string $date   date string to be checked / validated.
+		 * @param string $format default format is 'H:i' to test for time only in this format '24:00'.
+		 *                       but you can pass a new format to test against other formats
+		 *                       other formats here https://www.lehelmatyus.com/1003/android-change-date-format-from-utc-to-local-time
 		 * 
 		 * @return bool
 		 */
-		protected function _my_validate_date($date, $format = 'H:i') {
-			// Create the format date
-			$d = DateTime::createFromFormat($format, $date);
+		protected function zthemename_validate_date( $date, $format = 'H:i' ) {
+			// Create the format date.
+			$d = DateTime::createFromFormat( $format, $date );
 
-			// Return the comparison    
-			return $d && $d->format($format) === $date;
+			// Return the comparison.   
+			return $d && $d->format( $format ) === $date;
 		}
 
 		/**
 		 * Sanitizes date time input
 		 * https://www.lehelmatyus.com/1416/sanitize-date-time-value-in-wordpress
 		 * 
-		 * @return String
+		 * @param string $event_time date string to be checked / validated.
+		 * 
+		 * @return string null
 		 */
-		protected function sanitize_event_time($event_time) {
+		protected function sanitize_event_time( $event_time ) {
 
-			// General sanitization, to get rid of malicious scripts or characters
-			$event_time = sanitize_text_field($event_time);
-			$event_time = filter_var($event_time, FILTER_SANITIZE_STRING);
+			// General sanitization, to get rid of malicious scripts or characters.
+			$event_time = sanitize_text_field( $event_time );
+			$event_time = filter_var( $event_time, FILTER_SANITIZE_STRING );
 
 			if ( 'Closed' === $event_time || '24 Hours' === $event_time ) {
 				return $event_time;
 			}
 
-			// Validation to see if it is the right format
-			if ($this->_my_validate_date($event_time)){
+			// Validation to see if it is the right format.
+			if ( $this->zthememame_validate_date( $event_time ) ) {
 				return $event_time;
 			}
 
-			// default value, to return if checks have failed
-			//return "00:00";
+			// default value, to return if checks have failed.
 			return null;
 
-		}
-
-		/**
-		 * Add hooks for enqueueing assets when registering all widget instances of this widget class.
-		 *
-		 * @param int $number Optional. The unique order number of this widget instance
-		 *                    compared to other instances of the same class. Default -1.
-		 */
-		public function _register_one( $number = -1 ) {
-
-			//write_log('zzz_enqueue');
-
-			parent::_register_one( $number );
-			if ( $this->registered ) {
-				return;
-			}
-			$this->registered = true;
-
-			//wp_add_inline_script( 'text-widgets', sprintf( 'wp.textWidgets.idBases.push( %s );', wp_json_encode( $this->id_base ) ) );
-
-			//if ( $this->is_preview() ) {
-				//add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_preview_scripts' ) );
-			//}
-
-			// Note that the widgets component in the customizer will also do
-			// the 'admin_print_scripts-widgets.php' action in WP_Customize_Widgets::print_scripts().
-			//add_action( 'admin_print_scripts-widgets.php', array( $this, 'enqueue_admin_scripts' ) );
-
-			// Note that the widgets component in the customizer will also do
-			// the 'admin_footer-widgets.php' action in WP_Customize_Widgets::print_footer_scripts().
-			//add_action( 'admin_footer-widgets.php', array( 'WP_Widget_Text', 'render_control_template_scripts' ) );
 		}
 
 		/**
@@ -209,7 +172,7 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 					'sunday-open'     => null,
 					'sunday-close'    => null,
 				)
-			);		
+			);      
 
 			?>
 			<p>
@@ -224,44 +187,44 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 			</div>
 			<div>
 				<div><?php esc_html_e( 'Monday:', 'zthemename' ); ?></div>
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'monday-open' ); ?>" name="<?php echo $this->get_field_name( 'monday-open' ); ?>" value="<?php echo esc_attr( $instance[ 'monday-open' ] ); ?>">
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'monday-close' ); ?>" name="<?php echo $this->get_field_name( 'monday-close' ); ?>" value="<?php echo esc_attr( $instance[ 'monday-close' ] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'monday-open' ); ?>" name="<?php echo $this->get_field_name( 'monday-open' ); ?>" value="<?php echo esc_attr( $instance['monday-open'] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'monday-close' ); ?>" name="<?php echo $this->get_field_name( 'monday-close' ); ?>" value="<?php echo esc_attr( $instance['monday-close'] ); ?>">
 			</div>
 
 			<div>
 				<div><?php esc_html_e( 'Tuesday:', 'zthemename' ); ?></div>
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'tuesday-open' ); ?>" name="<?php echo $this->get_field_name( 'tuesday-open' ); ?>" value="<?php echo esc_attr( $instance[ 'tuesday-open' ] ); ?>">
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'tuesday-close' ); ?>" name="<?php echo $this->get_field_name( 'tuesday-close' ); ?>" value="<?php echo esc_attr( $instance[ 'tuesday-close' ] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'tuesday-open' ); ?>" name="<?php echo $this->get_field_name( 'tuesday-open' ); ?>" value="<?php echo esc_attr( $instance['tuesday-open'] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'tuesday-close' ); ?>" name="<?php echo $this->get_field_name( 'tuesday-close' ); ?>" value="<?php echo esc_attr( $instance['tuesday-close'] ); ?>">
 			</div>
 
 			<div>
 				<div><?php esc_html_e( 'Wednesday:', 'zthemename' ); ?></div>
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'wednesday-open' ); ?>" name="<?php echo $this->get_field_name( 'wednesday-open' ); ?>" value="<?php echo esc_attr( $instance[ 'wednesday-open' ] ); ?>">
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'wednesday-close' ); ?>" name="<?php echo $this->get_field_name( 'wednesday-close' ); ?>" value="<?php echo esc_attr( $instance[ 'wednesday-close' ] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'wednesday-open' ); ?>" name="<?php echo $this->get_field_name( 'wednesday-open' ); ?>" value="<?php echo esc_attr( $instance['wednesday-open'] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'wednesday-close' ); ?>" name="<?php echo $this->get_field_name( 'wednesday-close' ); ?>" value="<?php echo esc_attr( $instance['wednesday-close'] ); ?>">
 			</div>
 
 			<div>
 				<div><?php esc_html_e( 'Thursday:', 'zthemename' ); ?></div>
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'thursday-open' ); ?>" name="<?php echo $this->get_field_name( 'thursday-open' ); ?>" value="<?php echo esc_attr( $instance[ 'thursday-open' ] ); ?>">
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'thursday-close' ); ?>" name="<?php echo $this->get_field_name( 'thursday-close' ); ?>" value="<?php echo esc_attr( $instance[ 'thursday-close' ] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'thursday-open' ); ?>" name="<?php echo $this->get_field_name( 'thursday-open' ); ?>" value="<?php echo esc_attr( $instance['thursday-open'] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'thursday-close' ); ?>" name="<?php echo $this->get_field_name( 'thursday-close' ); ?>" value="<?php echo esc_attr( $instance['thursday-close'] ); ?>">
 			</div>
 
 			<div>
 				<div><?php esc_html_e( 'Friday:', 'zthemename' ); ?></div>
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'friday-open' ); ?>" name="<?php echo $this->get_field_name( 'friday-open' ); ?>" value="<?php echo esc_attr( $instance[ 'friday-open' ] ); ?>">
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'friday-close' ); ?>" name="<?php echo $this->get_field_name( 'friday-close' ); ?>" value="<?php echo esc_attr( $instance[ 'friday-close' ] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'friday-open' ); ?>" name="<?php echo $this->get_field_name( 'friday-open' ); ?>" value="<?php echo esc_attr( $instance['friday-open'] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'friday-close' ); ?>" name="<?php echo $this->get_field_name( 'friday-close' ); ?>" value="<?php echo esc_attr( $instance['friday-close'] ); ?>">
 			</div>
 
 			<div>
 				<div><?php esc_html_e( 'Saturday:', 'zthemename' ); ?></div>
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'saturday-open' ); ?>" name="<?php echo $this->get_field_name( 'saturday-open' ); ?>" value="<?php echo esc_attr( $instance[ 'saturday-open' ] ); ?>">
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'saturday-close' ); ?>" name="<?php echo $this->get_field_name( 'saturday-close' ); ?>" value="<?php echo esc_attr( $instance[ 'saturday-close' ] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'saturday-open' ); ?>" name="<?php echo $this->get_field_name( 'saturday-open' ); ?>" value="<?php echo esc_attr( $instance['saturday-open'] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'saturday-close' ); ?>" name="<?php echo $this->get_field_name( 'saturday-close' ); ?>" value="<?php echo esc_attr( $instance['saturday-close'] ); ?>">
 			</div>
 
 			<div>
 				<div><?php esc_html_e( 'Sunday:', 'zthemename' ); ?></div>
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'sunday-open' ); ?>" name="<?php echo $this->get_field_name( 'sunday-open' ); ?>" value="<?php echo esc_attr( $instance[ 'sunday-open' ] ); ?>">
-				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'sunday-close' ); ?>" name="<?php echo $this->get_field_name( 'sunday-close' ); ?>" value="<?php echo esc_attr( $instance[ 'sunday-close' ] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'sunday-open' ); ?>" name="<?php echo $this->get_field_name( 'sunday-open' ); ?>" value="<?php echo esc_attr( $instance['sunday-open'] ); ?>">
+				<input list="hours" size="9" type="text" id="<?php echo $this->get_field_id( 'sunday-close' ); ?>" name="<?php echo $this->get_field_name( 'sunday-close' ); ?>" value="<?php echo esc_attr( $instance['sunday-close'] ); ?>">
 			</div>
 			<br/>
 
@@ -335,21 +298,21 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 			$new_instance = wp_parse_args(
 				(array) $new_instance,
 				array(
-					'title'         => null,
-					'monday-open'   => null,
-					'monday-close'  => null,
-					'tuesday-open'  => null,
-					'tuesday-close' => null,
+					'title'           => null,
+					'monday-open'     => null,
+					'monday-close'    => null,
+					'tuesday-open'    => null,
+					'tuesday-close'   => null,
 					'wednesday-open'  => null,
 					'wednesday-close' => null,
-					'thursday-open'  => null,
-					'thursday-close' => null,
-					'friday-open'  => null,
-					'friday-close' => null,
-					'saturday-open'  => null,
-					'saturday-close' => null,
-					'sunday-open'  => null,
-					'sunday-close' => null,
+					'thursday-open'   => null,
+					'thursday-close'  => null,
+					'friday-open'     => null,
+					'friday-close'    => null,
+					'saturday-open'   => null,
+					'saturday-close'  => null,
+					'sunday-open'     => null,
+					'sunday-close'    => null,
 				)
 			);
 

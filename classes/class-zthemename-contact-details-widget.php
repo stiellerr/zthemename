@@ -51,7 +51,7 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 			/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 			$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
-			$address  = isset( $instance['address'] ) ? $instance['address'] : '';
+			$address = isset( $instance['address'] ) ? $instance['address'] : '';
 
 			echo $args['before_widget'];
 
@@ -61,9 +61,9 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 
 			// bail if no links found.
 			if ( ! $address && ! $this->phone && ! $this->email && ! $this->company && ! $this->web ) {
-			    echo $args['after_widget'];
-			    return;
-			}	
+				echo $args['after_widget'];
+				return;
+			}   
 
 			echo '<table><tbody>';
 
@@ -86,7 +86,7 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 			global $wp_customize;
 
 			if ( $wp_customize instanceof WP_Customize_Manager ) {
-				$customize_url = "javascript: wp.customize.section('colors').focus();" ;
+				$customize_url = "javascript: wp.customize.section('colors').focus();";
 			} else {
 				$customize_url = admin_url( 'customize.php' );
 			}
@@ -99,7 +99,7 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 				)
 			);
 
-            $admin_url = admin_url( 'options-general.php' );		
+			$admin_url = admin_url( 'options-general.php' );        
 
 			?>
 			<p>

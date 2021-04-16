@@ -376,3 +376,11 @@ require_once get_template_directory() . '/classes/class-zthemename-contact-detai
 
 /** WP_Nav_Menu_Widget class */
 require_once get_template_directory() . '/classes/class-zthemename-business-hours-widget.php';
+
+/** Zthemename_Page_Excerpt_Widget class */
+require_once get_template_directory() . '/classes/class-zthemename-page-excerpt-widget.php';
+
+/** Zthemename_Options_Page class */
+require_once get_template_directory() . '/classes/class-zthemename-options-page.php';
+new Zthemename_Options_Page();
+

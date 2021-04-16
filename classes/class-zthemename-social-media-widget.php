@@ -78,15 +78,15 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 		 * @return array Updated settings to save.
 		 */
 		public function update( $new_instance, $old_instance ) {
-			$instance = $old_instance;
-			$new_instance = wp_parse_args(
+			$instance              = $old_instance;
+			$new_instance          = wp_parse_args(
 				(array) $new_instance,
 				array(
 					'title'     => '',
 					'facebook'  => '',
 					'instagram' => '',
-					'youtube'  => '',
-					'twitter' => '',
+					'youtube'   => '',
+					'twitter'   => '',
 				)
 			);
 			$instance['title']     = sanitize_text_field( $new_instance['title'] );
@@ -109,9 +109,9 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 				array(
 					'title'     => esc_html__( 'Social Media', 'zthemename' ),
 					'facebook'  => '',
-					'instagram'  => '',
-					'twitter'  => '',
-					'youtube'  => '',
+					'instagram' => '',
+					'twitter'   => '',
+					'youtube'   => '',
 				)
 			);
 			?>
