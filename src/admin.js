@@ -33,7 +33,7 @@ $(document).on("ready", () => {
         }
     );
 
-    $(".settings_page_zthemename-options").on("click", "#sync_places", ({ currentTarget }) => {
+    $(".appearance_page_zthemename-options").on("click", "#sync_places", ({ currentTarget }) => {
         let self = $(currentTarget);
         //let val = self.val();
         self.prop("disabled", true);

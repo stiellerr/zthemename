@@ -25,6 +25,8 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 				add_action( 'wp_ajax_sync_data', array( &$this, 'sync_data' ) ); // This is for authenticated users
 				add_action( 'wp_ajax_nopriv_sync_data', array( &$this, 'sync_data' ) ); // This is for unauthenticated users.
+
+				$this->options = get_option( 'zthemename_options' );
 			}
 		}
 
@@ -54,7 +56,12 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			$result = json_decode( $body )->result;
 
-			set_theme_mod( 'zthemename_phone', $result->formatted_phone_number );
+			write_log( $result );
+
+			set_theme_mod( 'phone', $result->formatted_phone_number );
+			set_theme_mod( 'latitude', $result->geometry->location->lat );
+			set_theme_mod( 'longitude', $result->geometry->location->lng );
+			set_theme_mod( 'map_url', $result->url );
 			// set_theme_mod( 'zthemename_phone', $result->formatted_phone_number );
 
 			// write_log( $result->formatted_phone_number );
@@ -66,13 +73,13 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 		public function add_menu() {
 
-			// add page to settings menu
-			add_options_page(
+			// add theme page.
+			add_theme_page(
 				__( 'DIY Marketer', 'zthemename' ),
 				__( 'DIY Marketer', 'zthemename' ),
-				'manage_options',            
+				'manage_options',
 				'zthemename-options',
-				array( &$this, 'render_page' )                 
+				array( &$this, 'render_page' )
 			);
 		}
 		
@@ -80,9 +87,10 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			register_setting(
 				'zthemename-options',
-				'zthemename_google_analytics',
+				'zthemename_options',
 				array(
-					'sanitize_callback' => array( &$this, 'sanitize_tag' ),
+					// 'type' => 'object',
+					'sanitize_callback' => array( &$this, 'sanitize_options' ),
 				)
 			);
 
@@ -92,7 +100,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				array( &$this, 'render_void' ),
 				'zthemename-options'
 			);
-	
+
 			add_settings_field( 
 				'js_code',
 				__( 'Javascript Code', 'zthemename' ),
@@ -100,8 +108,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				'zthemename-options',
 				'zthemename_google_analytics',
 				array(
-					'label_for' => 'zthemename_google_analytics[js_code]',
-					'section'   => 'zthemename_google_analytics',
+					'label_for' => 'zthemename_options[js_code]',
 					'id'        => 'js_code',
 				)
 			);
@@ -113,14 +120,6 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				'zthemename-options'
 			);
 
-			register_setting(
-				'zthemename-options',
-				'zthemename_google',
-				array(
-					// 'sanitize_callback' => 'sanitize_text_field',
-				)
-			);
-	
 			add_settings_field( 
 				'key',
 				__( 'API Key', 'zthemename' ),
@@ -128,8 +127,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				'zthemename-options',
 				'zthemename_google',
 				array(
-					'label_for' => 'zthemename_google[key]',
-					'section'   => 'zthemename_google',
+					'label_for' => 'zthemename_options[key]',
 					'id'        => 'key',
 				)
 			);
@@ -141,8 +139,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				'zthemename-options',
 				'zthemename_google',
 				array(
-					'label_for' => 'zthemename_google[place_id]',
-					'section'   => 'zthemename_google',
+					'label_for' => 'zthemename_options[place_id]',
 					'id'        => 'place_id',
 				)
 			);
@@ -152,60 +149,38 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				__( '&nbsp;', 'zthemename' ),
 				array( &$this, 'render_button' ),
 				'zthemename-options',
-				'zthemename_google',
-				// pass google value & set defaults if required.
-				get_option(
-					'zthemename_google',
-					array(
-						'place_id' => '',
-						'key'      => '',
-					)
-				)
+				'zthemename_google'
 			);
 		}
 		
 			// render input
 		public function render_void( $args ) {
-			return null;
+			return false;
 		}
 
 		// render button
 		public function render_button( $args ) {
-
-			if ( ! $args['place_id'] || ! $args['key'] ) {
-				return false;
+			if ( $this->options['place_id'] && $this->options['key'] ) {
+				echo '<input id="sync_places" type="button" value="Synchronise Data" class="button button-secondary">';
 			}
-			?>
-			<input id="sync_places" type='button' value="Synchronise Data" class="button button-secondary">
-			<?php
 		}
 
 		// render input
 		public function render_input( $args ) {
-
-			// extract tags from array
-			extract( $args );
-
-			// build tag
-			$tag = "{$section}[{$id}]";
-
-			?>
-			<input type="text" id="<?php echo $tag; ?>" name="<?php echo $tag; ?>" value="<?php echo get_option( $section )[ $id ]; ?>" class="regular-text">
-			<?php
+			printf( 
+				'<input type="text" id="zthemename_options[%1$s]" name="zthemename_options[%1$s]" value="%2$s" class="regular-text">',
+				esc_attr( $args['id'] ),
+				esc_attr( $this->options[ $args['id'] ] )
+			);
 		}
 
 		// render textarea
 		public function render_textarea( $args ) {
-
-			// extract tags from array
-			extract( $args );
-	
-			// build tag
-			$tag = "{$section}[{$id}]";
-	
-			?>
-				<textarea id="<?php echo $tag; ?>" name="<?php echo $tag; ?>"  class="large-text code" rows="6"><?php echo get_option( $section ) [ $id ]; ?></textarea>
-			<?php
+			printf( 
+				'<textarea id="zthemename_options[%1$s]" name="zthemename_options[%1$s]" class="large-text code" rows="6">%2$s</textarea>',
+				esc_attr( $args['id'] ),
+				esc_attr( $this->options[ $args['id'] ] )
+			);
 		}
 		
 			// render page
@@ -234,12 +209,15 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			<?php
 		}
 		
-		public function sanitize_tag( $data ) {
+		public function sanitize_options( $data ) {
 
-			$allowed = '<script>';
-	
 			foreach ( $data as $key => $value ) {
-				$data[ $key ] = trim( strip_tags( $value, $allowed ) );
+				if ( 'js_code' === $key ) {
+					$allowed      = '<script>';
+					$data[ $key ] = trim( strip_tags( $value, $allowed ) );
+					continue;
+				} 
+				$data[ $key ] = sanitize_text_field( $value );
 			}
 	
 			return $data;

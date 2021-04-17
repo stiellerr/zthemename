@@ -26,10 +26,14 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 					'customize_selective_refresh' => true,
 				)
 			);
+			// google maps co ordinates.			
+			$this->latitude  = get_theme_mod( 'latitude' );
+			$this->longitude = get_theme_mod( 'longitude' );
+			$this->map_url   = get_theme_mod( 'map_url' );
 		}
 
 		/**
-		 * Outputs the content for the current Page Excerpt widget instance.
+		 * Outputs the content for the current Google Map widget instance.
 		 *
 		 * @param array $args     Display arguments including 'before_title', 'after_title',
 		 *                        'before_widget', and 'after_widget'.
@@ -47,76 +51,55 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 			if ( $title ) {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
+	
+			if ( $this->latitude && $this->longitude ) {
 
-			$lat = get_theme_mod( 'zthemename_lat' );
-			$lng = get_theme_mod( 'zthemename_lng' );
+				$key = get_option( 'zthemename_options' )['key'];
 	
-			// $map = get_option( 'diym_map', null );
+				if ( $key ) {
+					$params            = array(
+						'zoom'   => isset( $instance['zoom'] ) ? $instance['zoom'] : 10,
+						'format' => 'jpg',
+						'size'   => '208x180',
+						'center' => $this->latitude . ',' . $this->longitude,
+						'key'    => $key,
+					);
+					$params['markers'] = $params['center'];
 	
-			if ( $lat && $lng ) {
-								$key = get_option( 'zthemename_google' )['key'];
-	
-				if ( ! empty( $key ) ) {
-										$params            = array(
-											'zoom'   => 10,
-											'format' => 'jpg',
-											'size'   => '208x180',
-										);
-										$params['center']  = $lat . ',' . $lng;
-										$params['markers'] = $params['center'];
-										$params['key']     = $key;
-	
-										// build image src url
-										$request = add_query_arg(
-											$params,
-											'https://maps.googleapis.com/maps/api/staticmap'
-										);
-	
-					$html      = $url ? "<a href='{$url}' target='_blank'>" : '';
-						$html .= "<img class='border' src='{$request}' alt='google map' width='208' height='180'>";
-					$html     .= $url ? '</a>' : '';
-	
-					echo $html;
+					// build image src url
+					$request = add_query_arg(
+						$params,
+						'https://maps.googleapis.com/maps/api/staticmap'
+					);
+
+					$output = '<img class="border" src="' . $request . '" alt="google map" width="208" height="180">';
+
+					$allowed_html = array(
+						'img' => array(
+							'src'    => array(),
+							'class'  => array(),
+							'alt'    => array(),
+							'width'  => array(),
+							'height' => array(),
+						),
+					);
+
+					if ( $this->map_url ) {
+						printf(
+							'<a href="%1$s" target="_blank">%2$s</a>',
+							esc_url( $this->map_url ),
+							wp_kses( $output, $allowed_html )
+						);
+					} else {
+						echo wp_kses( $output, $allowed_html );
+					}               
 				}
 			}
-
-						echo $args['after_widget'];
-		}
-
-
-		/**
-		 * Outputs the content for the current Page Excerpt widget instance.
-		 *
-		 * @param array $args     Display arguments including 'before_title', 'after_title',
-		 *                        'before_widget', and 'after_widget'.
-		 * @param array $instance The settings for the particular instance of the widget.
-		 */
-		public function widget( $args, $instance ) {
-
-
-			$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Page Excerpt', 'zthemename' );
-
-			/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-			$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
-	
-			$excerpt = ! empty( $instance['page_id'] ) ? get_the_excerpt( intval( $instance['page_id'] ) ) : esc_html__( 'Welcome to DIY Marketer. This the excerpt widget. Select a page to retrieve its excerpt. If no excerpt is found, we will attempt to create one for you automatically.', 'zthemename' );
-	
-			echo $args['before_widget'];
-	
-			if ( $title ) {
-				echo $args['before_title'] . $title . $args['after_title'];
-			}
-	
-			if ( $excerpt ) {
-				echo '<p class="has-text-align-justify">' . $excerpt . '</p>';
-			}
-	
 			echo $args['after_widget'];
-
 		}
 
 		/**
-		 * Handles updating settings for the page excerpt widget instance.
+		 * Handles updating settings for the google map widget instance.
 		 *
 		 * @param array $new_instance New settings for this instance as input by the user via
 		 *                            WP_Widget::form().
@@ -125,35 +108,29 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 		 */
 		public function update( $new_instance, $old_instance ) {
 
-			$instance = array();
-	
-			if ( empty( $old_instance ) ) {
-			
-				if ( empty( $new_instance['page_id'] ) ) {
-					$instance['title'] = sanitize_text_field( $new_instance['title'] );
-				} else {
-					$instance['title'] = get_the_title( $new_instance['page_id'] );
-				}           
+			$instance = $old_instance;
+
+			$new_instance = wp_parse_args(
+				(array) $new_instance,
+				array(
+					'title' => null,
+					'zoom'  => null,
+				)
+			);
+
+			$instance['title'] = sanitize_text_field( $new_instance['title'] );
+
+			if ( in_array( intval( $new_instance['zoom'] ), range( 0, 21 ), true ) ) {
+				$instance['zoom'] = intval( $new_instance['zoom'] );
 			} else {
-	
-				if ( $new_instance['page_id'] != $old_instance['page_id'] ) {
-					if ( $new_instance['page_id'] > 1 ) {
-						$instance['title'] = get_the_title( $new_instance['page_id'] );
-					} else {
-						$instance['title'] = esc_html__( 'Page Excerpt', 'zthemename' );
-					}
-				} else {
-					$instance['title'] = sanitize_text_field( $new_instance['title'] );
-				}    
+				$instance['zoom'] = 0;
 			}
-	
-			$instance['page_id'] = intval( $new_instance['page_id'] );
 	
 			return $instance;
 		}
 
 		/**
-		 * Outputs the settings form for the Page Exceprt widget.
+		 * Outputs the settings form for the google map widget.
 		 *
 		 * @param array $instance Current settings.
 		 */
@@ -162,43 +139,49 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 			$instance = wp_parse_args(
 				(array) $instance,
 				array(
-					'title'     => esc_html__( 'Page Excerpt', 'zthemename' ),
-					'page_id'   => 0,
+					'title' => esc_html__( 'Google Map', 'zthemename' ),
+					'zoom'  => 10,
 				)
 			);
-	
-			$pages = get_pages();
-			
+
 			?>
-	
 			<p>
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'zthemename' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
 			</p>
-	
+
 			<p>
-				<label for="<?php echo $this->get_field_id( 'page_id' ); ?>"><?php _e( 'Select Page:', 'zthemename' ); ?></label>
-				<select id="<?php echo $this->get_field_id( 'page_id' ); ?>" name="<?php echo $this->get_field_name( 'page_id' ); ?>" class="widefat">
-					<option value="0"><?php _e( '&mdash; Select &mdash;', 'zthemename' ); ?></option>
-					<?php foreach ( $pages as $page ) : ?>
-						<option value="<?php echo esc_attr( $page->ID ); ?>" <?php selected( $instance['page_id'], $page->ID ); ?>>
-							<?php echo esc_html( $page->post_title ); ?>
-						</option>
-					<?php endforeach; ?>
-				</select>
+				<label for="<?php echo $this->get_field_id( 'latitude' ); ?>"><?php esc_html_e( 'Latitude:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'latitude' ); ?>" type="text" value="<?php echo esc_html( $this->latitude ); ?>" readonly>
+				<br/>
+				<label for="<?php echo $this->get_field_id( 'longitude' ); ?>"><?php esc_html_e( 'Longitude:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'longitude' ); ?>" type="text" value="<?php echo esc_html( $this->longitude ); ?>" readonly>
+				<br/>
+				<label for="<?php echo $this->get_field_id( 'map_url' ); ?>"><?php esc_html_e( 'Map URL:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'map_url' ); ?>" type="text" value="<?php echo esc_html( $this->map_url ); ?>" readonly>
 			</p>
-	
+			<p>
+				<label for="<?php echo $this->get_field_id( 'zoom' ); ?>"><?php esc_html_e( 'Zoom Level:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'zoom' ); ?>" name="<?php echo $this->get_field_name( 'zoom' ); ?>" type="range" min="0" max="21" step="1" value="<?php echo esc_html( $instance['zoom'] ); ?>">
+			</p>			
+			<p>
+				<?php
+					$url = admin_url( 'themes.php?page=zthemename-options' );
+					/* translators: %s: URL to create a new menu. */
+					printf( __( 'Synchronize google map data <a href="%s">here</a>.' ), esc_attr( $url ) );
+				?>
+			</p>
 			<?php
 		}
 	}
 }
 
 /**
- * Register Custom widget class used to implement the Page Excerpt widget.
+ * Register Custom widget class used to implement the Google Map widget.
  */
-function zthemename_register_page_excerpt_widget() {
-	register_widget( 'Zthemename_Page_Excerpt_Widget' );
+function zthemename_register_google_map_widget() {
+	register_widget( 'Zthemename_Google_Map_Widget' );
 }
 
-add_action( 'widgets_init', 'zthemename_register_page_excerpt_widget' );
+add_action( 'widgets_init', 'zthemename_register_google_map_widget' );
 
