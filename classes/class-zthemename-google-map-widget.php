@@ -57,7 +57,7 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 				$key = get_option( 'zthemename_options' )['key'];
 	
 				if ( $key ) {
-					$params            = array(
+					$params = array(
 						'zoom'   => isset( $instance['zoom'] ) ? $instance['zoom'] : 10,
 						'format' => 'jpg',
 						'size'   => '208x180',
@@ -74,25 +74,10 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 
 					$output = '<img class="border" src="' . $request . '" alt="google map" width="208" height="180">';
 
-					$allowed_html = array(
-						'img' => array(
-							'src'    => array(),
-							'class'  => array(),
-							'alt'    => array(),
-							'width'  => array(),
-							'height' => array(),
-						),
-					);
-
 					if ( $this->map_url ) {
-						printf(
-							'<a href="%1$s" target="_blank">%2$s</a>',
-							esc_url( $this->map_url ),
-							wp_kses( $output, $allowed_html )
-						);
-					} else {
-						echo wp_kses( $output, $allowed_html );
-					}               
+						$output = '<a href="' . $this->map_url . '" target="_blank">' . $output . '</a>';
+					}
+					echo $output;              
 				}
 			}
 			echo $args['after_widget'];
