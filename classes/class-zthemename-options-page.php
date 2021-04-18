@@ -34,9 +34,16 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			// check ajax source is valid.
 			check_admin_referer( 'zthemename-options-options' );
-	
-			// query db
-			$args = get_option( 'zthemename_google' );
+
+			$args = array_filter(
+				get_option( 'zthemename_options' ),
+				function( $key ) {
+					if ( in_array( $key, array( 'key', 'place_id' ) ) ) {
+						return true;
+					}
+				},
+				ARRAY_FILTER_USE_KEY
+			);
 	
 			// build url
 			$request = add_query_arg(
@@ -46,6 +53,8 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			// send request.
 			$response = wp_remote_get( $request );
+
+			write_log( $response );
 	
 			if ( is_wp_error( $response ) ) {
 				// Bail early
@@ -62,6 +71,40 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			set_theme_mod( 'latitude', $result->geometry->location->lat );
 			set_theme_mod( 'longitude', $result->geometry->location->lng );
 			set_theme_mod( 'map_url', $result->url );
+			set_theme_mod( 'rating', $result->rating );
+			$address = preg_replace( '@, @si', "\n", $result->formatted_address );
+			set_theme_mod( 'address', $address );
+			update_option( 'blogname', $result->name );
+			//update_option( 'blogname', 'Hello World.' );
+			//update_option( 'admin_email', 'zzz5@gmail.com' );
+			//hours.
+			//$result->opening_hours->weekday_text
+
+			//var hours = [
+				//{ day: "sunday" },
+				//{ day: "monday" },
+				//{ day: "tuesday" },
+				//{ day: "wednesday" },
+				//{ day: "thursday" },
+				//{ day: "friday" },
+				//{ day: "saturday" }
+			//];
+
+
+			//foreach ( $result->opening_hours->weekday_text as $value ) {
+				//if ( preg_match( '@  @', $value, $matches ) ) {
+
+				//}
+			//}
+			
+			//things to explore further
+			//testimonials.
+			//photos/gallery.
+			//user ratings total.
+
+
+				
+			
 			// set_theme_mod( 'zthemename_phone', $result->formatted_phone_number );
 
 			// write_log( $result->formatted_phone_number );
@@ -213,13 +256,18 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			foreach ( $data as $key => $value ) {
 				if ( 'js_code' === $key ) {
-					$allowed      = '<script>';
-					$data[ $key ] = trim( strip_tags( $value, $allowed ) );
+					$value = strip_tags( $value, '<script>' );
+					if ( preg_match( '@<(script)[^>]*?>.*?</\\1>@si', $value ) ) {
+						// remove line breaks. this could be done where the script is printed to the page?? .
+						$value = preg_replace( '/[\r\n\t ]+/', '', $value );
+						$data[ $key ] = trim( $value );
+					} else {
+						$data[ $key ] = '';
+					}
 					continue;
 				} 
 				$data[ $key ] = sanitize_text_field( $value );
 			}
-	
 			return $data;
 		}
 	}
