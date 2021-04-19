@@ -41,7 +41,7 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 		 */
 		public function widget( $args, $instance ) {
 
-			$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Google Map', 'zthemename' );
+			$title = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'Google Map.', 'zthemename' );
 	
 			/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 			$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -94,23 +94,23 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 		public function update( $new_instance, $old_instance ) {
 
 			$instance = $old_instance;
-
+			
 			$new_instance = wp_parse_args(
 				(array) $new_instance,
 				array(
-					'title' => null,
-					'zoom'  => null,
+					'title' => '',
+					'zoom'  => 3,
 				)
 			);
 
 			$instance['title'] = sanitize_text_field( $new_instance['title'] );
 
-			if ( in_array( intval( $new_instance['zoom'] ), range( 0, 21 ), true ) ) {
-				$instance['zoom'] = intval( $new_instance['zoom'] );
+			if ( in_array( (int) $new_instance['zoom'], range( 0, 21 ), true ) ) {
+				$instance['zoom'] = (int) $new_instance['zoom'];
 			} else {
 				$instance['zoom'] = 0;
 			}
-	
+
 			return $instance;
 		}
 
@@ -125,7 +125,7 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 				(array) $instance,
 				array(
 					'title' => esc_html__( 'Google Map', 'zthemename' ),
-					'zoom'  => 10,
+					'zoom'  => 3,
 				)
 			);
 
@@ -137,17 +137,17 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 
 			<p>
 				<label for="<?php echo $this->get_field_id( 'latitude' ); ?>"><?php esc_html_e( 'Latitude:', 'zthemename' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'latitude' ); ?>" type="text" value="<?php echo esc_html( $this->latitude ); ?>" readonly>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'latitude' ); ?>" type="text" value="<?php echo esc_attr( $this->latitude ); ?>" readonly>
 				<br/>
 				<label for="<?php echo $this->get_field_id( 'longitude' ); ?>"><?php esc_html_e( 'Longitude:', 'zthemename' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'longitude' ); ?>" type="text" value="<?php echo esc_html( $this->longitude ); ?>" readonly>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'longitude' ); ?>" type="text" value="<?php echo esc_attr( $this->longitude ); ?>" readonly>
 				<br/>
 				<label for="<?php echo $this->get_field_id( 'map_url' ); ?>"><?php esc_html_e( 'Map URL:', 'zthemename' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'map_url' ); ?>" type="text" value="<?php echo esc_html( $this->map_url ); ?>" readonly>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'map_url' ); ?>" type="text" value="<?php echo esc_url( $this->map_url ); ?>" readonly>
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'zoom' ); ?>"><?php esc_html_e( 'Zoom Level:', 'zthemename' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'zoom' ); ?>" name="<?php echo $this->get_field_name( 'zoom' ); ?>" type="range" min="0" max="21" step="1" value="<?php echo esc_html( $instance['zoom'] ); ?>">
+				<input class="widefat" id="<?php echo $this->get_field_id( 'zoom' ); ?>" name="<?php echo $this->get_field_name( 'zoom' ); ?>" type="range" min="0" max="21" step="1" value="<?php echo esc_attr( $instance['zoom'] ); ?>"<?php echo $this->latitude && $this->latitude ? '' : ' disabled'; ?>>
 			</p>			
 			<p>
 				<?php

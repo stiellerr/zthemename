@@ -13,6 +13,7 @@ export const compress = () => {
             "!node_modules/**",
             "!vendor/**",
             "!src/**",
+            "!archive/**",
             "!packaged/**",
             "!gulpfile.babel.js",
             "!webpack.config.js",

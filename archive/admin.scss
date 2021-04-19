@@ -12,7 +12,7 @@ div[id*="zthemename_business_hours"].widget .widget-inside {
         > div:first-child {
             align-self: center;
             flex: 0 0 auto;
-            width: 75px;
+            width: 100px;
         }
         > input,
         div:not(:first-child) {
@@ -20,7 +20,7 @@ div[id*="zthemename_business_hours"].widget .widget-inside {
             margin-right: 2px;
         }
         input[value="Closed"] + input,
-        input[value="Open 24 hours"] + input,
+        input[value="24 Hours"] + input,
         input[value=""] + input {
             visibility: hidden;
         }

@@ -90,12 +90,25 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				//{ day: "saturday" }
 			//];
 
+			// extract hours, modify format & pump into the db.
+			foreach ( $result->opening_hours->weekday_text as $value ) {
+				if ( preg_match( '/\A[A-Z][a-z]+/', $value, $matches ) ) {
+					$day = $matches[0];
+					if ( preg_match_all( '/\d:\d{2} [AP]M/', $value, $matches ) ) {
+						// modify time format.
+						foreach( $matches[0] as &$match ) {
+							$match = DateTime::createFromFormat( 'h:i A', $match )->format( 'H:i' );
+						}
+						$hours[ $day ] = $matches[0];
+					} elseif ( preg_match( '/(?:Closed|Open 24 hours)/', $value, $matches ) ) {
+						$hours[ $day ] = $matches;
+					}
+				}
+			}
 
-			//foreach ( $result->opening_hours->weekday_text as $value ) {
-				//if ( preg_match( '@  @', $value, $matches ) ) {
+			write_log( $hours );
 
-				//}
-			//}
+			set_theme_mod( 'opening_hours', $hours );
 			
 			//things to explore further
 			//testimonials.
