@@ -37,7 +37,7 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 		 */
 		public function widget( $args, $instance ) {
 
-			$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Social Media', 'zthemename' );
+			$title = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'Social Media.', 'zthemename' );
 		
 			/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 			$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -54,19 +54,40 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 			}
 
 			// bail if no links found.
-			if ( ! $facebook && ! $instagram && ! $twitter && ! $youtube ) {
-				echo $args['after_widget'];
-				return;
+			if ( $facebook || $instagram || $twitter || $youtube ) {
+				
+				echo '<div>';
+				
+				$facebook && 
+					printf(
+						'<div><a href="%1$s" target="_blank"><i class="fab fa-facebook-f fa-fw" data-content="f39e"></i>%2$s</a></div>',
+						esc_url( $facebook ),
+						esc_html__( 'Like Us On Facebook', 'zthemename' )
+					);
+			
+				$instagram &&
+					printf(
+						'<div><a href="%1$s" target="_blank"><i class="fab fa-instagram fa-fw" data-content="f16d"></i>%2$s</a></div>',
+						esc_url( $instagram ),
+						esc_html__( 'Follow Us On Instagram', 'zthemename' )
+					);
+				
+				$twitter &&
+					printf(
+						'<div><a href="%1$s" target="_blank"><i class="fab fa-twitter fa-fw" data-content="f099"></i>%2$s</a></div>',
+						esc_url( $twitter ),
+						esc_html__( 'Follow Us On Twitter', 'zthemename' )
+					);
+
+				$youtube &&
+					printf('<div><a href="%1$s" target="_blank"><i class="fab fa-youtube fa-fw" data-content="f167"></i>%2$s</a></div>',
+					esc_url( $youtube ),
+					esc_html__( 'Our Youtube Channel', 'zthemename' )
+				);			
+
+				echo '</div>';
 			}
-
-			echo '<div>';
-
-			$facebook && printf( '<div><a href="%1$s" target="_blank"><i class="fab fa-facebook-f fa-fw" data-content="f39e"></i>%2$s</a></div>', esc_url( $facebook ), esc_html__( 'Like Us On Facebook', 'zthemename' ) );
-			$instagram && printf( '<div><a href="%1$s" target="_blank"><i class="fab fa-instagram fa-fw" data-content="f16d"></i>%2$s</a></div>', esc_url( $instagram ), esc_html__( 'Follow Us On Instagram', 'zthemename' ) );
-			$twitter && printf( '<div><a href="%1$s" target="_blank"><i class="fab fa-twitter fa-fw" data-content="f099"></i>%2$s</a></div>', esc_url( $twitter ), esc_html__( 'Follow Us On Twitter', 'zthemename' ) );
-			$youtube && printf( '<div><a href="%1$s" target="_blank"><i class="fab fa-youtube fa-fw" data-content="f167"></i>%2$s</a></div>', esc_url( $youtube ), esc_html__( 'Our Youtube Channel', 'zthemename' ) );
-
-			echo '</div>' . $args['after_widget'];
+			echo $args['after_widget'];
 		}
 
 		/**

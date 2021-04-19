@@ -58,7 +58,7 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 	
 				if ( $key ) {
 					$params = array(
-						'zoom'   => isset( $instance['zoom'] ) ? $instance['zoom'] : 10,
+						'zoom'   => isset( $instance['zoom'] ) ? $instance['zoom'] : 11,
 						'format' => 'jpg',
 						'size'   => '208x180',
 						'center' => $this->latitude . ',' . $this->longitude,
@@ -99,7 +99,7 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 				(array) $new_instance,
 				array(
 					'title' => '',
-					'zoom'  => 3,
+					'zoom'  => 11,
 				)
 			);
 
@@ -125,7 +125,7 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 				(array) $instance,
 				array(
 					'title' => esc_html__( 'Google Map', 'zthemename' ),
-					'zoom'  => 3,
+					'zoom'  => 11,
 				)
 			);
 

@@ -37,8 +37,7 @@ if ( ! class_exists( 'Zthemename_Page_Excerpt_Widget' ) ) {
 		 */
 		public function widget( $args, $instance ) {
 
-
-			$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Page Excerpt', 'zthemename' );
+			$title = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'Page Excerpt.', 'zthemename' );
 
 			/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 			$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );

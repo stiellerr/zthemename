@@ -37,7 +37,6 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 		 */
 		public function widget( $args, $instance ) {
 		
-			// $title = !empty( $instance['title'] ) ? $instance['title'] : esc_html__('Contact Form', 'zthemename');
 			$title = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'Contact Form.', 'zthemename' );
 		
 			/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
@@ -57,8 +56,6 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 			?>
 
 			<form class="contact-form needs-validation" novalidate>
-				<?php /* echo $title ? $args['before_title'] . $title . $args['after_title'] : ''; */ ?>
-				<!--<input type="hidden" name="action" value="send_form" />-->
 				<?php if ( $message ) { ?>            
 					<div class="mb-2"><!-- message -->
 						<textarea class="form-control form-control-sm" name="message" id="message" placeholder="How can we help?" required></textarea>
@@ -113,19 +110,6 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 					'email'     => true,
 				)
 			);
-		
-			/*
-			$title = isset( $instance['title'] ) ? $instance['title'] : esc_html__('Contact Form', 'zthemename');
-			$message = isset( $instance['message'] ) ? $instance['message'] : true;
-			$name = isset( $instance['name'] ) ? $instance['name'] : true;
-			$phone = isset( $instance['phone'] ) ? $instance['phone'] : false;
-			$email = isset( $instance['email'] ) ? $instance['email'] : true;
-			*/
-			// $message = isset( $instance['message'] ) ? 1 : 1;
-			// $name = isset( $instance['name'] ) ? $instance['name'] : true;
-			// $phone = isset( $instance['phone'] ) ? $instance['phone'] : false;
-			// $email = isset( $instance['email'] ) ? $instance['email'] : true;
-
 			?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'zthemename' ); ?></label>
@@ -176,14 +160,6 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 			$instance['phone']   = $new_instance['phone'] ? 1 : 0;
 			$instance['email']   = $new_instance['email'] ? 1 : 0;
 			
-			/*
-			$instance['message'] = boolval( $new_instance['message'] );
-			$instance['name']    = boolval( $new_instance['name'] );
-			$instance['phone']   = boolval( $new_instance['phone'] );
-			$instance['email']   = boolval( $new_instance['email'] );
-			*/
-
-
 			return $instance;
 		}
 	}
