@@ -10,10 +10,10 @@
 const $ = jQuery;
 
 // Navbar color.
-wp.customize("nav_color", (value) => {
+wp.customize("header_footer_background_color", (value) => {
     value.bind((to) => {
         $("#zthemename-inline-css").html((index, currentcontent) => {
-            return currentcontent.replace(/(--global--color-nav:\s)#[\d\w]+/, `$1${to}`);
+            return currentcontent.replace(/(--global--color-head-foot:\s)#[\d\w]+/, `$1${to}`);
         });
     });
 });
@@ -21,7 +21,9 @@ wp.customize("nav_color", (value) => {
 // Navbar theme.
 wp.customize("nav_theme", (value) => {
     value.bind((to) => {
-        $("nav").removeClass("navbar-light navbar-dark").addClass(to);
+        $(".site-header nav, .site-footer .container")
+            .removeClass("navbar-light navbar-dark")
+            .addClass(to);
     });
 });
 
@@ -35,23 +37,12 @@ wp.customize("accent_color", (value) => {
 });
 
 // Navbar color.
-wp.customize("nav_btn_type", (value) => {
+wp.customize("header_footer_button_outline", (value) => {
     value.bind((to) => {
+        const new_class = to ? "is-style-outline" : "";
         // remove outline class
-        $(".wp-block-button").removeClass("is-style-outline");
-        if (to) {
-            $(".wp-block-button").addClass(to);
-        }
-    });
-});
-
-// Navbar color.
-wp.customize("zthemename_phone", (value) => {
-    value.bind((to) => {
-        $(".wp-block-button").html("");
-        to.length &&
-            $(".wp-block-button").html(
-                `<a class="wp-block-button__link"><i class="fas fa-phone-alt" data-content="f879">&nbsp;</i>${to}</a>`
-            );
+        $(".site-header .wp-block-button, .site-footer .wp-block-button")
+            .removeClass("is-style-outline")
+            .addClass(new_class);
     });
 });

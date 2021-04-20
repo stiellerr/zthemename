@@ -27,6 +27,9 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 				)
 			);
 		}
+		//<?php $nav_btn_type && printf( ' %s', esc_html( $nav_btn_type ) );
+		//<?php $nav_btn_type && printf( ' %s', esc_html( $nav_btn_type ) );
+		//
 
 		/**
 		 * Outputs the content for the current Contact Form widget instance.
@@ -36,6 +39,8 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 		 * @param array $instance The settings for the particular instance of the widget.
 		 */
 		public function widget( $args, $instance ) {
+
+			write_log( $args );
 		
 			$title = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'Contact Form.', 'zthemename' );
 		
@@ -52,6 +57,8 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 			if ( $title ) {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
+
+			$button_outline = ( 'sidebar-2' === $args['id'] && get_theme_mod( 'header_footer_button_outline' ) ) ? ' is-style-outline' : "";
 
 			?>
 
@@ -80,7 +87,7 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 						<div class="invalid-feedback"><?php esc_html_e( 'valid email required', 'zthemename' ); ?></div>
 					</div>
 				<?php } ?>
-				<div class="wp-block-button">
+				<div class="wp-block-button<?php echo esc_attr( $button_outline ); ?>">
 					<button type="submit" class="wp-block-button__link"><?php esc_html_e( 'Submit.', 'zthemename' ); ?></button>
 				</div>
 				<small>

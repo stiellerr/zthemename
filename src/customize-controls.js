@@ -9,19 +9,15 @@
 
 const $ = jQuery;
 
-const setNavButtonType = (nav, accent) => {
-    const nav_color = new Color(nav);
+const setHeadFootButtonOutline = (head_foot, accent) => {
+    const head_foot_bg_color = new Color(head_foot);
     const acc_color = new Color(accent);
 
-    const lum = nav_color.getDistanceLuminosityFrom(acc_color);
+    const lum = head_foot_bg_color.getDistanceLuminosityFrom(acc_color);
 
-    let outline = false;
+    let outline = 4.5 > lum ? true : false;
 
-    if (4.5 > lum) {
-        outline = "is-style-outline";
-    }
-
-    wp.customize("nav_btn_type").set(outline);
+    wp.customize("header_footer_button_outline").set(outline);
 };
 
 wp.customize.bind("ready", () => {
@@ -30,10 +26,10 @@ wp.customize.bind("ready", () => {
 
     // Add color control for navbar.
     wp.customize.control.add(
-        new wp.customize.ColorControl("nav_color", {
+        new wp.customize.ColorControl("header_footer_background_color", {
             section: "colors",
-            label: "Navbar Color.",
-            setting: "nav_color"
+            label: "Header &amp; Footer Background Color",
+            setting: "header_footer_background_color"
         })
     );
 
@@ -41,36 +37,26 @@ wp.customize.bind("ready", () => {
     wp.customize.control.add(
         new wp.customize.ColorControl("accent_color", {
             section: "colors",
-            label: "Accent Color.",
+            label: "Accent Color",
             setting: "accent_color"
         })
     );
 
-    // Add text control for phone number.
-    wp.customize.control.add(
-        new wp.customize.Control("zthemename_phone", {
-            section: "colors",
-            label: "Phone Number.",
-            setting: "zthemename_phone",
-            type: "text"
-        })
-    );
-
-    wp.customize("nav_color", (value) => {
+    wp.customize("header_footer_background_color", (value) => {
         // Add a listener for navbar color changes.
         value.bind((to) => {
-            const nav_color = new Color(to);
+            const head_foot_bg_color = new Color(to);
             wp.customize("nav_theme").set(
-                nav_color.getMaxContrastColor()._color ? "navbar-dark" : "navbar-light"
+                head_foot_bg_color.getMaxContrastColor()._color ? "navbar-dark" : "navbar-light"
             );
-            setNavButtonType(to, wp.customize.get().accent_color);
+            setHeadFootButtonOutline(to, wp.customize.get().accent_color);
         });
     });
 
     wp.customize("accent_color", (value) => {
         // Add a listener for navbar color changes.
         value.bind((to) => {
-            setNavButtonType(wp.customize.get().nav_color, to);
+            setHeadFootButtonOutline(wp.customize.get().header_footer_background_color, to);
         });
     });
 });

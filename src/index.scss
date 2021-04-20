@@ -264,6 +264,8 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 
 .wp-block-button {
     > .wp-block-button__link {
+        border: 2px solid;
+        border-color: currentColor;
         border-radius: 4px;
         &[disabled] {
             opacity: 0.5;
@@ -271,41 +273,36 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
     }
 }
 
-#site-navigation {
-    background-color: var(--global--color-nav);
+.site-header,
+.site-footer {
+    background-color: var(--global--color-head-foot);
     .wp-block-button {
         &:not(.is-style-outline) .wp-block-button__link {
             background-color: var(--global--color-accent);
-            color: var(--global--color-nav);
+            color: var(--global--color-head-foot);
             &:hover {
                 color: var(--global--color-accent);
-                border-color: currentColor;
-                border: 2px solid;
                 background-color: transparent;
             }
         }
+        &.is-style-outline .wp-block-button__link:hover {
+            color: var(--global--color-head-foot);
+        }
     }
-    &.navbar-light .is-style-outline .wp-block-button__link {
+    .navbar-light .is-style-outline .wp-block-button__link {
         color: $navbar-light-color;
         &:hover {
             background-color: $navbar-light-color;
             border-color: $navbar-light-color;
         }
     }
-    &.navbar-dark .is-style-outline .wp-block-button__link {
+    .navbar-dark .is-style-outline .wp-block-button__link {
         color: $navbar-dark-color;
         &:hover {
             background-color: $navbar-dark-color;
             border-color: $navbar-dark-color;
         }
     }
-    .is-style-outline .wp-block-button__link:hover {
-        color: var(--global--color-nav);
-    }
-}
-
-footer {
-    background-color: var(--global--color-nav);
 }
 
 .custom-logo-link {
@@ -317,3 +314,45 @@ footer {
         flex: initial;
     }
 }
+
+footer {
+    &.navbar-light .widget {
+        color: $navbar-light-color;
+    }
+    &.navbar-dark .widget {
+        color: $navbar-dark-color;
+    }
+}
+
+// Dark links against a light background
+/*
+.navbar-light {
+    .navbar-brand {
+      color: $navbar-light-brand-color;
+  
+      &:hover,
+      &:focus {
+        color: $navbar-light-brand-hover-color;
+      }
+    }
+  
+    .navbar-nav {
+      .nav-link {
+        color: $navbar-light-color;
+  
+        &:hover,
+        &:focus {
+          color: $navbar-light-hover-color;
+        }
+  
+        &.disabled {
+          color: $navbar-light-disabled-color;
+        }
+      }
+  
+      .show > .nav-link,
+      .nav-link.active {
+        color: $navbar-light-active-color;
+      }
+    }
+*/

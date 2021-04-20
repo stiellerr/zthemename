@@ -74,7 +74,7 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 
 				$output .= $this->phone ? 
 					sprintf(
-						'<tr><td><i class="fas fa-phone fa-fw" data-content="f095"></i></td><td><a href="tel:%1$s">%1$s</a></td></tr>',
+						'<tr><td><i class="fas fa-phone-alt fa-fw" data-content="f879"></i></td><td><a href="tel:%1$s">%1$s</a></td></tr>',
 						esc_attr( $this->phone ) ) : '';
 
 				$output .= $this->email ? 

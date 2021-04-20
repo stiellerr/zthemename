@@ -136,8 +136,8 @@ function zthemename_widgets_init() {
 			'description'   => esc_html__( 'Add widgets here to appear in your sidebar.', 'zthemename' ),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
 		)
 	);
 
@@ -150,8 +150,8 @@ function zthemename_widgets_init() {
 			// 'after_widget'  => '</section>',
 			'before_widget' => '<div id="%1$s" class="widget %2$s wp-block-column">',
 			'after_widget'  => '</div>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
 		)
 	);
 
@@ -355,13 +355,37 @@ function zthemename_nav_menu_submenu_css_class( $classes, $args, $depth ) {
 
 add_filter( 'nav_menu_submenu_css_class', 'zthemename_nav_menu_submenu_css_class', 10, 3 );
 
+
+/**
+ * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
+ */
+function zthemename_customize_preview() {
+	wp_enqueue_style(
+		'zthemename-admin',
+		get_template_directory_uri() . '/dist/css/admin.css',
+		array(),
+		_S_VERSION
+	);
+	wp_enqueue_script( 'zthemename-customize-preview', get_template_directory_uri() . '/dist/js/customize-preview.js', array( 'customize-preview' ), _S_VERSION, true );
+}
+add_action( 'customize_preview_init', 'zthemename_customize_preview' );
+
+/**
+ * Enqueue scripts for the customizer.
+ */
+function zthemename_customize_controls_enqueue_scripts() {
+	wp_enqueue_style( 'wp-color-picker' );
+	wp_enqueue_script( 'zthemename-customize-constrols', get_template_directory_uri() . '/dist/js/customize-controls.js', array( 'customize-controls', 'wp-color-picker' ), _S_VERSION, true );
+}
+add_action( 'customize_controls_enqueue_scripts', 'zthemename_customize_controls_enqueue_scripts' );
+
 /**
  * Customizer additions.
  */
-require get_template_directory() . '/inc/customizer.php';
+require_once get_template_directory() . '/classes/class-zthemename-customizer.php';
 
 // Custom color classes.
-require get_template_directory() . '/classes/class-zthemename-custom-colors.php';
+require_once get_template_directory() . '/classes/class-zthemename-custom-colors.php';
 new Zthemename_Custom_Colors();
 
 

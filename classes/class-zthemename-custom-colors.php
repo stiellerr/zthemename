@@ -65,11 +65,11 @@ class Zthemename_Custom_Colors {
 
 		$theme_css = 'editor' === $context ? ':root .editor-styles-wrapper{' : ':root{';
 		// $background_color = get_theme_mod( 'background_color', 'D1E4DD' );
-		$accent_color = get_theme_mod( 'accent_color', 'D1E4DD' );
-		$nav_color    = get_theme_mod( 'nav_color', 'D1E4DD' );
+		$accent_color = get_theme_mod( 'accent_color', '#0d6efd' );
+		$head_foot_color    = get_theme_mod( 'header_footer_background_color', '#ffffff' );
 
 		$theme_css .= '--global--color-accent: ' . $accent_color . ';';
-		$theme_css .= '--global--color-nav: ' . $nav_color . ';';
+		$theme_css .= '--global--color-head-foot: ' . $head_foot_color . ';';
 
 		/*
 		if ( 'd1e4dd' !== strtolower( $background_color ) ) {

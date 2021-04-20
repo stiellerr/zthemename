@@ -80,9 +80,10 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 					);
 
 				$youtube &&
-					printf('<div><a href="%1$s" target="_blank"><i class="fab fa-youtube fa-fw" data-content="f167"></i>%2$s</a></div>',
-					esc_url( $youtube ),
-					esc_html__( 'Our Youtube Channel', 'zthemename' )
+					printf(
+						'<div><a href="%1$s" target="_blank"><i class="fab fa-youtube fa-fw" data-content="f167"></i>%2$s</a></div>',
+						esc_url( $youtube ),
+						esc_html__( 'Our Youtube Channel', 'zthemename' )
 				);			
 
 				echo '</div>';
