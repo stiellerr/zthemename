@@ -54,7 +54,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			// send request.
 			$response = wp_remote_get( $request );
 
-			write_log( $response );
+			//write_log( $response );
 	
 			if ( is_wp_error( $response ) ) {
 				// Bail early
@@ -65,65 +65,61 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			$result = json_decode( $body )->result;
 
-			write_log( $result );
+			// maniuplate place data into our db.
+			// things to explore further...
+			// testimonials.
+			// photos / gallery.
+			// user ratings total.
+			isset( $result->formatted_phone_number ) 
+				&& set_theme_mod( 'phone', $result->formatted_phone_number );
 
-			set_theme_mod( 'phone', $result->formatted_phone_number );
-			set_theme_mod( 'latitude', $result->geometry->location->lat );
-			set_theme_mod( 'longitude', $result->geometry->location->lng );
-			set_theme_mod( 'map_url', $result->url );
-			set_theme_mod( 'rating', $result->rating );
-			$address = preg_replace( '@, @si', "\n", $result->formatted_address );
-			set_theme_mod( 'address', $address );
-			update_option( 'blogname', $result->name );
-			//update_option( 'blogname', 'Hello World.' );
-			//update_option( 'admin_email', 'zzz5@gmail.com' );
-			//hours.
-			//$result->opening_hours->weekday_text
+			isset( $result->geometry->location->lat ) 
+				&& set_theme_mod( 'latitude', $result->geometry->location->lat );
 
-			//var hours = [
-				//{ day: "sunday" },
-				//{ day: "monday" },
-				//{ day: "tuesday" },
-				//{ day: "wednesday" },
-				//{ day: "thursday" },
-				//{ day: "friday" },
-				//{ day: "saturday" }
-			//];
+			isset( $result->geometry->location->lng ) 
+				&& set_theme_mod( 'longitude', $result->geometry->location->lng );
 
-			// extract hours, modify format & pump into the db.
-			foreach ( $result->opening_hours->weekday_text as $value ) {
-				if ( preg_match( '/\A[A-Z][a-z]+/', $value, $matches ) ) {
-					$day = $matches[0];
-					if ( preg_match_all( '/\d:\d{2} [AP]M/', $value, $matches ) ) {
-						// modify time format.
-						foreach( $matches[0] as &$match ) {
-							$match = DateTime::createFromFormat( 'h:i A', $match )->format( 'H:i' );
+			isset( $result->url ) 
+				&& set_theme_mod( 'map_url', $result->url );
+
+			isset( $result->rating ) 
+				&& set_theme_mod( 'rating', $result->rating );
+
+			isset( $result->name ) 
+				&& update_option( 'blogname', $result->name );
+
+			if ( isset( $result->formatted_address ) ) {
+				// could also replace out the country here as well, by grabbing it from the address data.
+				$address = preg_replace( '@, @si', "\n", $result->formatted_address );
+				set_theme_mod( 'address', $address );
+			}
+			
+			if ( isset( $result->opening_hours->weekday_text ) ) {
+				// extract hours, modify format & pump into the db.
+				foreach ( $result->opening_hours->weekday_text as $value ) {
+					if ( preg_match( '/\A[A-Z][a-z]+/', $value, $matches ) ) {
+						$day = $matches[0];
+						if ( preg_match_all( '/\d:\d{2} [AP]M/', $value, $matches ) ) {
+							// modify time format.
+							foreach( $matches[0] as &$match ) {
+								$match = DateTime::createFromFormat( 'h:i A', $match )->format( 'H:i' );
+							}
+							$hours[ $day ] = $matches[0];
+						} elseif ( preg_match( '/(?:Closed|Open 24 hours)/', $value, $matches ) ) {
+							$hours[ $day ] = $matches;
 						}
-						$hours[ $day ] = $matches[0];
-					} elseif ( preg_match( '/(?:Closed|Open 24 hours)/', $value, $matches ) ) {
-						$hours[ $day ] = $matches;
 					}
 				}
+
+				isset( $hours ) &&
+					set_theme_mod( 'opening_hours', $hours );
+			} else {
+				set_theme_mod( 'opening_hours', array() );
 			}
 
-			write_log( $hours );
+			wp_send_json_success();
 
-			set_theme_mod( 'opening_hours', $hours );
-			
-			//things to explore further
-			//testimonials.
-			//photos/gallery.
-			//user ratings total.
-
-
-				
-			
-			// set_theme_mod( 'zthemename_phone', $result->formatted_phone_number );
-
-			// write_log( $result->formatted_phone_number );
-			
-			// return data back to js
-			wp_send_json_success( json_decode( $body ) );
+			//wp_send_json_success( json_decode( $body ) );
 			// wp_send_json_success( $response );
 		}
 
@@ -145,7 +141,6 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				'zthemename-options',
 				'zthemename_options',
 				array(
-					// 'type' => 'object',
 					'sanitize_callback' => array( &$this, 'sanitize_options' ),
 				)
 			);
@@ -185,6 +180,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				array(
 					'label_for' => 'zthemename_options[key]',
 					'id'        => 'key',
+					'caption'	=> sprintf( '<p>Setup you api key <a href="%s" target="_blank">here.</a></p>', esc_url( 'https://developers.google.com/maps/documentation/places/web-service/get-api-key' ) )
 				)
 			);
 	
@@ -197,6 +193,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				array(
 					'label_for' => 'zthemename_options[place_id]',
 					'id'        => 'place_id',
+					'caption'	=> sprintf( '<p>Find your place id <a href="%s" target="_blank">here.</a></p>', esc_url( 'https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder' ) )
 				)
 			);
 
@@ -228,6 +225,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				esc_attr( $args['id'] ),
 				esc_attr( $this->options[ $args['id'] ] )
 			);
+			echo isset( $args['caption'] ) ? $args['caption'] : '';
 		}
 
 		// render textarea

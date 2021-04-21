@@ -305,6 +305,15 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
     }
 }
 
+.site-footer {
+    .navbar-light .widget {
+        color: $navbar-light-color;
+    }
+    .navbar-dark .widget {
+        color: $navbar-dark-color;
+    }
+}
+
 .custom-logo-link {
     flex: 1 0 0%;
 }
@@ -312,15 +321,6 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @media (min-width: 576px) {
     .custom-logo-link {
         flex: initial;
-    }
-}
-
-footer {
-    &.navbar-light .widget {
-        color: $navbar-light-color;
-    }
-    &.navbar-dark .widget {
-        color: $navbar-dark-color;
     }
 }
 

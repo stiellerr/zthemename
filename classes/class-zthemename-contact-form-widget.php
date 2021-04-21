@@ -39,8 +39,6 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 		 * @param array $instance The settings for the particular instance of the widget.
 		 */
 		public function widget( $args, $instance ) {
-
-			write_log( $args );
 		
 			$title = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'Contact Form.', 'zthemename' );
 		

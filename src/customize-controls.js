@@ -24,6 +24,12 @@ wp.customize.bind("ready", () => {
     // ready...
     console.log("customize controls ready...");
 
+    // hide site title.
+    wp.customize.control("blogname").toggle();
+
+    // hide tagline.
+    wp.customize.control("blogdescription").toggle();
+
     // Add color control for navbar.
     wp.customize.control.add(
         new wp.customize.ColorControl("header_footer_background_color", {
