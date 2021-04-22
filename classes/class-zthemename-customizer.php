@@ -62,7 +62,7 @@ if ( ! class_exists( 'Zthemename_Customizer' ) ) {
 							'accent'       => '#0d6efd',
 							'accent-hover' => '#0d6efd',
 						),
-						'head-foot' => array(
+						'header-footer' => array(
 							'accent'       => '#0d6efd',
 							'accent-hover' => '#0d6efd',
 						),

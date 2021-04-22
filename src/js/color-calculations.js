@@ -14,6 +14,7 @@ class Zthemename_Color {
         if (!background) {
             return;
         }
+
         this._background = new Color(background);
         this._accentReadable = this._accent
             .clone()

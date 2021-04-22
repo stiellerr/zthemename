@@ -13,6 +13,7 @@ const updateAccentStyles = () => {
     $("#zthemename-inline-css").html((index, currentcontent) => {
         //
         const colors = window.parent.wp.customize("accent_colors").get();
+
         // each =>
         _.each(colors, (obj, context) => {
             _.each(obj, (val, key) => {
@@ -29,7 +30,7 @@ const updateAccentStyles = () => {
 wp.customize("header_footer_background_color", (value) => {
     value.bind((to) => {
         $("#zthemename-inline-css").html((index, currentcontent) => {
-            return currentcontent.replace(/(--global--color-head-foot:\s)#[\d\w]+/, `$1${to}`);
+            return currentcontent.replace(/(--global--color-header-footer:\s)#[\d\w]+/, `$1${to}`);
         });
         updateAccentStyles();
     });
@@ -48,16 +49,10 @@ wp.customize("nav_theme", (value) => {
 wp.customize("accent_color", (value) => {
     value.bind(() => {
         updateAccentStyles();
-        /*
-        $("#zthemename-inline-css").html((index, currentcontent) => {
-            return currentcontent.replace(/(--global--color-accent:\s)#[\d\w]+/, `$1${to}`);
-        });
-        */
     });
 });
 
 // Navbar color.
-/*
 wp.customize("header_footer_button_outline", (value) => {
     value.bind((to) => {
         const new_class = to ? "is-style-outline" : "";
@@ -67,4 +62,3 @@ wp.customize("header_footer_button_outline", (value) => {
             .addClass(new_class);
     });
 });
-*/

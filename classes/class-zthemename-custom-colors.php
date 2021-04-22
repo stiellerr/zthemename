@@ -27,24 +27,9 @@ class Zthemename_Custom_Colors {
 		// Enqueue color variables for editor.
 		// add_action( 'enqueue_block_editor_assets', array( $this, 'editor_custom_color_variables' ) );
 
-		// Add body-class if needed.
-		// add_filter( 'body_class', array( $this, 'body_class' ) );
 	}
 
-	/**
-	 * Determine the luminance of the given color and then return #fff or #000 so that the text is always readable.
-	 *
-	 * @access public
-	 *
-	 * @param string $background_color The background color.
-	 *
-	 * @since Twenty Twenty-One 1.0
-	 *
-	 * @return string (hex color)
-	 */
-	public function custom_get_readable_color( $background_color ) {
-		return ( 127 < self::get_relative_luminance_from_hex( $background_color ) ) ? '#000' : '#fff';
-	}
+
 
 	/**
 	 * Generate color variables.
@@ -64,31 +49,31 @@ class Zthemename_Custom_Colors {
 	public function generate_custom_color_variables( $context = null ) {
 
 		$theme_css = 'editor' === $context ? ':root .editor-styles-wrapper{' : ':root{';
-		// $background_color = get_theme_mod( 'background_color', 'D1E4DD' );
-		$accent_color = get_theme_mod( 'accent_color', '#0d6efd' );
-		$head_foot_color    = get_theme_mod( 'header_footer_background_color', '#ffffff' );
+		
+		// header/footer background.
+		$header_footer_color = get_theme_mod( 'header_footer_background_color', '#ffffff' );
+		$theme_css .= "--global--color-header-footer: {$header_footer_color};";
 
-		$theme_css .= '--global--color-accent: ' . $accent_color . ';';
-		$theme_css .= '--global--color-head-foot: ' . $head_foot_color . ';';
-		$theme_css .= '--global--color-head-foot-accent: #jjjjjj;';
+		// Get the value from the theme-mod.
+		$accent_colors = get_theme_mod(
+			'accent_colors',
+			array(
+				'content' => array(
+					'accent'       => '#0d6efd',
+					'accent-hover' => '#0d6efd',
+				),
+				'header-footer' => array(
+					'accent'       => '#0d6efd',
+					'accent-hover' => '#0d6efd',
+				),
+			)
+		);
 
-
-		/*
-		if ( 'd1e4dd' !== strtolower( $background_color ) ) {
-			
-			$theme_css .= '--global--color-background: #' . $background_color . ';';
-			$theme_css .= '--global--color-primary: ' . $this->custom_get_readable_color( $background_color ) . ';';
-			$theme_css .= '--global--color-secondary: ' . $this->custom_get_readable_color( $background_color ) . ';';
-			$theme_css .= '--button--color-background: ' . $this->custom_get_readable_color( $background_color ) . ';';
-			$theme_css .= '--button--color-text-hover: ' . $this->custom_get_readable_color( $background_color ) . ';';
-
-			if ( '#fff' === $this->custom_get_readable_color( $background_color ) ) {
-				$theme_css .= '--table--stripes-border-color: rgba(240, 240, 240, 0.15);';
-				$theme_css .= '--table--stripes-background-color: rgba(240, 240, 240, 0.15);';
+		foreach( $accent_colors as $area => $values ) {
+			foreach( $values as $key => $value ) {
+				$theme_css .= "--global--color-{$area}-{$key}: {$value};";
 			}
-			
 		}
-		*/
 
 		$theme_css .= '}';
 
@@ -105,9 +90,7 @@ class Zthemename_Custom_Colors {
 	 * @return void
 	 */
 	public function custom_color_variables() {
-		// if ( 'd1e4dd' !== strtolower( get_theme_mod( 'background_color', 'D1E4DD' ) ) ) {
-			wp_add_inline_style( 'zthemename', $this->generate_custom_color_variables() );
-		// }
+		wp_add_inline_style( 'zthemename', $this->generate_custom_color_variables() );
 	}
 
 	/**
@@ -119,6 +102,7 @@ class Zthemename_Custom_Colors {
 	 *
 	 * @return void
 	 */
+	/*
 	public function editor_custom_color_variables() {
 		wp_enqueue_style(
 			'twenty-twenty-one-custom-color-overrides',
@@ -132,65 +116,5 @@ class Zthemename_Custom_Colors {
 			wp_add_inline_style( 'twenty-twenty-one-custom-color-overrides', $this->generate_custom_color_variables( 'editor' ) );
 		}
 	}
-
-	/**
-	 * Get luminance from a HEX color.
-	 *
-	 * @static
-	 *
-	 * @access public
-	 *
-	 * @since Twenty Twenty-One 1.0
-	 *
-	 * @param string $hex The HEX color.
-	 *
-	 * @return int Returns a number (0-255).
-	 */
-	public static function get_relative_luminance_from_hex( $hex ) {
-
-		// Remove the "#" symbol from the beginning of the color.
-		$hex = ltrim( $hex, '#' );
-
-		// Make sure there are 6 digits for the below calculations.
-		if ( 3 === strlen( $hex ) ) {
-			$hex = substr( $hex, 0, 1 ) . substr( $hex, 0, 1 ) . substr( $hex, 1, 1 ) . substr( $hex, 1, 1 ) . substr( $hex, 2, 1 ) . substr( $hex, 2, 1 );
-		}
-
-		// Get red, green, blue.
-		$red   = hexdec( substr( $hex, 0, 2 ) );
-		$green = hexdec( substr( $hex, 2, 2 ) );
-		$blue  = hexdec( substr( $hex, 4, 2 ) );
-
-		// Calculate the luminance.
-		$lum = ( 0.2126 * $red ) + ( 0.7152 * $green ) + ( 0.0722 * $blue );
-		return (int) round( $lum );
-	}
-
-	/**
-	 * Adds a class to <body> if the background-color is dark.
-	 *
-	 * @access public
-	 *
-	 * @since Twenty Twenty-One 1.0
-	 *
-	 * @param array $classes The existing body classes.
-	 *
-	 * @return array
-	 */
-	public function body_class( $classes ) {
-		$background_color = get_theme_mod( 'background_color', 'D1E4DD' );
-		$luminance        = self::get_relative_luminance_from_hex( $background_color );
-
-		if ( 127 > $luminance ) {
-			$classes[] = 'is-dark-theme';
-		} else {
-			$classes[] = 'is-light-theme';
-		}
-
-		if ( 225 <= $luminance ) {
-			$classes[] = 'has-background-white';
-		}
-
-		return $classes;
-	}
+	*/
 }

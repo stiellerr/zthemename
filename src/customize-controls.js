@@ -11,17 +11,24 @@ const $ = jQuery;
 
 import Zthemename_Colors from "./js/color-calculations.js";
 
-const updateAccentColors = (accent, headerFooterBackground) => {
+const updateAccentColors = (accent, headerFooterBackground, skipContent = false) => {
     // Get the current value for our accessible colors, and make sure it's an object.
     let value = wp.customize("accent_colors").get();
     value = _.isObject(value) && !_.isArray(value) ? value : {};
 
     let colors = new Zthemename_Colors(accent);
 
-    value["content"] = colors.init("#ffffff");
-    value["head-foot"] = colors.init(headerFooterBackground);
+    if (!skipContent) {
+        value["content"] = colors.init("#ffffff");
+    }
+
+    value["header-footer"] = colors.init(headerFooterBackground);
 
     wp.customize("accent_colors").set(value);
+
+    // Small hack to save the option.
+    wp.customize("accent_colors")._dirty = true;
+
     wp.customize("header_footer_button_outline").set(colors.isOutline());
 };
 
@@ -60,7 +67,7 @@ wp.customize.bind("ready", () => {
             wp.customize("nav_theme").set(
                 head_foot_bg_color.getMaxContrastColor()._color ? "navbar-dark" : "navbar-light"
             );
-            updateAccentColors(wp.customize.get().header_footer_background_color, to);
+            updateAccentColors(wp.customize.get().accent_color, to, true);
         });
     });
 
