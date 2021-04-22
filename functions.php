@@ -411,3 +411,32 @@ require_once get_template_directory() . '/classes/class-zthemename-google-map-wi
 require_once get_template_directory() . '/classes/class-zthemename-options-page.php';
 new Zthemename_Options_Page();
 
+/**
+ * Filter the custom logo output. Add blogname if no image found.
+ * 
+ * @param string $html Custom logo HTML output.
+ * @return string
+ */
+function zthemename_get_custom_logo( $html ) {
+
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$blog_name      = get_bloginfo( 'name' );
+	
+	if ( ! $custom_logo_id && $blog_name ) {
+
+		$aria_current = is_front_page() && ! is_paged() ? ' aria-current="page"' : '';
+
+		$html = sprintf(
+			'<a href="%1$s" class="navbar-brand" rel="home"%2$s><h2 class="mb-0">%3$s</h2></a>',
+			esc_url( home_url( '/' ) ),
+			$aria_current,
+			$blog_name
+		);
+	} elseif ( $html ) {
+		$html = str_replace( 'custom-logo-link', 'navbar-brand', $html );
+	}
+
+	return $html;
+}
+
+add_filter( 'get_custom_logo', 'zthemename_get_custom_logo' );

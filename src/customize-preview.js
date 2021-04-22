@@ -15,6 +15,8 @@ wp.customize("header_footer_background_color", (value) => {
         $("#zthemename-inline-css").html((index, currentcontent) => {
             return currentcontent.replace(/(--global--color-head-foot:\s)#[\d\w]+/, `$1${to}`);
         });
+        var zzz = wp.customize("accent_colors").get();
+        console.log(zzz);
     });
 });
 
@@ -44,5 +46,12 @@ wp.customize("header_footer_button_outline", (value) => {
         $(".site-header .wp-block-button, .site-footer .wp-block-button")
             .removeClass("is-style-outline")
             .addClass(new_class);
+    });
+});
+
+// Navbar color.
+wp.customize("accent_colors", (value) => {
+    value.bind((to) => {
+        console.log("zzzz");
     });
 });

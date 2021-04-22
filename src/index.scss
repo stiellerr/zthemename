@@ -171,9 +171,11 @@ img {
     height: auto;
 }
 
+/*
 .custom-logo-link {
     @extend .navbar-brand;
 }
+*/
 
 //nav-item
 
@@ -305,6 +307,15 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
     }
 }
 
+.site-header {
+    .navbar-light .navbar-brand > h2 {
+        color: $navbar-light-color;
+    }
+    .navbar-dark .navbar-brand > h2 {
+        color: $navbar-dark-color;
+    }
+}
+
 .site-footer {
     .navbar-light .widget {
         color: $navbar-light-color;
@@ -314,12 +325,12 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
     }
 }
 
-.custom-logo-link {
+.navbar-brand {
     flex: 1 0 0%;
 }
 
 @media (min-width: 576px) {
-    .custom-logo-link {
+    .navbar-brand {
         flex: initial;
     }
 }

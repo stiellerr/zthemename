@@ -11,12 +11,19 @@ import $ from "jquery";
 
 $(document).on("ready", () => {
     $(".appearance_page_zthemename-options")
-        .on("click", "#sync_places", ({ currentTarget }) => {
+        .on("click", "#download_data", ({ currentTarget }) => {
+            const conf = confirm(
+                "Are you sure ??\nClicking OK will overwrite all existing place data, across your site."
+            );
+
+            if (false === conf) {
+                return;
+            }
+
             let self = $(currentTarget);
-            self.prop("disabled", true);
 
             const data = {
-                action: "sync_data",
+                action: "download_data",
                 _wpnonce: $("input[name='_wpnonce']").val(),
                 _wp_http_referer: $("input[name='_wp_http_referer']").val()
             };
@@ -27,25 +34,30 @@ $(document).on("ready", () => {
                 dataType: "JSON", // Set this so we don't need to decode the response...
                 data,
                 beforeSend: () => {
-                    $(".notice").remove();
+                    self.prop("disabled", true);
+                    $(".wrap > .notice").remove();
                 },
                 success: (response) => {
-                    if (true === response.success) {
-                        $("h1").append('<div class="notice notice-success"><p>Success!</p></div>');
-                    }
+                    const { success } = response;
+                    const message = success ? "Download Successful!" : "zzz to do...";
+
+                    $(".wrap > form").before(
+                        `<div class="notice notice-success"><p>${message}</p></div>`
+                    );
                 },
                 complete: () => {
                     self.prop("disabled", false);
                 },
-                error: ({ responseJSON }) => {
-                    $("h1").append(
-                        '<div class="notice notice-error"><p>Snychronise failed!</p></div>'
+                error: (response) => {
+                    const { status, statusText } = response;
+                    $(".wrap > form").before(
+                        `<div class="notice notice-error"><p>Error ${status}: ${statusText}</p></div>`
                     );
                 }
             });
         })
         //
         .on("input", "#zthemename_options\\[key\\],#zthemename_options\\[place_id\\]", () => {
-            $("#sync_places").prop("disabled", true);
+            $("#download_data").prop("disabled", true);
         });
 });

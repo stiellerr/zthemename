@@ -30,16 +30,12 @@ $button_outline   = get_theme_mod( 'header_footer_button_outline' ) ? ' is-style
 	<nav id="site-navigation" class="navbar navbar-expand-md <?php echo esc_html( get_theme_mod( 'nav_theme', 'navbar-light' ) ); ?>">
 		<div class="container">
 			<?php
-			if ( has_custom_logo() ) {
-				the_custom_logo();
-			} else {
-				echo '<h2>' . esc_html( get_bloginfo( 'name' ) ) . '</h2>';
-			}
+			the_custom_logo();
 			if ( $zthemename_phone ) : 
 				?>
-				<div class="wp-block-button order-md-last me-3 me-sm-0<?php echo esc_attr( $button_outline ); ?>">
-					<a class="wp-block-button__link" href="tel:<?php echo esc_attr( $zthemename_phone ); ?>"><i class="fas fa-phone-alt"data-content="f879">&nbsp;</i><?php echo esc_attr( $zthemename_phone ); ?></a>
-				</div>
+			<div class="wp-block-button order-md-last me-3 me-sm-0<?php echo esc_attr( $button_outline ); ?>">
+				<a class="wp-block-button__link" href="tel:<?php echo esc_attr( $zthemename_phone ); ?>"><i class="fas fa-phone-alt"data-content="f879">&nbsp;</i><?php echo esc_attr( $zthemename_phone ); ?></a>
+			</div>
 			<?php endif; ?>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>

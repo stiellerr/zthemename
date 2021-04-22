@@ -51,13 +51,34 @@ if ( ! class_exists( 'Zthemename_Customizer' ) ) {
 					'transport'         => 'postMessage',
 				)
 			);
+
+			// Add setting to hold colors derived from the accent hue.
+			$wp_customize->add_setting(
+				'accent_colors',
+				array(
+					'capability' => 'edit_theme_options',
+					'default' => array(
+						'content' => array(
+							'accent' => '#0d6efd',
+							'hover'  => '#0d6efd',
+						),
+						'header-footer' => array(
+							'accent' => '#0d6efd',
+							'hover'  => '#0d6efd',
+						),
+					),
+					'type'              => 'theme_mod',
+					'transport'         => 'postMessage',
+					'sanitize_callback' => array( __CLASS__, 'sanitize_accent_colors' ),
+				)
+			);
 		
 			$wp_customize->add_setting(
 				'header_footer_button_outline',
 				array(
 					'capability'        => 'edit_theme_options',
 					'default'           => false,
-					'sanitize_callback' => 'is_bool',
+					'sanitize_callback' => array( __CLASS__, 'sanitize_boolean' ),
 					'transport'         => 'postMessage',
 				)
 			);
@@ -70,12 +91,23 @@ if ( ! class_exists( 'Zthemename_Customizer' ) ) {
 		 * @param object $setting The selected setting.
 		 * @return string The input from the setting or the default setting.
 		 */
-		function sanitize_nav_theme( $input, $setting ) {
+		public static function sanitize_nav_theme( $input, $setting ) {
 			
 			$input   = sanitize_key( $input );
 			$options = array( 'navbar-light', 'navbar-dark' );
 			
 			return ( in_array( $input, $options, true ) ? $input : $setting->default );
+		}
+
+		/**
+		 * Sanitize Boolean.
+		 *
+		 * @param string $input The input from the setting.
+		 * @param object $setting The selected setting.
+		 * @return boolean The input from the setting or the default setting.
+		 */
+		public static function sanitize_boolean( $input, $setting ) {
+			return is_bool( $input ) ? (bool) $input : $setting->default;
 		}
 	}
 

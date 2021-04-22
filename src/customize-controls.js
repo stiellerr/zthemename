@@ -1,4 +1,4 @@
-/* global wp, Color, jQuery */
+/* global wp, Color, jQuery, _ */
 /**
  * File customize-controls.js.
  *
@@ -9,15 +9,20 @@
 
 const $ = jQuery;
 
-const setHeadFootButtonOutline = (head_foot, accent) => {
-    const head_foot_bg_color = new Color(head_foot);
-    const acc_color = new Color(accent);
+import Zthemename_Colors from "./js/color-calculations.js";
 
-    const lum = head_foot_bg_color.getDistanceLuminosityFrom(acc_color);
+const updateAccentColors = (accent, headerFooterBackground) => {
+    // Get the current value for our accessible colors, and make sure it's an object.
+    let value = wp.customize("accent_colors").get();
+    value = _.isObject(value) && !_.isArray(value) ? value : {};
 
-    let outline = 4.5 > lum ? true : false;
+    let colors = new Zthemename_Colors(accent);
 
-    wp.customize("header_footer_button_outline").set(outline);
+    value["content"] = colors.init("#ffffff");
+    value["header-footer"] = colors.init(headerFooterBackground);
+
+    wp.customize("accent_colors").set(value);
+    wp.customize("header_footer_button_outline").set(colors.isOutline());
 };
 
 wp.customize.bind("ready", () => {
@@ -55,14 +60,14 @@ wp.customize.bind("ready", () => {
             wp.customize("nav_theme").set(
                 head_foot_bg_color.getMaxContrastColor()._color ? "navbar-dark" : "navbar-light"
             );
-            setHeadFootButtonOutline(to, wp.customize.get().accent_color);
+            updateAccentColors(wp.customize.get().header_footer_background_color, to);
         });
     });
 
     wp.customize("accent_color", (value) => {
         // Add a listener for navbar color changes.
         value.bind((to) => {
-            setHeadFootButtonOutline(wp.customize.get().header_footer_background_color, to);
+            updateAccentColors(to, wp.customize.get().header_footer_background_color);
         });
     });
 });

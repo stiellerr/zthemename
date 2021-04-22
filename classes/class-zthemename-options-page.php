@@ -23,14 +23,14 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				add_action( 'admin_menu', array( &$this, 'add_menu' ) );
 				add_action( 'admin_init', array( &$this, 'admin_init' ) );
 
-				add_action( 'wp_ajax_sync_data', array( &$this, 'sync_data' ) ); // This is for authenticated users
-				add_action( 'wp_ajax_nopriv_sync_data', array( &$this, 'sync_data' ) ); // This is for unauthenticated users.
+				add_action( 'wp_ajax_download_data', array( &$this, 'download_data' ) ); // This is for authenticated users
+				add_action( 'wp_ajax_nopriv_download_data', array( &$this, 'download_data' ) ); // This is for unauthenticated users.
 
 				$this->options = get_option( 'zthemename_options' );
 			}
 		}
 
-		public function sync_data() {
+		public function download_data() {
 
 			// check ajax source is valid.
 			check_admin_referer( 'zthemename-options-options' );
@@ -214,7 +214,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 		// render button
 		public function render_button( $args ) {
 			if ( $this->options['place_id'] && $this->options['key'] ) {
-				echo '<input id="sync_places" type="button" value="Synchronise Data" class="button button-secondary">';
+				echo '<input id="download_data" type="button" value="Download Data" class="button button-secondary">';
 			}
 		}
 
