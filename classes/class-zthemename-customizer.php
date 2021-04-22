@@ -52,19 +52,19 @@ if ( ! class_exists( 'Zthemename_Customizer' ) ) {
 				)
 			);
 
-			// Add setting to hold colors derived from the accent hue.
+			// Add setting to hold colors derived from the accent.
 			$wp_customize->add_setting(
 				'accent_colors',
 				array(
 					'capability' => 'edit_theme_options',
 					'default' => array(
 						'content' => array(
-							'accent' => '#0d6efd',
-							'hover'  => '#0d6efd',
+							'accent'       => '#0d6efd',
+							'accent-hover' => '#0d6efd',
 						),
-						'header-footer' => array(
-							'accent' => '#0d6efd',
-							'hover'  => '#0d6efd',
+						'head-foot' => array(
+							'accent'       => '#0d6efd',
+							'accent-hover' => '#0d6efd',
 						),
 					),
 					'type'              => 'theme_mod',
@@ -108,6 +108,29 @@ if ( ! class_exists( 'Zthemename_Customizer' ) ) {
 		 */
 		public static function sanitize_boolean( $input, $setting ) {
 			return is_bool( $input ) ? (bool) $input : $setting->default;
+		}
+
+		/**
+		 * Sanitization callback for the "accent_colors" setting.
+		 *
+		 * @static
+		 * @access public
+		 * @param array $value The value we want to sanitize.
+		 * @return array Returns sanitized value. Each item in the array gets sanitized separately.
+		 */
+		public static function sanitize_accent_colors( $value ) {
+
+			// Make sure the value is an array. Do not typecast, use empty array as fallback.
+			$value = is_array( $value ) ? $value : array();
+
+			// Loop values.
+			foreach ( $value as $area => $values ) {
+				foreach ( $values as $context => $color_val ) {
+					$value[ $area ][ $context ] = sanitize_hex_color( $color_val );
+				}
+			}
+
+			return $value;
 		}
 	}
 

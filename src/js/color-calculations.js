@@ -42,7 +42,7 @@ class Zthemename_Color {
     getColorObject() {
         return {
             accent: this._getAccent(),
-            accentHover: this._getAccentHover()
+            "accent-hover": this._getAccentHover()
         };
     }
 }

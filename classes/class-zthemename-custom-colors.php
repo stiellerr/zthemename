@@ -70,6 +70,8 @@ class Zthemename_Custom_Colors {
 
 		$theme_css .= '--global--color-accent: ' . $accent_color . ';';
 		$theme_css .= '--global--color-head-foot: ' . $head_foot_color . ';';
+		$theme_css .= '--global--color-head-foot-accent: #jjjjjj;';
+
 
 		/*
 		if ( 'd1e4dd' !== strtolower( $background_color ) ) {

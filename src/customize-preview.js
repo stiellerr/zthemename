@@ -1,4 +1,4 @@
-/* global wp, jQuery */
+/* global wp, jQuery _ */
 /**
  * File customizer.js.
  *
@@ -9,14 +9,29 @@
 
 const $ = jQuery;
 
+const updateAccentStyles = () => {
+    $("#zthemename-inline-css").html((index, currentcontent) => {
+        //
+        const colors = window.parent.wp.customize("accent_colors").get();
+        // each =>
+        _.each(colors, (obj, context) => {
+            _.each(obj, (val, key) => {
+                let regex = new RegExp(`(--global--color-${context}-${key}:\\s)#[\\d\\w]+`);
+                currentcontent = currentcontent.replace(regex, `$1${val}`);
+            });
+        });
+        //
+        return currentcontent;
+    });
+};
+
 // Navbar color.
 wp.customize("header_footer_background_color", (value) => {
     value.bind((to) => {
         $("#zthemename-inline-css").html((index, currentcontent) => {
             return currentcontent.replace(/(--global--color-head-foot:\s)#[\d\w]+/, `$1${to}`);
         });
-        var zzz = wp.customize("accent_colors").get();
-        console.log(zzz);
+        updateAccentStyles();
     });
 });
 
@@ -31,14 +46,18 @@ wp.customize("nav_theme", (value) => {
 
 // Navbar color.
 wp.customize("accent_color", (value) => {
-    value.bind((to) => {
+    value.bind(() => {
+        updateAccentStyles();
+        /*
         $("#zthemename-inline-css").html((index, currentcontent) => {
             return currentcontent.replace(/(--global--color-accent:\s)#[\d\w]+/, `$1${to}`);
         });
+        */
     });
 });
 
 // Navbar color.
+/*
 wp.customize("header_footer_button_outline", (value) => {
     value.bind((to) => {
         const new_class = to ? "is-style-outline" : "";
@@ -48,10 +67,4 @@ wp.customize("header_footer_button_outline", (value) => {
             .addClass(new_class);
     });
 });
-
-// Navbar color.
-wp.customize("accent_colors", (value) => {
-    value.bind((to) => {
-        console.log("zzzz");
-    });
-});
+*/

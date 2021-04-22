@@ -375,7 +375,7 @@ add_action( 'customize_preview_init', 'zthemename_customize_preview' );
  */
 function zthemename_customize_controls_enqueue_scripts() {
 	wp_enqueue_style( 'wp-color-picker' );
-	wp_enqueue_script( 'zthemename-customize-constrols', get_template_directory_uri() . '/dist/js/customize-controls.js', array( 'customize-controls', 'wp-color-picker' ), _S_VERSION, true );
+	wp_enqueue_script( 'zthemename-customize-controls', get_template_directory_uri() . '/dist/js/customize-controls.js', array( 'customize-controls', 'wp-color-picker', 'underscore' ), _S_VERSION, true );
 }
 add_action( 'customize_controls_enqueue_scripts', 'zthemename_customize_controls_enqueue_scripts' );
 

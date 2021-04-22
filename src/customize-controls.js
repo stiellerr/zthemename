@@ -19,7 +19,7 @@ const updateAccentColors = (accent, headerFooterBackground) => {
     let colors = new Zthemename_Colors(accent);
 
     value["content"] = colors.init("#ffffff");
-    value["header-footer"] = colors.init(headerFooterBackground);
+    value["head-foot"] = colors.init(headerFooterBackground);
 
     wp.customize("accent_colors").set(value);
     wp.customize("header_footer_button_outline").set(colors.isOutline());
