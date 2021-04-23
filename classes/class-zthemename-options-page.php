@@ -65,10 +65,15 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			$result = json_decode( $body )->result;
 
+			write_log( $result );
+
 			// maniuplate place data into our db.
 			// things to explore further...
 			// testimonials.
-			// photos / gallery.
+			// photos / gallery. media_sideload_image
+			//$ttt = media_sideload_image( 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=403&photoreference=ATtYBwKFzcADJXgaBCxpUP8ixBZSfn7yPKpnqV0Gcrv9MM4eVCErhCG60bcQgQdUj7ShL8pw9vatdX9xPIULbvDydRSueqYifMCfYrWuAGRi3N9itn7h2BVboVXqsH2SweGaQ9yj6wg90bVpI5EHA7LDBPchfppLemvmCt20LsS6jC_f8Azd&key=AIzaSyCKPAa7QAk7mOdAzqD64OHmrBMW3hT8998' );
+			//write_log( $ttt );
+
 			// user ratings total.
 			isset( $result->formatted_phone_number ) 
 				&& set_theme_mod( 'phone', $result->formatted_phone_number );
