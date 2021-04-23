@@ -310,7 +310,9 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 .site-header {
     .navbar-brand {
         flex: 1 0 0%;
+        min-width: 0;
         > h2 {
+            white-space: normal;
             color: var(--global--color-header-footer-accent);
         }
     }
@@ -338,9 +340,14 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 }
 
 @media (min-width: 576px) {
-    .navbar-brand {
+    .site-header .navbar-brand {
         flex: initial;
     }
+}
+
+// hide the toggler if there is no nav menu after it.
+#site-navigation > .container > button:last-child {
+    display: none;
 }
 
 // Dark links against a light background
