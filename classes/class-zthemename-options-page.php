@@ -65,14 +65,16 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			$result = json_decode( $body )->result;
 
-			write_log( $result );
+			write_log( $result->photos );
 
 			// maniuplate place data into our db.
 			// things to explore further...
 			// testimonials.
 			// photos / gallery. media_sideload_image
-			//$ttt = media_sideload_image( 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=403&photoreference=ATtYBwKFzcADJXgaBCxpUP8ixBZSfn7yPKpnqV0Gcrv9MM4eVCErhCG60bcQgQdUj7ShL8pw9vatdX9xPIULbvDydRSueqYifMCfYrWuAGRi3N9itn7h2BVboVXqsH2SweGaQ9yj6wg90bVpI5EHA7LDBPchfppLemvmCt20LsS6jC_f8Azd&key=AIzaSyCKPAa7QAk7mOdAzqD64OHmrBMW3hT8998' );
-			//write_log( $ttt );
+			//$ttt1 = media_sideload_image( 'https://www.murraybros.co.nz/images/photo/service/stock-cartage.jpg' );
+			//$ttt2 = media_sideload_image( 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=403&photoreference=ATtYBwKFzcADJXgaBCxpUP8ixBZSfn7yPKpnqV0Gcrv9MM4eVCErhCG60bcQgQdUj7ShL8pw9vatdX9xPIULbvDydRSueqYifMCfYrWuAGRi3N9itn7h2BVboVXqsH2SweGaQ9yj6wg90bVpI5EHA7LDBPchfppLemvmCt20LsS6jC_f8Azd&key=AIzaSyCKPAa7QAk7mOdAzqD64OHmrBMW3hT8998&name=test.jpg' );
+			//write_log( $ttt1 );
+			//write_log( $ttt2 );
 
 			// user ratings total.
 			isset( $result->formatted_phone_number ) 
@@ -120,6 +122,89 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					set_theme_mod( 'opening_hours', $hours );
 			} else {
 				set_theme_mod( 'opening_hours', array() );
+			}
+
+			if ( isset( $result->photos ) ) {
+
+				write_log( 'dowloading photos...' );
+				// download photos into image library.
+				$name = get_bloginfo( 'name' );
+				$title = sanitize_title( $name ) . ".jpg";
+				$api_key = $args[ 'key' ];
+				//
+
+				//$i = 0;
+				foreach ( $result->photos as $photo ) {
+
+					$args = array(
+						'maxwidth' => $photo->width,
+						'photoreference' => $photo->photo_reference,
+						'key' => $api_key
+					);
+
+					// build url
+					$file = add_query_arg(
+						$args,
+						'https://maps.googleapis.com/maps/api/place/photo'
+					);
+
+					write_log( $file );
+					//write_log( $i );
+
+					//if ( $i > -1 ) {
+
+						
+					
+					$file_array         = array();
+					$file_array['name'] = $title;
+			
+					
+					// Download file to temp location.
+					$file_array['tmp_name'] = download_url( $file );
+
+
+					//write_log( $file_array );
+					
+					// If error storing temporarily, return the error.
+					if ( is_wp_error( $file_array['tmp_name'] ) ) {
+						//return $file_array['tmp_name'];
+						continue;
+					}
+
+					// Do the validation and storage stuff.
+					//$id = media_handle_sideload( $file_array, $post_id, $desc );
+					$id = media_handle_sideload( $file_array );
+
+					// If error storing permanently, unlink.
+					if ( is_wp_error( $id ) ) {
+						@unlink( $file_array['tmp_name'] );
+						//return $id;
+						continue;
+					}
+
+					// Store the original attachment source in meta.
+					add_post_meta( $id, '_source_url', $file );
+					
+					//write_log( $request );
+
+					//$title = sanitize_title( get_bloginfo( $name ) );
+					//$url = https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CnRtAAAATLZNl354RwP_9UKbQ_5Psy40texXePv4oAlgP4qNEkdIrkyse7rPXYGd9D_Uj1rVsQdWT4oRz4QrYAJNpFX7rzqqMlZw2h2E2y5IKMUZ7ouD_SlcHxYq1yL4KbKUv3qtWgTK0A6QbGh87GB3sscrHRIQiG2RrmU_jF4tENr9wGS_YxoUSSDrYjWmrNfeEHSGSc3FyhNLlBU&key=YOUR_API_KEY
+
+					//write_log( $photo );
+					//
+					//
+					// mb_convert_case
+					//
+					//
+					//
+					//write_log( $photo->width );
+					//write_log( $photo->height );
+					//write_log( $photo->photo_reference );
+					
+					//}
+					//$i = $i + 1;
+					
+				}
 			}
 
 			wp_send_json_success();

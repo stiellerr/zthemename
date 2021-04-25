@@ -45,6 +45,8 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 		 */
 		load_theme_textdomain( 'zthemename', get_template_directory() . '/languages' );
 
+		set_time_limit( 300 );
+
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
 
