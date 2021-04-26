@@ -413,6 +413,9 @@ require_once get_template_directory() . '/classes/class-zthemename-google-map-wi
 require_once get_template_directory() . '/classes/class-zthemename-options-page.php';
 new Zthemename_Options_Page();
 
+/** Zthemename_Options_Page class */
+require_once get_template_directory() . '/classes/class-zthemename-schema-markup.php';
+
 /**
  * Filter the custom logo output. Add blogname if no image found.
  * 

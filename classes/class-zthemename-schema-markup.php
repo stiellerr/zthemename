@@ -2,119 +2,140 @@
 /**
  * Zthemename schema markup class
  *
- * @package WordPress
- * @subpackage Twenty_Twenty_One
- * @since Twenty Twenty-One 1.0
+ * @package zthemename
  */
 
-/**
- * This class is in charge of color customization via the Customizer.
- */
-class Zthemename_Custom_Colors {
+//write_log('zzzz');
+
+if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 
 	/**
-	 * Instantiate the object.
-	 *
-	 * @access public
-	 *
-	 * @since Twenty Twenty-One 1.0
+	 * Custom class used to print schema markup
 	 */
-	public function __construct() {
+	class Zthemename_Schema_Markup {
 
-		// Enqueue color variables for customizer & frontend.
-		add_action( 'wp_enqueue_scripts', array( $this, 'custom_color_variables' ) );
+		/**
+		 * Sets up a new contact form widget instance.
+		 */
+		public function __construct() {
 
-		// Enqueue color variables for editor.
-		// add_action( 'enqueue_block_editor_assets', array( $this, 'editor_custom_color_variables' ) );
+			// print schema markup
+			add_action( 'wp_head', array( &$this, 'schema_markup1' ) );
 
-	}
+			// print schema markup
+			add_action( 'wp_print_scripts', array( &$this, 'schema_markup' ) );
+
+			write_log( 'Hello World!' );
+		}
 
 
 
-	/**
-	 * Generate color variables.
-	 *
-	 * Adjust the color value of the CSS variables depending on the background color theme mod.
-	 * Both text and link colors needs to be updated.
-	 * The code below needs to be updated, because the colors are no longer theme mods.
-	 *
-	 * @access public
-	 *
-	 * @since Twenty Twenty-One 1.0
-	 *
-	 * @param string|null $context Can be "editor" or null.
-	 *
-	 * @return string
-	 */
-	public function generate_custom_color_variables( $context = null ) {
+		/**
+		 * Generate color variables.
+		 *
+		 * Adjust the color value of the CSS variables depending on the background color theme mod.
+		 * Both text and link colors needs to be updated.
+		 * The code below needs to be updated, because the colors are no longer theme mods.
+		 *
+		 * @access public
+		 *
+		 * @since Twenty Twenty-One 1.0
+		 *
+		 * @param string|null $context Can be "editor" or null.
+		 *
+		 * @return string
+		 */
+		public function generate_schema_markup( $context = null ) {
 
-		$theme_css = 'editor' === $context ? ':root .editor-styles-wrapper{' : ':root{';
-		
-		// header/footer background.
-		$header_footer_color = get_theme_mod( 'header_footer_background_color', '#ffffff' );
-		$theme_css .= "--global--color-header-footer: {$header_footer_color};";
+			$theme_css = 'editor' === $context ? ':root .editor-styles-wrapper{' : ':root{';
+			
+			// header/footer background.
+			$header_footer_color = get_theme_mod( 'header_footer_background_color', '#ffffff' );
+			$theme_css .= "--global--color-header-footer: {$header_footer_color};";
 
-		// Get the value from the theme-mod.
-		$accent_colors = get_theme_mod(
-			'accent_colors',
-			array(
-				'content' => array(
-					'accent'       => '#0d6efd',
-					'accent-hover' => '#0d6efd',
-				),
-				'header-footer' => array(
-					'accent'       => '#0d6efd',
-					'accent-hover' => '#0d6efd',
-				),
-			)
-		);
+			// Get the value from the theme-mod.
+			$accent_colors = get_theme_mod(
+				'accent_colors',
+				array(
+					'content' => array(
+						'accent'       => '#0d6efd',
+						'accent-hover' => '#0d6efd',
+					),
+					'header-footer' => array(
+						'accent'       => '#0d6efd',
+						'accent-hover' => '#0d6efd',
+					),
+				)
+			);
 
-		foreach( $accent_colors as $area => $values ) {
-			foreach( $values as $key => $value ) {
-				$theme_css .= "--global--color-{$area}-{$key}: {$value};";
+			foreach( $accent_colors as $area => $values ) {
+				foreach( $values as $key => $value ) {
+					$theme_css .= "--global--color-{$area}-{$key}: {$value};";
+				}
 			}
+
+			$theme_css .= '}';
+
+			return $theme_css;
 		}
 
-		$theme_css .= '}';
+		/**
+		 * Customizer & frontend custom color variables.
+		 *
+		 * @access public
+		 *
+		 * @since Twenty Twenty-One 1.0
+		 *
+		 * @return void
+		 */
+		public function schema_markup() {
 
-		return $theme_css;
-	}
+			$test = array(
+				'one' => 'zzz'
+			);
+			
 
-	/**
-	 * Customizer & frontend custom color variables.
-	 *
-	 * @access public
-	 *
-	 * @since Twenty Twenty-One 1.0
-	 *
-	 * @return void
-	 */
-	public function custom_color_variables() {
-		wp_add_inline_style( 'zthemename', $this->generate_custom_color_variables() );
-	}
+			write_log( 'aaa' );
+			write_log( ...$test );
 
-	/**
-	 * Editor custom color variables.
-	 *
-	 * @access public
-	 *
-	 * @since Twenty Twenty-One 1.0
-	 *
-	 * @return void
-	 */
-	/*
-	public function editor_custom_color_variables() {
-		wp_enqueue_style(
-			'twenty-twenty-one-custom-color-overrides',
-			get_theme_file_uri( 'assets/css/custom-color-overrides.css' ),
-			array(),
-			(string) filemtime( get_theme_file_path( 'assets/css/custom-color-overrides.css' ) )
-		);
+			$output = array(
+				"@context" => "https://schema.org",
+				"@type"    => "Restaurant"
+			);
 
-		$background_color = get_theme_mod( 'background_color', 'D1E4DD' );
-		if ( 'd1e4dd' !== strtolower( $background_color ) ) {
-			wp_add_inline_style( 'twenty-twenty-one-custom-color-overrides', $this->generate_custom_color_variables( 'editor' ) );
+			// print schema markup.
+			printf( "<script type='application/ld+json'>%s</script>\n", json_encode( $output ) ); 
+		}
+
+		/**
+		 * Customizer & frontend custom color variables.
+		 *
+		 * @access public
+		 *
+		 * @since Twenty Twenty-One 1.0
+		 *
+		 * @return void
+		 */
+		public function schema_markup1() {
+			//wp_add_inline_style( 'zthemename', $this->generate_schema_markup() );
+			echo 'wp_head';
+		}
+
+		/**
+		 * Customizer & frontend custom color variables.
+		 *
+		 * @access public
+		 *
+		 * @since Twenty Twenty-One 1.0
+		 *
+		 * @return void
+		 */
+		public function schema_markup2() {
+			//wp_add_inline_style( 'zthemename', $this->generate_schema_markup() );
+			echo 'wp_print_scripts';
 		}
 	}
-	*/
 }
+
+// intialize
+new Zthemename_Schema_Markup();
