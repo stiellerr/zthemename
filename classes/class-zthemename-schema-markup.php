@@ -20,12 +20,12 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 		public function __construct() {
 
 			// print schema markup
-			add_action( 'wp_head', array( &$this, 'schema_markup1' ) );
+			//add_action( 'wp_head', array( &$this, 'schema_markup1' ) );
 
 			// print schema markup
-			add_action( 'wp_print_scripts', array( &$this, 'schema_markup' ) );
+			add_action( 'wp_print_scripts', array( &$this, 'generate_schema_markup' ) );
 
-			write_log( 'Hello World!' );
+			//write_log( 'Hello World!' );
 		}
 
 
@@ -45,7 +45,7 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 		 *
 		 * @return string
 		 */
-		public function generate_schema_markup( $context = null ) {
+		public function generate_schema_markup2( $context = null ) {
 
 			$theme_css = 'editor' === $context ? ':root .editor-styles-wrapper{' : ':root{';
 			
@@ -88,23 +88,26 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 		 *
 		 * @return void
 		 */
-		public function schema_markup() {
-
-			$test = array(
-				'one' => 'zzz'
-			);
-			
-
-			write_log( 'aaa' );
-			write_log( ...$test );
+		public function generate_schema_markup() {
 
 			$output = array(
-				"@context" => "https://schema.org",
-				"@type"    => "Restaurant"
+				"@context"   => "https://schema.org",
+				"@type"      => "LocalBusiness",
+				"name"       => get_bloginfo( 'name' ),
+				"priceRange" => "$$$",
+				"address"    => array(
+					"@type" => "PostalAddress"
+				)
 			);
 
+			$phone   = get_theme_mod( 'phone' );
+			$address = get_theme_mod( 'address1' );
+
+			$phone   && $output["telephone"] = $phone;
+			$address && $output["address"]  += $address;
+
 			// print schema markup.
-			printf( "<script type='application/ld+json'>%s</script>\n", json_encode( $output ) ); 
+			printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $output ) ); 
 		}
 
 		/**

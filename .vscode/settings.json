@@ -1,6 +1,6 @@
 {
     "editor.formatOnSave": true,
-    "php.validate.executablePath": "C:/MAMP/bin/php/php7.3.7/php.exe",
+    "php.validate.executablePath": "C:/MAMP/bin/php/php7.4.1/php.exe",
     "phpcs.enable": true,
     "phpcs.executablePath": "./vendor/bin/phpcs",
     "phpcs.standard": "./phpcs.xml.dist"

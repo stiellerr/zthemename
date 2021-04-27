@@ -100,6 +100,45 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				$address = preg_replace( '@, @si', "\n", $result->formatted_address );
 				set_theme_mod( 'address', $address );
 			}
+
+			// address new.
+			if ( isset( $result->address_components ) ) {
+
+				//write_log( $result->address_components );
+				
+				$fields = array(
+					'streetAddress' => array( "subpremise", "street_number", "route" ),
+					'addressLocality' => 'locality',
+					'postalCode' => "postal_code",
+					'addressCountry' => "country"
+				);
+
+				$address = array();
+
+				foreach ( $fields as $key => $value ) {
+					// convert string to array
+					if ( is_string( $value ) ) {
+						$value = array( 0 => $value );
+					}
+					foreach( $value as $field ) {
+						foreach( $result->address_components as $element ) {
+							if ( in_array( $field, $element->types ) ) {
+								if ( isset( $address[ $key ] ) ) {
+									write_log( $field );
+									$address[ $key ] .= ( "street_number" === $field ? "/" : " ") . $element->long_name;
+								} else {
+									$address[ $key ] = $element->long_name;
+								}
+							}
+						}
+					}
+				}
+				
+				set_theme_mod( 'address1', $address );
+			}
+			
+			write_log( 'result' );
+			//write_log( $result );
 			
 			if ( isset( $result->opening_hours->weekday_text ) ) {
 				// extract hours, modify format & pump into the db.
@@ -124,7 +163,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				set_theme_mod( 'opening_hours', array() );
 			}
 
-			if ( isset( $result->photos ) ) {
+			if ( !isset( $result->photos ) ) {
 
 				write_log( 'dowloading photos...' );
 				// download photos into image library.
@@ -163,13 +202,15 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					$file_array['tmp_name'] = download_url( $file );
 
 
-					//write_log( $file_array );
+					write_log( $file_array['tmp_name'] );
 					
 					// If error storing temporarily, return the error.
 					if ( is_wp_error( $file_array['tmp_name'] ) ) {
 						//return $file_array['tmp_name'];
+						write_log('bad');
 						continue;
 					}
+					write_log('good');
 
 					// Do the validation and storage stuff.
 					//$id = media_handle_sideload( $file_array, $post_id, $desc );
