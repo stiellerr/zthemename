@@ -95,19 +95,22 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			isset( $result->name ) 
 				&& update_option( 'blogname', $result->name );
 
+			/*
 			if ( isset( $result->formatted_address ) ) {
 				// could also replace out the country here as well, by grabbing it from the address data.
 				$address = preg_replace( '@, @si', "\n", $result->formatted_address );
 				set_theme_mod( 'address', $address );
 			}
+			*/
 
 			// address new.
 			if ( isset( $result->address_components ) ) {
 
-				//write_log( $result->address_components );
+				write_log( $result );
 				
 				$fields = array(
 					'streetAddress' => array( "subpremise", "street_number", "route" ),
+					'sublocality' => 'sublocality',
 					'addressLocality' => 'locality',
 					'postalCode' => "postal_code",
 					'addressCountry' => "country"
@@ -134,7 +137,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					}
 				}
 				
-				set_theme_mod( 'address1', $address );
+				set_theme_mod( 'address', $address );
 			}
 			
 			write_log( 'result' );

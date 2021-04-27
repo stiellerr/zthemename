@@ -34,8 +34,31 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 			$this->web     = get_bloginfo( 'url' );
 			
 			$this->phone   = get_theme_mod( 'phone' );
-			$this->address = get_theme_mod( 'address' );
-			$this->address1 = get_theme_mod( 'address1' );
+			$this->address = $this->generate_address();
+		}
+
+		public function generate_address() {
+			
+			$address = get_theme_mod( 'address' );
+
+			// street address.
+			$return = isset( $address['streetAddress'] ) ? $address['streetAddress'] : '';
+			// sublocality
+			$return .= $return && ( isset( $address['sublocality'] ) ) ?  "\n" . $address['sublocality'] : '';
+			// locality + post code.
+			$return .= $return && ( isset( $address['addressLocality'] ) || isset( $address['postalCode'] ) ) ?  "\n" : '';
+			
+			if ( isset( $address['addressLocality'] ) ) {
+				if ( isset( $address['postalCode'] ) ) {
+					$return .= "{$address['addressLocality']} {$address['postalCode']}";
+				} else {
+					$return .= $address['addressLocality'];
+				}				
+			} elseif( isset( $address['postalCode'] ) ) {
+				$return .= $address['postalCode'];
+			}
+
+			return $return;
 		}
 
 		/**
@@ -59,25 +82,8 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 			}
 
 			// bail if no links found.
-			if ( $this->company || $this->address1 || $this->phone || $this->email || $this->web ) {
-				
-				$address  = isset( $this->address1['streetAddress'] ) ? $this->address1['streetAddress'] : '';
-
-				//$address .= $address && ( $this->address1['addressLocality'] || $this->address1['postalCode'] ) ?  '<br>' : '';
-				//$address .= $this->address1['addressLocality'] ? $this->address1['postalCode'] ? $this->address1['addressLocality'] . ' ' . $this->address1['postalCode'] : $this->address1['addressLocality'] : $this->address1['postalCode'];
-				
-				//$address = 
-					// build address html string...
-					/*
-					$temp = $street_address;
-
-					$temp .= $temp && $suburb ? '<br>' : '';
-					$temp .= $suburb;
-				
-					$temp .= $temp && ( $city || $postal_code ) ? '<br>' : '';
-					$temp .= $city ? $post_code ? $city . ', ' . $post_code : $city : $post_code;
-					*/
-				
+			if ( $this->company || $this->address || $this->phone || $this->email || $this->web ) {
+								
 				$output = '<table><tbody>';
 
 				$output .= $this->company ? 
@@ -85,10 +91,10 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 						'<tr><td><i class="fas fa-user fa-fw" data-content="f007"></i></td><td>%s</td></tr>',
 						esc_attr( $this->company ) ) : '';
 				
-				$output .= $address ? 
+				$output .= $this->address ? 
 					sprintf(
 						'<tr><td><i class="fas fa-map-marker-alt fa-fw" data-content="f3c5"></i></td><td>%s</td></tr>',
-						esc_attr( $address ) ) : '';
+						nl2br( $this->address ) ) : '';
 
 				$output .= $this->phone ? 
 					sprintf(

@@ -101,7 +101,8 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 			);
 
 			$phone   = get_theme_mod( 'phone' );
-			$address = get_theme_mod( 'address1' );
+			$address = get_theme_mod( 'address' );
+			unset( $address['sublocality'] );
 
 			$phone   && $output["telephone"] = $phone;
 			$address && $output["address"]  += $address;
