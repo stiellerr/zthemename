@@ -28,7 +28,29 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 				)
 			);
 			// get opening hours from db.
-			$this->opening_hours = get_theme_mod( 'opening_hours' );
+			$this->opening_hours = $this->generate_hours();
+		}
+
+		public function generate_hours() {
+
+			$hours = get_theme_mod( 'opening_hours' );
+
+			if ( !$hours ) {
+				return false;
+			}
+			
+			$DAYS = array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' );
+			
+			foreach( $DAYS as $day ) {
+				foreach( $hours as $period ) {
+					if ( in_array( $day, $period['dayOfWeek'] ) ) {
+						$return[$day][0] = $period['opens'];
+						$return[$day][1] = $period['closes'];
+					}
+				}				
+			}
+
+			return $return;
 		}
 
 		/**

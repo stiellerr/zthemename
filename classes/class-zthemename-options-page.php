@@ -101,18 +101,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				set_theme_mod( 'priceRange', $priceRange );
 			}
 
-			/*
-			if ( isset( $result->formatted_address ) ) {
-				// could also replace out the country here as well, by grabbing it from the address data.
-				$address = preg_replace( '@, @si', "\n", $result->formatted_address );
-				set_theme_mod( 'address', $address );
-			}
-			*/
-
-			// address new.
 			if ( isset( $result->address_components ) ) {
-
-				//write_log( $result );
 				
 				$fields = array(
 					'streetAddress' => array( "subpremise", "street_number", "route" ),
@@ -142,37 +131,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 						}
 					}
 				}
-				
 				set_theme_mod( 'address', $address );
-			}
-			
-			//write_log( 'result' );
-			//write_log( $result );
-			
-			if ( isset( $result->opening_hours->weekday_text ) ) {
-				// extract hours, modify format & pump into the db.
-				foreach ( $result->opening_hours->weekday_text as $value ) {
-					if ( preg_match( '/\A[A-Z][a-z]+/', $value, $matches ) ) {
-						$day = $matches[0];
-						//if ( preg_match_all( '/\d:\d{2} [AP]M/', $value, $matches ) ) {
-						if ( preg_match_all( '/\d:\d{2}/', $value, $matches ) ) {
-							// modify time format.
-							foreach( $matches[0] as &$match ) {
-								$match = DateTime::createFromFormat( 'h:i', $match )->format( 'H:i' );
-							}
-							$hours[ $day ] = $matches[0];
-						} elseif ( preg_match( '/(?:Closed|Open 24 hours)/', $value, $matches ) ) {
-							$hours[ $day ] = $matches;
-						}
-					}
-				}
-
-				//write_log( $hours );
-
-				isset( $hours ) &&
-					set_theme_mod( 'opening_hours', $hours );
-			} else {
-				set_theme_mod( 'opening_hours', array() );
 			}
 
 			// opening hours...
@@ -191,22 +150,15 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 						),
 						"opens"  => "0000",
 						"closes" => "0000"
-					),
-					array(
-						'dayOfWeek' => array(),
-						"opens"  => "0700",
-						"closes" => "0900"
 					)
 				);
 
 				$DAYS = array( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' );
 
-				write_log( $result->opening_hours->periods );
-
 				foreach ( $result->opening_hours->periods as $period ) {
 					foreach( $hours as $index => &$hour ) {
 						//				
-						if ( $hour['opens'] === $period->open->time || $hour['closes'] === $period->close->time ) {
+						if ( $hour['opens'] === $period->open->time && $hour['closes'] === $period->close->time ) {
 							if ( 0 === $index ) {
 								$period->close->time = '23:59';
 								break;
@@ -223,18 +175,32 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 						}
 					}
 					// add anditional element to the array
-					write_log( $DAYS[ $period->open->day ] );
-					write_log( $period->close->time );
-				}
-			}
+					$hours[] = array(
+						'dayOfWeek' => array(
+							$DAYS[ $period->open->day ]
+						),
+						'opens' => $period->open->time,
+						'closes' => $period->close->time
+					);
 
-			// clean the array up here...
-			//
-			//
-			//
-			//
-			//write_log( json_encode($hours) );
-			//write_log( $hours );
+					array_splice(
+						$hours[0]['dayOfWeek'],
+						array_search( $DAYS[ $period->open->day ], $hours[0]['dayOfWeek'] ),
+						1
+					);
+				}
+				// clean the array up here...
+				// to do change single element day of week arrays to strings
+				foreach( $hours as &$day ) {
+					if ( !$day['dayOfWeek'] ) {
+						array_shift( $hours );
+					}
+					// format
+					$day['opens']  = DateTime::createFromFormat( 'Hi', $day['opens'] )->format( 'H:i' );
+					$day['closes'] = DateTime::createFromFormat( 'Hi', $day['closes'] )->format( 'H:i' );
+				}
+				set_theme_mod( 'opening_hours', $hours );
+			}
 
 			if ( !isset( $result->photos ) ) {
 

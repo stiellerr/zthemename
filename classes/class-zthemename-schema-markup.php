@@ -102,12 +102,20 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 			$phone      = get_theme_mod( 'phone' );
 			$address    = get_theme_mod( 'address' );
 			$priceRange = get_theme_mod( 'priceRange' );
+			$hours      = get_theme_mod( 'opening_hours' );
 			
 			unset( $address['sublocality'] );
 
 			$phone      && $output["telephone"]  = $phone;
 			$address    && $output["address"]   += $address;
 			$priceRange && $output["priceRange"] = $priceRange;
+
+			if ( $hours ) {
+				foreach( $hours as &$period ) {
+					$period["@type"] = "OpeningHoursSpecification";
+				}
+				$output["openingHoursSpecification"] = $hours;
+			}
 
 			// print schema markup.
 			printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $output ) ); 
