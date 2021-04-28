@@ -167,7 +167,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					}
 				}
 
-				write_log( $hours );
+				//write_log( $hours );
 
 				isset( $hours ) &&
 					set_theme_mod( 'opening_hours', $hours );
@@ -178,86 +178,63 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			// opening hours...
 			if ( isset( $result->opening_hours->periods ) ) {
 
-				//$days = array( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' );
-				//$hours = array();
-
-				foreach ( $result->opening_hours->periods as $period ) {
-					
-					//$period->open->day
-
-					$hours = array(
+				$hours = array(
+					array(
 						'dayOfWeek' => array(
-							"Sunday",
 							"Monday",
 							"Tuesday",
 							"Wednesday",
 							"Thursday",
 							"Friday",
-							"Saturday"
+							"Saturday",
+							"Sunday"
 						),
-						"opens"  => "08:00",
-						"closes" => "00:00"
-					);
-
-					//
-					if ( $hours['opens'] !== $period->open->time || $hours['closes'] !== $period->close->time ) {
-						
-						//$period->open->time
-					}
-
-					//$day $period->open->day
-
-					//write_log( json_encode( $hours2 ) );
-					
-					/*
-					$temp = array(
-						'opens'  => DateTime::createFromFormat( 'Hi', $period->open->time )->format( 'H:i' ),
-						'closes' => DateTime::createFromFormat( 'Hi', $period->close->time )->format( 'H:i' )
+						"opens"  => "0000",
+						"closes" => "0000"
+					),
+					array(
+						'dayOfWeek' => array(),
+						"opens"  => "0700",
+						"closes" => "0900"
 					)
-					
-					$hours[ $days[ $period->open->day ] ] = array(
-						'opens'  => DateTime::createFromFormat( 'Hi', $period->open->time )->format( 'H:i' ),
-						'closes' => DateTime::createFromFormat( 'Hi', $period->close->time )->format( 'H:i' )
-					);
-					*/
-				}
-
-				/*
-				$i = array(
-					'dayOfWeek' => null,
-					'opens'		=> '00:00',
-					'closes'	=> '00:00'
 				);
 
-				write_log( $i );
-				*/
+				$DAYS = array( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' );
 
+				write_log( $result->opening_hours->periods );
 
-				// extract hours, modify format & pump into the db.
-				//$hours[] = array(
-
-				//)
-				//write_log( $result->opening_hours->periods );
-				//write_log( $result->opening_hours->weekday_text );
-				
-				//$days => array( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' );
-
-
-
-				/*
-				$temp = array(
-					'dayOfWeek' => array(),
-					'opens' => '',
-					'closes' => ''
-				);
-				
-				
 				foreach ( $result->opening_hours->periods as $period ) {
-					$temp
-					//write_log( $period );
+					foreach( $hours as $index => &$hour ) {
+						//				
+						if ( $hour['opens'] === $period->open->time || $hour['closes'] === $period->close->time ) {
+							if ( 0 === $index ) {
+								$period->close->time = '23:59';
+								break;
+							}
+							// move day to the new array.
+							$hour['dayOfWeek'][] = $DAYS[ $period->open->day ];
+							// remove day from original array.
+							array_splice(
+								$hours[0]['dayOfWeek'],
+								array_search( $DAYS[ $period->open->day ], $hours[0]['dayOfWeek'] ),
+								1
+							);
+							continue 2;
+						}
+					}
+					// add anditional element to the array
+					write_log( $DAYS[ $period->open->day ] );
+					write_log( $period->close->time );
 				}
-				*/
 			}
+
+			// clean the array up here...
+			//
+			//
+			//
+			//
+			//write_log( json_encode($hours) );
+			//write_log( $hours );
 
 			if ( !isset( $result->photos ) ) {
 
