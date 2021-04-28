@@ -65,7 +65,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			$result = json_decode( $body )->result;
 
-			write_log( $result->photos );
+			//write_log( $result->photos );
 
 			// maniuplate place data into our db.
 			// things to explore further...
@@ -95,6 +95,12 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			isset( $result->name ) 
 				&& update_option( 'blogname', $result->name );
 
+			// price range.
+			if ( isset( $result->price_level ) ) {
+				$priceRange = str_repeat( '$', $result->price_level );
+				set_theme_mod( 'priceRange', $priceRange );
+			}
+
 			/*
 			if ( isset( $result->formatted_address ) ) {
 				// could also replace out the country here as well, by grabbing it from the address data.
@@ -106,7 +112,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			// address new.
 			if ( isset( $result->address_components ) ) {
 
-				write_log( $result );
+				//write_log( $result );
 				
 				$fields = array(
 					'streetAddress' => array( "subpremise", "street_number", "route" ),
@@ -127,7 +133,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 						foreach( $result->address_components as $element ) {
 							if ( in_array( $field, $element->types ) ) {
 								if ( isset( $address[ $key ] ) ) {
-									write_log( $field );
+									//write_log( $field );
 									$address[ $key ] .= ( "street_number" === $field ? "/" : " ") . $element->long_name;
 								} else {
 									$address[ $key ] = $element->long_name;
@@ -140,7 +146,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				set_theme_mod( 'address', $address );
 			}
 			
-			write_log( 'result' );
+			//write_log( 'result' );
 			//write_log( $result );
 			
 			if ( isset( $result->opening_hours->weekday_text ) ) {
@@ -148,10 +154,11 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				foreach ( $result->opening_hours->weekday_text as $value ) {
 					if ( preg_match( '/\A[A-Z][a-z]+/', $value, $matches ) ) {
 						$day = $matches[0];
-						if ( preg_match_all( '/\d:\d{2} [AP]M/', $value, $matches ) ) {
+						//if ( preg_match_all( '/\d:\d{2} [AP]M/', $value, $matches ) ) {
+						if ( preg_match_all( '/\d:\d{2}/', $value, $matches ) ) {
 							// modify time format.
 							foreach( $matches[0] as &$match ) {
-								$match = DateTime::createFromFormat( 'h:i A', $match )->format( 'H:i' );
+								$match = DateTime::createFromFormat( 'h:i', $match )->format( 'H:i' );
 							}
 							$hours[ $day ] = $matches[0];
 						} elseif ( preg_match( '/(?:Closed|Open 24 hours)/', $value, $matches ) ) {
@@ -160,15 +167,101 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					}
 				}
 
+				write_log( $hours );
+
 				isset( $hours ) &&
 					set_theme_mod( 'opening_hours', $hours );
 			} else {
 				set_theme_mod( 'opening_hours', array() );
 			}
 
+			// opening hours...
+			if ( isset( $result->opening_hours->periods ) ) {
+
+				//$days = array( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' );
+				//$hours = array();
+
+				foreach ( $result->opening_hours->periods as $period ) {
+					
+					//$period->open->day
+
+					$hours = array(
+						'dayOfWeek' => array(
+							"Sunday",
+							"Monday",
+							"Tuesday",
+							"Wednesday",
+							"Thursday",
+							"Friday",
+							"Saturday"
+						),
+						"opens"  => "08:00",
+						"closes" => "00:00"
+					);
+
+					//
+					if ( $hours['opens'] !== $period->open->time || $hours['closes'] !== $period->close->time ) {
+						
+						//$period->open->time
+					}
+
+					//$day $period->open->day
+
+					//write_log( json_encode( $hours2 ) );
+					
+					/*
+					$temp = array(
+						'opens'  => DateTime::createFromFormat( 'Hi', $period->open->time )->format( 'H:i' ),
+						'closes' => DateTime::createFromFormat( 'Hi', $period->close->time )->format( 'H:i' )
+					)
+					
+					$hours[ $days[ $period->open->day ] ] = array(
+						'opens'  => DateTime::createFromFormat( 'Hi', $period->open->time )->format( 'H:i' ),
+						'closes' => DateTime::createFromFormat( 'Hi', $period->close->time )->format( 'H:i' )
+					);
+					*/
+				}
+
+				/*
+				$i = array(
+					'dayOfWeek' => null,
+					'opens'		=> '00:00',
+					'closes'	=> '00:00'
+				);
+
+				write_log( $i );
+				*/
+
+
+				// extract hours, modify format & pump into the db.
+				//$hours[] = array(
+
+				//)
+				//write_log( $result->opening_hours->periods );
+				//write_log( $result->opening_hours->weekday_text );
+				
+				//$days => array( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' );
+
+
+
+				/*
+				$temp = array(
+					'dayOfWeek' => array(),
+					'opens' => '',
+					'closes' => ''
+				);
+				
+				
+				foreach ( $result->opening_hours->periods as $period ) {
+					$temp
+					//write_log( $period );
+				}
+				*/
+			}
+
 			if ( !isset( $result->photos ) ) {
 
-				write_log( 'dowloading photos...' );
+				//write_log( 'dowloading photos...' );
 				// download photos into image library.
 				$name = get_bloginfo( 'name' );
 				$title = sanitize_title( $name ) . ".jpg";
@@ -190,7 +283,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 						'https://maps.googleapis.com/maps/api/place/photo'
 					);
 
-					write_log( $file );
+					//write_log( $file );
 					//write_log( $i );
 
 					//if ( $i > -1 ) {
@@ -205,15 +298,15 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					$file_array['tmp_name'] = download_url( $file );
 
 
-					write_log( $file_array['tmp_name'] );
+					//write_log( $file_array['tmp_name'] );
 					
 					// If error storing temporarily, return the error.
 					if ( is_wp_error( $file_array['tmp_name'] ) ) {
 						//return $file_array['tmp_name'];
-						write_log('bad');
+						//write_log('bad');
 						continue;
 					}
-					write_log('good');
+					//write_log('good');
 
 					// Do the validation and storage stuff.
 					//$id = media_handle_sideload( $file_array, $post_id, $desc );

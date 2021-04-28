@@ -94,18 +94,20 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 				"@context"   => "https://schema.org",
 				"@type"      => "LocalBusiness",
 				"name"       => get_bloginfo( 'name' ),
-				"priceRange" => "$$$",
 				"address"    => array(
 					"@type" => "PostalAddress"
 				)
 			);
 
-			$phone   = get_theme_mod( 'phone' );
-			$address = get_theme_mod( 'address' );
+			$phone      = get_theme_mod( 'phone' );
+			$address    = get_theme_mod( 'address' );
+			$priceRange = get_theme_mod( 'priceRange' );
+			
 			unset( $address['sublocality'] );
 
-			$phone   && $output["telephone"] = $phone;
-			$address && $output["address"]  += $address;
+			$phone      && $output["telephone"]  = $phone;
+			$address    && $output["address"]   += $address;
+			$priceRange && $output["priceRange"] = $priceRange;
 
 			// print schema markup.
 			printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $output ) ); 
