@@ -44,6 +44,15 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 			foreach( $DAYS as $day ) {
 				foreach( $hours as $period ) {
 					if ( in_array( $day, $period['dayOfWeek'] ) ) {
+						if ( '00:00' === $period['opens'] ) {
+							if ( '00:00' === $period['closes'] ) {
+								$return[$day][0] = 'Closed';
+							}
+							if ( '23:59' === $period['closes'] ) {
+								$return[$day][0] = 'Open 24 hours';
+							}
+							continue;
+						}
 						$return[$day][0] = $period['opens'];
 						$return[$day][1] = $period['closes'];
 					}

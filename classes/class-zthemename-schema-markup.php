@@ -99,11 +99,19 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 				)
 			);
 
+			//
 			$phone      = get_theme_mod( 'phone' );
 			$address    = get_theme_mod( 'address' );
 			$priceRange = get_theme_mod( 'priceRange' );
 			$hours      = get_theme_mod( 'opening_hours' );
 			$geo        = get_theme_mod( 'geo' );
+			
+			$options    = get_option( 'zthemename_options' );
+			$socials    = $options ? $options['social_media'] : false;
+
+			// strip values and not emptys.
+			$socials && $socials = array_filter( array_values( $socials ) );
+			$socials && $output["sameAs"]  = $socials;
 			
 			unset( $address['sublocality'] );
 

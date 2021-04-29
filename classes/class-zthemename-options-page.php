@@ -139,6 +139,8 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				set_theme_mod( 'address', $address );
 			}
 
+			write_log( $result );
+
 			// opening hours...
 			if ( isset( $result->opening_hours->periods ) ) {
 
@@ -165,7 +167,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 						//				
 						if ( $hour['opens'] === $period->open->time && $hour['closes'] === $period->close->time ) {
 							if ( 0 === $index ) {
-								$period->close->time = '23:59';
+								$period->close->time = '2359';
 								break;
 							}
 							// move day to the new array.
@@ -293,9 +295,6 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			}
 
 			wp_send_json_success();
-
-			//wp_send_json_success( json_decode( $body ) );
-			// wp_send_json_success( $response );
 		}
 
 		public function add_menu() {
@@ -394,7 +393,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				'zthemename-options',
 				'zthemename_socials',
 				array(
-					'label_for' => 'zthemename_options[facebook]',
+					'label_for' => 'zthemename_options[social_media][facebook]',
 					'id'        => 'facebook'
 				)
 			);
@@ -407,7 +406,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				'zthemename-options',
 				'zthemename_socials',
 				array(
-					'label_for' => 'zthemename_options[instagram]',
+					'label_for' => 'zthemename_options[social_media][instagram]',
 					'id'        => 'instagram'
 				)
 			);
@@ -419,7 +418,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				'zthemename-options',
 				'zthemename_socials',
 				array(
-					'label_for' => 'zthemename_options[youtube]',
+					'label_for' => 'zthemename_options[social_media][youtube]',
 					'id'        => 'youtube'
 				)
 			);
@@ -431,7 +430,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				'zthemename-options',
 				'zthemename_socials',
 				array(
-					'label_for' => 'zthemename_options[twitter]',
+					'label_for' => 'zthemename_options[social_media][twitter]',
 					'id'        => 'twitter'
 				)
 			);
@@ -444,7 +443,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 		// render button
 		public function render_button( $args ) {
-			if ( $this->options['place_id'] && $this->options['key'] ) {
+			if ( $this->options && $this->options['place_id'] && $this->options['key'] ) {
 				echo '<input id="download_data" type="button" value="Download Data" class="button button-secondary">';
 			}
 		}
@@ -452,9 +451,9 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 		// render input
 		public function render_url( $args ) {
 			printf( 
-				'<input type="url" id="zthemename_options[%1$s]" name="zthemename_options[%1$s]" value="%2$s" class="regular-text">',
+				'<input type="url" id="zthemename_options[social_media][%1$s]" name="zthemename_options[social_media][%1$s]" value="%2$s" class="regular-text">',
 				esc_attr( $args['id'] ),
-				esc_attr( $this->options[ $args['id'] ] )
+				$this->options ? esc_attr( $this->options['social_media'][$args['id']] ) : ''
 			);
 		}
 
@@ -463,7 +462,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			printf( 
 				'<input type="text" id="zthemename_options[%1$s]" name="zthemename_options[%1$s]" value="%2$s" class="regular-text">',
 				esc_attr( $args['id'] ),
-				esc_attr( $this->options[ $args['id'] ] )
+				$this->options ? esc_attr( $this->options[ $args['id'] ] ) : ''
 			);
 			echo isset( $args['caption'] ) ? $args['caption'] : '';
 		}
@@ -473,7 +472,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			printf( 
 				'<textarea id="zthemename_options[%1$s]" name="zthemename_options[%1$s]" class="large-text code" rows="6">%2$s</textarea>',
 				esc_attr( $args['id'] ),
-				esc_attr( $this->options[ $args['id'] ] )
+				$this->options ? esc_attr( $this->options[ $args['id'] ] ) : ''
 			);
 		}
 		
@@ -506,16 +505,18 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 		public function sanitize_options( $data ) {
 
 			foreach ( $data as $key => $value ) {
-				if ( in_array( $key, array( 'facebook', 'instagram', 'twitter', 'youtube' ) ) ) {
-					$data[ $key ] = esc_url( $value );
+				if ( 'social_media' === $key ) {
+					foreach( $value as $i => $url ) {
+						$data[ $key ][ $i ] = esc_url( $url );
+					}
 					continue;
 				}
 				if ( 'js_code' === $key ) {
-					$value = strip_tags( $value, '<script>' );
-					if ( preg_match( '@<(script)[^>]*?>.*?</\\1>@si', $value ) ) {
+					$code = strip_tags( $value, '<script>' );
+					if ( preg_match( '@<(script)[^>]*?>.*?</\\1>@si', $code ) ) {
 						// remove line breaks. this could be done where the script is printed to the page?? .
-						$value = preg_replace( '/[\r\n\t ]+/', '', $value );
-						$data[ $key ] = trim( $value );
+						$code = preg_replace( '/[\r\n\t ]+/', '', $code );
+						$data[ $key ] = trim( $code );
 					} else {
 						$data[ $key ] = '';
 					}
