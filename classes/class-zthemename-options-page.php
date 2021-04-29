@@ -80,11 +80,15 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			isset( $result->formatted_phone_number ) 
 				&& set_theme_mod( 'phone', $result->formatted_phone_number );
 
-			isset( $result->geometry->location->lat ) 
-				&& set_theme_mod( 'latitude', $result->geometry->location->lat );
-
-			isset( $result->geometry->location->lng ) 
-				&& set_theme_mod( 'longitude', $result->geometry->location->lng );
+			if ( isset( $result->geometry->location->lat ) && isset( $result->geometry->location->lng ) ) {
+				set_theme_mod(
+					'geo',
+					array(
+						'latitude' => $result->geometry->location->lat,
+						'longitude' => $result->geometry->location->lng
+					)
+				);
+			}
 
 			isset( $result->url ) 
 				&& set_theme_mod( 'map_url', $result->url );
@@ -107,6 +111,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					'streetAddress' => array( "subpremise", "street_number", "route" ),
 					'sublocality' => 'sublocality',
 					'addressLocality' => 'locality',
+					"addressRegion" => "administrative_area_level_1",
 					'postalCode' => "postal_code",
 					'addressCountry' => "country"
 				);
@@ -316,25 +321,6 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			);
 
 			add_settings_section(
-				'zthemename_google_analytics',
-				__( 'Google Analytics', 'zthemename' ),
-				array( &$this, 'render_void' ),
-				'zthemename-options'
-			);
-
-			add_settings_field( 
-				'js_code',
-				__( 'Javascript Code', 'zthemename' ),
-				array( &$this, 'render_textarea' ),
-				'zthemename-options',
-				'zthemename_google_analytics',
-				array(
-					'label_for' => 'zthemename_options[js_code]',
-					'id'        => 'js_code',
-				)
-			);
-
-			add_settings_section(
 				'zthemename_google',
 				__( 'Google Settings', 'zthemename' ),
 				array( &$this, 'render_void' ),
@@ -374,6 +360,81 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				'zthemename-options',
 				'zthemename_google'
 			);
+
+			add_settings_section(
+				'zthemename_google_analytics',
+				__( 'Google Analytics', 'zthemename' ),
+				array( &$this, 'render_void' ),
+				'zthemename-options'
+			);
+
+			add_settings_field( 
+				'js_code',
+				__( 'Javascript Code', 'zthemename' ),
+				array( &$this, 'render_textarea' ),
+				'zthemename-options',
+				'zthemename_google_analytics',
+				array(
+					'label_for' => 'zthemename_options[js_code]',
+					'id'        => 'js_code',
+				)
+			);
+
+			add_settings_section(
+				'zthemename_socials',
+				__( 'Social Media URL\'s', 'zthemename' ),
+				array( &$this, 'render_void' ),
+				'zthemename-options'
+			);
+
+			add_settings_field( 
+				'facebook',
+				sprintf( '<i class="fa-lg fa-fw fab fa-facebook"></i>&nbsp;%s', __( 'Facebook', 'zthemename' ) ),
+				array( &$this, 'render_url' ),
+				'zthemename-options',
+				'zthemename_socials',
+				array(
+					'label_for' => 'zthemename_options[facebook]',
+					'id'        => 'facebook'
+				)
+			);
+
+
+			add_settings_field( 
+				'instagram',
+				sprintf( '<i class="fa-lg fa-fw fab fa-instagram"></i>&nbsp;%s', __( 'Instagram', 'zthemename' ) ),
+				array( &$this, 'render_url' ),
+				'zthemename-options',
+				'zthemename_socials',
+				array(
+					'label_for' => 'zthemename_options[instagram]',
+					'id'        => 'instagram'
+				)
+			);
+
+			add_settings_field( 
+				'youtube',
+				sprintf( '<i class="fa-lg fa-fw fab fa-youtube"></i>&nbsp;%s', __( 'Youtube', 'zthemename' ) ),
+				array( &$this, 'render_url' ),
+				'zthemename-options',
+				'zthemename_socials',
+				array(
+					'label_for' => 'zthemename_options[youtube]',
+					'id'        => 'youtube'
+				)
+			);
+
+			add_settings_field( 
+				'twitter',
+				sprintf( '<i class="fa-lg fa-fw fab fa-twitter"></i>&nbsp;%s', __( 'Twitter', 'zthemename' ) ),
+				array( &$this, 'render_url' ),
+				'zthemename-options',
+				'zthemename_socials',
+				array(
+					'label_for' => 'zthemename_options[twitter]',
+					'id'        => 'twitter'
+				)
+			);
 		}
 		
 			// render input
@@ -386,6 +447,15 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			if ( $this->options['place_id'] && $this->options['key'] ) {
 				echo '<input id="download_data" type="button" value="Download Data" class="button button-secondary">';
 			}
+		}
+
+		// render input
+		public function render_url( $args ) {
+			printf( 
+				'<input type="url" id="zthemename_options[%1$s]" name="zthemename_options[%1$s]" value="%2$s" class="regular-text">',
+				esc_attr( $args['id'] ),
+				esc_attr( $this->options[ $args['id'] ] )
+			);
 		}
 
 		// render input
@@ -436,6 +506,10 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 		public function sanitize_options( $data ) {
 
 			foreach ( $data as $key => $value ) {
+				if ( in_array( $key, array( 'facebook', 'instagram', 'twitter', 'youtube' ) ) ) {
+					$data[ $key ] = esc_url( $value );
+					continue;
+				}
 				if ( 'js_code' === $key ) {
 					$value = strip_tags( $value, '<script>' );
 					if ( preg_match( '@<(script)[^>]*?>.*?</\\1>@si', $value ) ) {

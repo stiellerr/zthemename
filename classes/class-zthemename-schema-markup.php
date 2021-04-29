@@ -103,6 +103,7 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 			$address    = get_theme_mod( 'address' );
 			$priceRange = get_theme_mod( 'priceRange' );
 			$hours      = get_theme_mod( 'opening_hours' );
+			$geo        = get_theme_mod( 'geo' );
 			
 			unset( $address['sublocality'] );
 
@@ -115,6 +116,11 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 					$period["@type"] = "OpeningHoursSpecification";
 				}
 				$output["openingHoursSpecification"] = $hours;
+			}
+
+			if ( $geo ) {
+				$geo["@type"]  = "GeoCoordinates";
+				$output["geo"] = $geo;
 			}
 
 			// print schema markup.
