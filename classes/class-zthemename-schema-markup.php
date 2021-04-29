@@ -109,7 +109,6 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 			$options    = get_option( 'zthemename_options' );
 			$socials    = $options ? $options['social_media'] : false;
 
-			// strip values and not emptys.
 			$socials && $socials = array_filter( array_values( $socials ) );
 			$socials && $output["sameAs"]  = $socials;
 			
