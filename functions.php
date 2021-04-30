@@ -445,3 +445,29 @@ function zthemename_get_custom_logo( $html ) {
 }
 
 add_filter( 'get_custom_logo', 'zthemename_get_custom_logo' );
+
+
+/**
+ * Register Reviews custom post type.
+ */
+function zthemename_init() {
+
+	register_post_type(
+		'zthemename_reviews',
+		array(
+			'public' => true,
+			'menu_icon' => 'dashicons-edit-page',
+			'labels' => array(
+				'name' => esc_html__( 'Reviews', 'zthemename' ),
+			),
+			'supports' => array(
+				'title',
+				'editor',
+				'author',
+				'thumbnail',
+			),
+		)
+	);
+}
+
+add_action( 'init', 'zthemename_init' );

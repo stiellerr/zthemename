@@ -49,7 +49,9 @@
 		<!-- This rule does not apply here since the _s prefix should be changed by the theme author. -->
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.ShortPrefixPassed"/>
 	</rule>
-	<rule ref="WPThemeReview"/>
+	<rule ref="WPThemeReview">
+		<exclude name="WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_register_post_type"/>
+	</rule>
 
 	<!--
 	#############################################################################

@@ -139,7 +139,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				set_theme_mod( 'address', $address );
 			}
 
-			write_log( $result );
+			//write_log( $result );
 
 			// opening hours...
 			if ( isset( $result->opening_hours->periods ) ) {
@@ -292,6 +292,32 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					//$i = $i + 1;
 					
 				}
+			}
+
+			write_log( $result->reviews );
+
+			if ( isset( $result->reviews ) ) {
+				foreach( $result->reviews as $review ) {
+
+					$utc_offset = (int) $result->utc_offset * 60;
+					$unix_time 	= (int) $review->time + $utc_offset;
+
+					wp_insert_post(
+						array(
+							'post_content' => $review->text,
+							'post_title' => $review->author_name,
+							'post_type' => 'zthemename_reviews',
+							'post_date' => DateTime::createFromFormat( 'U', $unix_time )->format( 'Y-m-d H:i:s' ),
+						)
+					);
+				}
+			}
+
+			if ( isset( $result->utc_offset ) ) {
+				$utc_hours = (int) $result->utc_offset / 60;
+
+				update_option( 'gmt_offset', $utc_hours );
+				update_option( 'timezone_string', '' );
 			}
 
 			wp_send_json_success();
