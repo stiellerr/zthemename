@@ -90,11 +90,20 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				);
 			}
 
+			write_log( $result );
+
 			isset( $result->url ) 
 				&& set_theme_mod( 'map_url', $result->url );
 
-			isset( $result->rating ) 
-				&& set_theme_mod( 'rating', $result->rating );
+			if ( isset( $result->rating ) && isset( $result->user_ratings_total ) ) {
+				set_theme_mod(
+					'rating',
+					array(
+						"ratingValue" => $result->rating,
+						"reviewCount" => $result->user_ratings_total
+					)
+				);
+			}
 
 			isset( $result->name ) 
 				&& update_option( 'blogname', $result->name );
@@ -302,7 +311,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					$utc_offset = (int) $result->utc_offset * 60;
 					$unix_time 	= (int) $review->time + $utc_offset;
 
-					wp_insert_post(
+					$post_id = wp_insert_post(
 						array(
 							'post_content' => $review->text,
 							'post_title' => $review->author_name,
@@ -310,6 +319,35 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 							'post_date' => DateTime::createFromFormat( 'U', $unix_time )->format( 'Y-m-d H:i:s' ),
 						)
 					);
+
+					// download image.
+					$file = $review->profile_photo_url;
+
+					$file_array         = array();
+					$file_array['name'] = sanitize_title( $review->author_name ) . ".png";
+			
+					// Download file to temp location.
+					$file_array['tmp_name'] = download_url( $file );
+
+					// If error storing temporarily, return the error.
+					if ( is_wp_error( $file_array['tmp_name'] ) ) {
+						//return $file_array['tmp_name'];
+						continue;
+					}
+
+					//$desc = 'zzzz';
+
+					// Do the validation and storage stuff.
+    				$id = media_handle_sideload( $file_array, $post_id, $review->author_name );
+
+					// If error storing permanently, unlink.
+    				if ( is_wp_error( $id ) ) {
+        				@unlink( $file_array['tmp_name'] );
+        				//return $id;
+						continue;
+    				}
+
+					set_post_thumbnail( $post_id, $id );
 				}
 			}
 
