@@ -90,6 +90,8 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 		 */
 		public function generate_schema_markup() {
 
+			$start = microtime( true );
+
 			$output = array(
 				"@context"   => "https://schema.org",
 				"@type"      => "LocalBusiness",
@@ -105,6 +107,7 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 			$priceRange = get_theme_mod( 'priceRange' );
 			$hours      = get_theme_mod( 'opening_hours' );
 			$geo        = get_theme_mod( 'geo' );
+			$rating     = get_theme_mod( 'rating' );
 			
 			$options    = get_option( 'zthemename_options' );
 			$socials    = $options ? $options['social_media'] : false;
@@ -120,18 +123,51 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 
 			if ( $hours ) {
 				foreach( $hours as &$period ) {
-					$period["@type"] = "OpeningHoursSpecification";
+					$period = array( '@type' => "OpeningHoursSpecification" ) + $period;
+					//$period["@type"] = "OpeningHoursSpecification";
 				}
 				$output["openingHoursSpecification"] = $hours;
 			}
-
+			/*
 			if ( $geo ) {
 				$geo["@type"]  = "GeoCoordinates";
 				$output["geo"] = $geo;
 			}
+			*/
+
+			$reviews = get_posts(
+				array(
+					'post_type' => 'zthemename_reviews'
+				)
+			);
+
+			if ( $reviews ) {
+				foreach( $reviews as $review ) {
+					write_log( $review );
+					//$period = array( '@type' => "OpeningHoursSpecification" ) + $period;
+					//$period["@type"] = "OpeningHoursSpecification";
+				}
+				//$output["openingHoursSpecification"] = $hours;
+			}
+
+			//write_log( $reviews );
+
+			$geo    && $output["geo"] = array( "@type" => "GeoCoordinates" ) + $geo;
+			$rating && $output["aggregateRating"] = array( "@type" => "AggregateRating" ) + $rating;
+
+			//if ( $rating ) {
+				//$output["aggregateRating"] = array( "@type" => "AggregateRating" ) + $rating;
+
+				//$rating["@type"]  = "AggregateRating";
+				//$output["aggregateRating"] = $rating;
+			//}
 
 			// print schema markup.
-			printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $output ) ); 
+			printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $output ) );
+
+			write_log( 'elapsed time in seconds' );
+			$elapsed = microtime( true ) - $start;
+			write_log( $elapsed );
 		}
 
 		/**
