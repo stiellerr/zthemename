@@ -65,6 +65,24 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			$result = json_decode( $body )->result;
 
+			$schema = array(
+				"@context"   => "https://schema.org",
+				"@type"      => "LocalBusiness",
+				"@id"        => get_bloginfo( 'url' ),
+				//"name"       => get_bloginfo( 'name' ),
+			);
+
+			if ( isset( $result->name ) ) {
+				update_option( 'blogname', $result->name );
+				$schema['name'] = $result->name;
+			}
+
+			 
+
+			//write_log( $result );
+
+			//set_theme_mod( 'schema', $schema );
+
 			//write_log( $result->photos );
 
 			// maniuplate place data into our db.
@@ -77,43 +95,6 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			//write_log( $ttt2 );
 
 			// user ratings total.
-			isset( $result->formatted_phone_number ) 
-				&& set_theme_mod( 'phone', $result->formatted_phone_number );
-
-			if ( isset( $result->geometry->location->lat ) && isset( $result->geometry->location->lng ) ) {
-				set_theme_mod(
-					'geo',
-					array(
-						'latitude' => $result->geometry->location->lat,
-						'longitude' => $result->geometry->location->lng
-					)
-				);
-			}
-
-			write_log( $result );
-
-			isset( $result->url ) 
-				&& set_theme_mod( 'map_url', $result->url );
-
-			if ( isset( $result->rating ) && isset( $result->user_ratings_total ) ) {
-				set_theme_mod(
-					'rating',
-					array(
-						"ratingValue" => $result->rating,
-						"reviewCount" => $result->user_ratings_total
-					)
-				);
-			}
-
-			isset( $result->name ) 
-				&& update_option( 'blogname', $result->name );
-
-			// price range.
-			if ( isset( $result->price_level ) ) {
-				$priceRange = str_repeat( '$', $result->price_level );
-				set_theme_mod( 'priceRange', $priceRange );
-			}
-
 			if ( isset( $result->address_components ) ) {
 				
 				$fields = array(
@@ -145,8 +126,60 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 						}
 					}
 				}
-				set_theme_mod( 'address', $address );
+				$address && $schema['address'] = array( '@type' => "PostalAddress" ) + $address;
 			}
+
+			if ( isset( $result->geometry->location->lat ) && isset( $result->geometry->location->lng ) ) {
+				$schema['geo']["@type"]     = "GeoCoordinates";
+				$schema['geo']['latitude']  = $result->geometry->location->lat;
+				$schema['geo']['longitude'] = $result->geometry->location->lng;
+			}
+
+			isset( $result->url ) 
+				&& $schema['url'] = $result->url;
+
+			// price range.
+			if ( isset( $result->price_level ) ) {
+				$priceRange = str_repeat( '$', $result->price_level );
+				$schema['priceRange'] = $priceRange;
+			}
+			
+
+
+
+
+
+			isset( $result->formatted_phone_number ) 
+				&& $schema['phone'] = $result->formatted_phone_number;
+
+			isset( $result->international_phone_number ) 
+				&& $schema['telephone'] = $result->international_phone_number;
+			
+
+
+
+
+
+
+
+
+
+
+			/*
+			isset( $result->url ) 
+				&& set_theme_mod( 'map_url', $result->url );
+			*/
+			if ( isset( $result->rating ) && isset( $result->user_ratings_total ) ) {
+				$schema["aggregateRating"]["@type"] = "AggregateRating";
+				$schema["aggregateRating"]["ratingValue"] = $result->rating;
+				$schema["aggregateRating"]["reviewCount"] = $result->user_ratings_total;
+			}
+
+
+
+
+
+
 
 			//write_log( $result );
 
@@ -155,6 +188,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 				$hours = array(
 					array(
+						"@type" => "OpeningHoursSpecification",
 						'dayOfWeek' => array(
 							"Monday",
 							"Tuesday",
@@ -192,6 +226,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					}
 					// add anditional element to the array
 					$hours[] = array(
+						"@type" => "OpeningHoursSpecification",
 						'dayOfWeek' => array(
 							$DAYS[ $period->open->day ]
 						),
@@ -215,8 +250,17 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					$day['opens']  = DateTime::createFromFormat( 'Hi', $day['opens'] )->format( 'H:i' );
 					$day['closes'] = DateTime::createFromFormat( 'Hi', $day['closes'] )->format( 'H:i' );
 				}
-				set_theme_mod( 'opening_hours', $hours );
+				
+				$schema["openingHoursSpecification"] = $hours;
+				
+				
+				
+				//set_theme_mod( 'opening_hours', $hours );
 			}
+
+			set_theme_mod( 'schema', $schema );
+
+			write_log( $result );
 
 			if ( !isset( $result->photos ) ) {
 

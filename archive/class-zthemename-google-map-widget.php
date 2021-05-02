@@ -26,6 +26,17 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 					'customize_selective_refresh' => true,
 				)
 			);
+			// google maps co ordinates.
+			$schema = get_theme_mod( 'schema' );
+			
+			$this->geo	   = isset( $schema['geo'] ) ? $schema['geo'] : false;
+			$this->map_url = isset( $schema['url'] ) ? $schema['url'] : false;
+			
+			unset( $this->geo['@type'] );
+
+			
+
+			//$this->map_url = get_theme_mod( 'map_url' );
 		}
 
 		/**
@@ -47,16 +58,8 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 			if ( $title ) {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
-
-			// google maps co ordinates.
-			$schema = get_theme_mod( 'schema' );
-
-			$geo	 = isset( $schema['geo'] ) ? $schema['geo'] : false;
-			$map_url = isset( $schema['url'] ) ? $schema['url'] : false;
-			
-			unset( $geo['@type'] );
 	
-			if ( $geo ) {
+			if ( $this->geo ) {
 
 				$key = get_option( 'zthemename_options' )['key'];
 	
@@ -65,7 +68,7 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 						'zoom'   => isset( $instance['zoom'] ) ? $instance['zoom'] : 11,
 						'format' => 'jpg',
 						'size'   => '208x180',
-						'center' => implode( ",", $geo ),
+						'center' => implode( ",", $this->geo ),
 						'key'    => $key,
 					);
 					$params['markers'] = $params['center'];
@@ -78,8 +81,8 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 
 					$output = '<img class="border" src="' . $request . '" alt="google map" width="208" height="180">';
 
-					if ( $map_url ) {
-						$output = '<a href="' . $map_url . '" target="_blank">' . $output . '</a>';
+					if ( $this->map_url ) {
+						$output = '<a href="' . $this->map_url . '" target="_blank">' . $output . '</a>';
 					}
 					echo $output;              
 				}
@@ -137,6 +140,17 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 			<p>
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'zthemename' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
+			</p>
+
+			<p>
+				<label for="<?php echo $this->get_field_id( 'latitude' ); ?>"><?php esc_html_e( 'Latitude:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'latitude' ); ?>" type="text" value="<?php echo $this->geo ? esc_attr( $this->geo['latitude'] ) : ''; ?>" readonly>
+				<br/>
+				<label for="<?php echo $this->get_field_id( 'longitude' ); ?>"><?php esc_html_e( 'Longitude:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'longitude' ); ?>" type="text" value="<?php echo $this->geo ? esc_attr( $this->geo['longitude'] ) : ''; ?>" readonly>
+				<br/>
+				<label for="<?php echo $this->get_field_id( 'map_url' ); ?>"><?php esc_html_e( 'Map URL:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'map_url' ); ?>" type="text" value="<?php echo esc_url( $this->map_url ); ?>" readonly>
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'zoom' ); ?>"><?php esc_html_e( 'Zoom Level:', 'zthemename' ); ?></label>

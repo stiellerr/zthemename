@@ -27,6 +27,40 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 					'customize_selective_refresh' => true,
 				)
 			);
+
+			// map theme mods.
+			$this->company = get_bloginfo( 'name' );
+			$this->email   = get_bloginfo( 'admin_email' );
+			$this->web     = get_bloginfo( 'url' );
+			
+			$this->phone   = get_theme_mod( 'phone' );
+			$this->address = $this->generate_address();
+		}
+
+		public function generate_address() {
+
+			$schema = get_theme_mod( 'schema' );
+
+			$address = isset( $schema['address'] ) ? $schema['address'] : false;
+
+			// street address.
+			$return = isset( $address['streetAddress'] ) ? $address['streetAddress'] : '';
+			// sublocality
+			$return .= $return && ( isset( $address['sublocality'] ) ) ?  "\n" . $address['sublocality'] : '';
+			// locality + post code.
+			$return .= $return && ( isset( $address['addressLocality'] ) || isset( $address['postalCode'] ) ) ?  "\n" : '';
+			
+			if ( isset( $address['addressLocality'] ) ) {
+				if ( isset( $address['postalCode'] ) ) {
+					$return .= "{$address['addressLocality']} {$address['postalCode']}";
+				} else {
+					$return .= $address['addressLocality'];
+				}				
+			} elseif( isset( $address['postalCode'] ) ) {
+				$return .= $address['postalCode'];
+			}
+
+			return $return;
 		}
 
 		/**
@@ -49,64 +83,35 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
 
-			// map theme mods.
-			$name  = get_bloginfo( 'name' );
-			$email = get_bloginfo( 'admin_email' );
-			$url   = get_bloginfo( 'url' );
-
-			$schema = get_theme_mod( 'schema' );
-
-			$phone               = isset( $schema['phone'] ) ? $schema['phone'] : false;
-			$international_phone = isset( $schema['telephone'] ) ? $schema['telephone'] : false;
-			$address             = isset( $schema['address'] ) ? $schema['address'] : false;
-
-			// street address.
-			$temp = isset( $address['streetAddress'] ) ? $address['streetAddress'] : '';
-			// sublocality
-			$temp .= $temp && ( isset( $address['sublocality'] ) ) ?  "\n" . $address['sublocality'] : '';
-			// locality + post code.
-			$temp .= $temp && ( isset( $address['addressLocality'] ) || isset( $address['postalCode'] ) ) ?  "\n" : '';
-			
-			if ( isset( $address['addressLocality'] ) ) {
-				if ( isset( $address['postalCode'] ) ) {
-					$temp .= "{$address['addressLocality']} {$address['postalCode']}";
-				} else {
-					$temp .= $address['addressLocality'];
-				}				
-			} elseif( isset( $address['postalCode'] ) ) {
-				$temp .= $address['postalCode'];
-			}
-
-			// bail if no address info found.
-			if ( $name || $temp || $phone || $email || $url ) {
+			// bail if no links found.
+			if ( $this->company || $this->address || $this->phone || $this->email || $this->web ) {
 								
 				$output = '<table><tbody>';
 
-				$output .= $name ? 
+				$output .= $this->company ? 
 					sprintf(
 						'<tr><td><i class="fas fa-user fa-fw" data-content="f007"></i></td><td>%s</td></tr>',
-						esc_attr( $name ) ) : '';
+						esc_attr( $this->company ) ) : '';
 				
-				$output .= $temp ? 
+				$output .= $this->address ? 
 					sprintf(
 						'<tr><td><i class="fas fa-map-marker-alt fa-fw" data-content="f3c5"></i></td><td>%s</td></tr>',
-						nl2br( $temp ) ) : '';
+						nl2br( $this->address ) ) : '';
 
-				$output .= $phone ? 
+				$output .= $this->phone ? 
 					sprintf(
-						'<tr><td><i class="fas fa-phone-alt fa-fw" data-content="f879"></i></td><td><a href="tel:%1$s">%2$s</a></td></tr>',
-						esc_attr( $international_phone ),
-						esc_attr( $phone ) ) : '';
+						'<tr><td><i class="fas fa-phone-alt fa-fw" data-content="f879"></i></td><td><a href="tel:%1$s">%1$s</a></td></tr>',
+						esc_attr( $this->phone ) ) : '';
 
-				$output .= $email ? 
+				$output .= $this->email ? 
 					sprintf(
 						'<tr><td><i class="fas fa-envelope fa-fw" data-content="f0e0"></i></td><td><a href="mailto:%1$s">%1$s</a></td></tr>',
-						esc_attr( $email ) ) : '';
+						esc_attr( $this->email ) ) : '';
 
-				$output .= $url ? 
+				$output .= $this->web ? 
 					sprintf(
 						'<tr><td><i class="fas fa-globe fa-fw" data-content="f0ac"></i></td><td><a href="%1$s">%1$s</a></td></tr>',
-						esc_attr( $url ) ) : '';
+						esc_attr( $this->web ) ) : '';
 
 				$output .= '</tbody></table>';
 
@@ -134,6 +139,22 @@ if ( ! class_exists( 'zthemename_Contact_Details_Widget' ) ) {
 			<p>
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'zthemename' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>">
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'company' ); ?>"><?php esc_html_e( 'Company Name:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'company' ); ?>" type="text" value="<?php echo esc_attr( $this->company ); ?>" readonly>
+				<br/>
+				<label for="<?php echo $this->get_field_id( 'address' ); ?>"><?php esc_html_e( 'Address:', 'zthemename' ); ?></label>
+				<textarea class="widefat" rows="4" id="<?php echo $this->get_field_id( 'address' ); ?>"readonly><?php echo esc_attr( $this->address ); ?></textarea>
+				<br/>
+				<label for="<?php echo $this->get_field_id( 'phone' ); ?>"><?php esc_html_e( 'Phone:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'phone' ); ?>" type="text" value="<?php echo esc_attr( $this->phone ); ?>" readonly>
+				<br/>
+				<label for="<?php echo $this->get_field_id( 'email' ); ?>"><?php esc_html_e( 'Email:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'email' ); ?>" type="text" value="<?php echo esc_attr( $this->email ); ?>" readonly>
+				<br/>
+				<label for="<?php echo $this->get_field_id( 'web' ); ?>"><?php esc_html_e( 'Web:', 'zthemename' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'web' ); ?>" type="text" value="<?php echo esc_url( $this->web ); ?>" readonly>
 			</p>
 			<p>
 				<?php

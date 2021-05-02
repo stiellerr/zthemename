@@ -90,7 +90,9 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 		 */
 		public function generate_schema_markup() {
 
+			
 			$start = microtime( true );
+			/*
 
 			$output = array(
 				"@context"   => "https://schema.org",
@@ -128,6 +130,7 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 				}
 				$output["openingHoursSpecification"] = $hours;
 			}
+			*/
 			/*
 			if ( $geo ) {
 				$geo["@type"]  = "GeoCoordinates";
@@ -135,6 +138,7 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 			}
 			*/
 
+			/*
 			$reviews = get_posts(
 				array(
 					'post_type' => 'zthemename_reviews'
@@ -149,21 +153,28 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 				}
 				//$output["openingHoursSpecification"] = $hours;
 			}
+			*/
 
 			//write_log( $reviews );
-
+			/*
 			$geo    && $output["geo"] = array( "@type" => "GeoCoordinates" ) + $geo;
 			$rating && $output["aggregateRating"] = array( "@type" => "AggregateRating" ) + $rating;
-
+			*/
 			//if ( $rating ) {
 				//$output["aggregateRating"] = array( "@type" => "AggregateRating" ) + $rating;
 
 				//$rating["@type"]  = "AggregateRating";
 				//$output["aggregateRating"] = $rating;
 			//}
+			$schema = get_theme_mod( 'schema' );
+
+			unset( $schema['address']['sublocality'] );
+			unset( $schema['phone'] );
+
+			//$schema && 
 
 			// print schema markup.
-			printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $output ) );
+			printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $schema ) );
 
 			write_log( 'elapsed time in seconds' );
 			$elapsed = microtime( true ) - $start;

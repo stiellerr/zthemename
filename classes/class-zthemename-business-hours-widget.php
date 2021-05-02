@@ -27,39 +27,6 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 					'customize_selective_refresh' => true,
 				)
 			);
-			// get opening hours from db.
-			$this->opening_hours = $this->generate_hours();
-		}
-
-		public function generate_hours() {
-
-			$hours = get_theme_mod( 'opening_hours' );
-
-			if ( !$hours ) {
-				return false;
-			}
-			
-			$DAYS = array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' );
-			
-			foreach( $DAYS as $day ) {
-				foreach( $hours as $period ) {
-					if ( in_array( $day, $period['dayOfWeek'] ) ) {
-						if ( '00:00' === $period['opens'] ) {
-							if ( '00:00' === $period['closes'] ) {
-								$return[$day][0] = 'Closed';
-							}
-							if ( '23:59' === $period['closes'] ) {
-								$return[$day][0] = 'Open 24 hours';
-							}
-							continue;
-						}
-						$return[$day][0] = $period['opens'];
-						$return[$day][1] = $period['closes'];
-					}
-				}				
-			}
-
-			return $return;
 		}
 
 		/**
@@ -82,17 +49,36 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
 
-			if ( $this->opening_hours ) {
+			$schema = get_theme_mod( 'schema' );
+
+			$hours = isset( $schema['openingHoursSpecification'] ) ? $schema['openingHoursSpecification'] : false;
+
+			if ( $hours ) {
+				
+				$DAYS = array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' );
+
 				$output = '<table><tbody>';
-				foreach ( $this->opening_hours as $key => $value ) {
-					$output .= '<tr><td>' . $key . '</td>';
-					if ( 1 < count( $value ) ) {
-						$output .= '<td><time>' . $value[0] . '</time>' . wptexturize(' - ') . '<time>' . $value[1] . '</time></td>';
-					} else {
-						$output .= '<td><time>' . $value[0] . '</time></td>';
-					}
-					$output .= '</tr>';
+			
+				foreach( $DAYS as $day ) {
+					$output .= '<tr><td>' . $day . '</td>';
+					foreach( $hours as $period ) {
+						if ( in_array( $day, $period['dayOfWeek'] ) ) {
+							if ( '00:00' === $period['opens'] ) {
+								if ( '00:00' === $period['closes'] ) {
+									$output .= '<td>Closed</td></tr>';
+									continue 2;
+								}
+								if ( '23:59' === $period['closes'] ) {
+									$output .= '<td>Open 24 hours</td></tr>';
+									continue 2;
+								}
+							}
+							$output .= '<td><time>' . $period['opens'] . '</time>' . wptexturize(' - ') . '<time>' . $period['closes'] . '</time></td></tr>';
+							continue 2;
+						}
+					}				
 				}
+
 				$output .= '</tbody></table>';
 				echo $output;
 			}
@@ -118,56 +104,7 @@ if ( ! class_exists( 'zthemename_Business_Hours_Widget' ) ) {
 			<p>
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'zthemename' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>">
-			</p>
-			<div>
-				<div>&nbsp;</div>
-				<div><?php esc_html_e( 'Open', 'zthemename' ); ?></div>
-				<div><?php esc_html_e( 'Close', 'zthemename' ); ?></div>
-			</div>
-
-			<div>
-				<div><?php esc_html_e( 'Monday:', 'zthemename');  ?></div>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Monday'][0] ) ? $this->opening_hours['Monday'][0] : ''; ?>" readonly>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Monday'][1] ) ? $this->opening_hours['Monday'][1] : ''; ?>" readonly>
-			</div>
-
-			<div>
-				<div><?php esc_html_e( 'Tuesday:', 'zthemename' ); ?></div>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Tuesday'][0] ) ? $this->opening_hours['Tuesday'][0] : ''; ?>" readonly>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Tuesday'][1] ) ? $this->opening_hours['Tuesday'][1] : ''; ?>" readonly>
-			</div>
-
-			<div>
-				<div><?php esc_html_e( 'Wednesday:', 'zthemename' ); ?></div>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Wednesday'][0] ) ? $this->opening_hours['Wednesday'][0] : ''; ?>" readonly>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Wednesday'][1] ) ? $this->opening_hours['Wednesday'][1] : ''; ?>" readonly>
-			</div>
-
-			<div>
-				<div><?php esc_html_e( 'Thursday:', 'zthemename' ); ?></div>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Thursday'][0] ) ? $this->opening_hours['Thursday'][0] : ''; ?>" readonly>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Thursday'][1] ) ? $this->opening_hours['Thursday'][1] : ''; ?>" readonly>
-			</div>
-
-			<div>
-				<div><?php esc_html_e( 'Friday:', 'zthemename' ); ?></div>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Friday'][0] ) ? $this->opening_hours['Friday'][0] : ''; ?>" readonly>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Friday'][1] ) ? $this->opening_hours['Friday'][1] : ''; ?>" readonly>
-			</div>
-
-			<div>
-				<div><?php esc_html_e( 'Saturday:', 'zthemename');  ?></div>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Saturday'][0] ) ? $this->opening_hours['Saturday'][0] : ''; ?>" readonly>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Saturday'][1] ) ? $this->opening_hours['Saturday'][1] : ''; ?>" readonly>
-			</div>
-
-			<div>
-				<div><?php esc_html_e( 'Sunday:', 'zthemename');  ?></div>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Sunday'][0] ) ? $this->opening_hours['Sunday'][0] : ''; ?>" readonly>
-				<input type="text" size="9" value="<?php echo isset( $this->opening_hours['Sunday'][1] ) ? $this->opening_hours['Sunday'][1] : ''; ?>" readonly>
-			</div>
-
-			
+			</p>			
 			<p>
 				<?php
 					$url = admin_url( 'themes.php?page=zthemename-options' );
