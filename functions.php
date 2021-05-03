@@ -471,3 +471,66 @@ function zthemename_init() {
 }
 
 add_action( 'init', 'zthemename_init' );
+
+/**
+ * Register Reviews custom post type.
+ * 
+ * @param string $instance zzz.
+ * @param string $new_instance zzz.
+ * @param string $old_instance zzz.
+ * @param string $widget zzz.
+ * @return string
+ */
+function zthemename_widget_update_callback( $instance, $new_instance, $old_instance, $widget ) {
+
+	if ( 'zthemename_social_media' === $widget->id_base ) {
+
+		if ( $instance['facebook'] && $instance['facebook'] === $new_instance['facebook'] ) {
+			
+			$schema = get_theme_mod( 'schema' );
+			
+			write_log( 'instance' );
+			write_log( $instance );
+		
+			write_log( 'new_instance' );
+			write_log( $new_instance );
+		
+			write_log( 'old_instance' );
+			write_log( $old_instance );
+		
+			write_log( 'widget' );
+			write_log( $widget );
+			
+		}
+	}
+	return $instance;
+}
+
+
+add_filter( 'widget_update_callback', 'zthemename_widget_update_callback', 10, 4 );
+
+/**
+ * Register Reviews custom post type.
+ * 
+ * @param string $old_value zzz.
+ * @param string $value zzz.
+ * @param string $option zzz.
+ */
+function update_option_widget_zthemename_social_media( $old_value, $value, $option ) {
+
+	if ( $old_value !== $value ) {
+		wp_ajax_delete_inactive_widgets();
+	}
+	
+	write_log( 'old_value' );
+	write_log( $old_value );
+
+	write_log( 'value' );
+	write_log( $value );
+
+	write_log( 'option' );
+	write_log( $option );
+	
+}
+
+add_action( 'update_option_widget_zthemename_social_media', 'update_option_widget_zthemename_social_media', 10, 3 );

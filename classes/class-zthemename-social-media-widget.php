@@ -27,8 +27,6 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 					'customize_selective_refresh' => true,
 				)
 			);
-			$options = get_option( 'zthemename_options' );
-			$this->socials = $options ? $options['social_media'] : false;
 		}
 
 		/**
@@ -51,36 +49,41 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
 
+			$facebook  = isset( $instance['facebook'] ) ? $instance['facebook'] : '';
+			$instagram = isset( $instance['instagram'] ) ? $instance['instagram'] : '';
+			$twitter   = isset( $instance['twitter'] ) ? $instance['twitter'] : '';
+			$youtube   = isset( $instance['youtube'] ) ? $instance['youtube'] : '';
+
 			// bail if no links found.
-			if ( $this->socials && ( $this->socials['facebook'] || $this->socials['instagram'] || $this->socials['twitter'] || $this->socials['youtube'] )) {
+			if ( $facebook || $instagram || $twitter || $youtube ) {
 				
 				echo '<div>';
 				
-				$this->socials['facebook'] && 
+				$facebook && 
 					printf(
 						'<div><a href="%1$s" target="_blank"><i class="fab fa-facebook-f fa-fw" data-content="f39e"></i>%2$s</a></div>',
-						esc_url( $this->socials['facebook'] ),
+						esc_url( $facebook ),
 						esc_html__( 'Like Us On Facebook', 'zthemename' )
 					);
 			
-				$this->socials['instagram'] && 
+				$instagram && 
 					printf(
 						'<div><a href="%1$s" target="_blank"><i class="fab fa-instagram fa-fw" data-content="f16d"></i>%2$s</a></div>',
-						esc_url( $this->socials['instagram'] ),
+						esc_url( $instagram ),
 						esc_html__( 'Follow Us On Instagram', 'zthemename' )
 					);
 				
-				$this->socials['twitter'] && 
+				$twitter && 
 					printf(
 						'<div><a href="%1$s" target="_blank"><i class="fab fa-twitter fa-fw" data-content="f099"></i>%2$s</a></div>',
-						esc_url( $this->socials['twitter'] ),
+						esc_url( $twitter ),
 						esc_html__( 'Follow Us On Twitter', 'zthemename' )
 					);
 
-				$this->socials['youtube'] &&
+				$youtube &&
 					printf(
 						'<div><a href="%1$s" target="_blank"><i class="fab fa-youtube fa-fw" data-content="f167"></i>%2$s</a></div>',
-						esc_url( $this->socials['youtube'] ),
+						esc_url( $youtube ),
 						esc_html__( 'Our Youtube Channel', 'zthemename' )
 				);			
 
@@ -98,8 +101,23 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 		 * @return array Updated settings to save.
 		 */
 		public function update( $new_instance, $old_instance ) {
-			$instance          = $old_instance;
-			$instance['title'] = sanitize_text_field( $new_instance['title'] );
+
+			$instance             = $old_instance;
+			$new_instance         = wp_parse_args(
+				(array) $new_instance,
+				array(
+					'title'     => '',
+					'facebook'  => '',
+					'instagram' => '',
+					'twitter'   => '',
+					'youtube'   => '',
+				)
+			);
+			$instance['title']     = sanitize_text_field( $new_instance['title'] );
+			$instance['facebook']  = esc_url( $new_instance['facebook'] );
+			$instance['instagram'] = esc_url( $new_instance['instagram'] );
+			$instance['twitter']   = esc_url( $new_instance['twitter'] );
+			$instance['youtube']   = esc_url( $new_instance['youtube'] );
 	
 			return $instance;
 		}
@@ -114,6 +132,10 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 				(array) $instance,
 				array(
 					'title'     => esc_html__( 'Social Media', 'zthemename' ),
+					'facebook'  => '',
+					'instagram' => '',
+					'twitter'   => '',
+					'youtube'   => '',
 				)
 			);
 			?>
@@ -123,23 +145,16 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'facebook' ); ?>"><?php esc_html_e( 'Facebook url:', 'zthemename' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'facebook' ); ?>" type="url" value="<?php echo $this->socials ? esc_url( $this->socials['facebook'] ) : '' ?>" readonly>	
+				<input class="widefat" id="<?php echo $this->get_field_id( 'facebook' ); ?>" name="<?php echo $this->get_field_name( 'facebook' ); ?>" type="url" value="<?php echo esc_url( $instance['facebook'] ); ?>">	
 				<br/>
 				<label for="<?php echo $this->get_field_id( 'instagram' ); ?>"><?php esc_html_e( 'instagram url:', 'zthemename' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'instagram' ); ?>" type="url" value="<?php echo $this->socials ? esc_url( $this->socials['instagram'] ) : '' ?>" readonly>	
+				<input class="widefat" id="<?php echo $this->get_field_id( 'instagram' ); ?>" name="<?php echo $this->get_field_name( 'instagram' ); ?>" type="url" value="<?php echo esc_url( $instance['instagram'] ); ?>">	
 				<br/>
 				<label for="<?php echo $this->get_field_id( 'twitter' ); ?>"><?php esc_html_e( 'twitter url:', 'zthemename' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'twitter' ); ?>" type="url" value="<?php echo $this->socials ? esc_url( $this->socials['twitter'] ) : '' ?>" readonly>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'twitter' ); ?>" name="<?php echo $this->get_field_name( 'twitter' ); ?>" type="url" value="<?php echo esc_url( $instance['twitter'] ); ?>">
 				<br/>
 				<label for="<?php echo $this->get_field_id( 'youtube' ); ?>"><?php esc_html_e( 'youtube url:', 'zthemename' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'youtube' ); ?>" type="url" value="<?php echo $this->socials ? esc_url( $this->socials['youtube'] ) : '' ?>" readonly>		
-			</p>
-			<p>
-				<?php
-					$url = admin_url( 'themes.php?page=zthemename-options' );
-					/* translators: %s: URL to create a new menu. */
-					printf( __( 'Synchronize business details <a href="%s">here</a>.' ), esc_attr( $url ) );
-				?>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'youtube' ); ?>" name="<?php echo $this->get_field_name( 'youtube' ); ?>" type="url" value="<?php echo esc_url( $instance['youtube'] ); ?>">		
 			</p>
 			<?php
 		}
