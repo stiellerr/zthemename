@@ -91,7 +91,7 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 		public function generate_schema_markup() {
 
 			
-			$start = microtime( true );
+			//$start = microtime( true );
 			/*
 
 			$output = array(
@@ -176,9 +176,9 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 			// print schema markup.
 			printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $schema ) );
 
-			write_log( 'elapsed time in seconds' );
-			$elapsed = microtime( true ) - $start;
-			write_log( $elapsed );
+			//write_log( 'elapsed time in seconds' );
+			//$elapsed = microtime( true ) - $start;
+			//write_log( $elapsed );
 		}
 
 		/**

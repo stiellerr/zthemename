@@ -260,7 +260,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			set_theme_mod( 'schema', $schema );
 
-			write_log( $result );
+			//write_log( $result );
 
 			if ( !isset( $result->photos ) ) {
 
@@ -347,7 +347,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				}
 			}
 
-			write_log( $result->reviews );
+			//write_log( $result->reviews );
 
 			if ( isset( $result->reviews ) ) {
 				foreach( $result->reviews as $review ) {
