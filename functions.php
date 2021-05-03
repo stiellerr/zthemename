@@ -479,13 +479,36 @@ add_action( 'init', 'zthemename_init' );
  * @param string $value zzz.
  * @param string $option zzz.
  */
-function zthemename_social_media_update( $old_value, $value, $option ) {
+function zthemename_update_option_sidebars_widgets( $old_value, $value, $option ) {
 
-	$sidebars_widgets = get_option( 'sidebars_widgets' );
-
-	write_log( 'sidebars_widgets' );
-	write_log( $sidebars_widgets );
-	
+	foreach ( $old_value as $key => $sidebar ) {
+		if ( 'sidebar-1' === $key || 'sidebar-2' === $key ) {
+			foreach ( $sidebar as $widget ) {
+				if ( false !== strpos( $widget, 'zthemename_social_media' ) ) {
+					foreach ( $value[ $key ] as $new_widget ) {
+						if ( $widget === $new_widget ) {
+							continue 2;
+						}
+					}
+					write_log( 'zthemename_social_media item deleted.' );
+				}
+			}
+		}
+	}
 }
 
-add_action( 'update_option_widget_zthemename_social_media', 'zthemename_social_media_update', 10, 3 );
+add_action( 'update_option_sidebars_widgets', 'zthemename_update_option_sidebars_widgets', 10, 3 );
+
+/**
+ * Register Reviews custom post type.
+ * 
+ * @param string $old_value zzz.
+ * @param string $value zzz.
+ * @param string $option zzz.
+ */
+function zthemename_update_option_widget_zthemename_social_media( $old_value, $value, $option ) {
+
+	$sidebar_widgets = get_option( 'sidebars_widgets' );
+}
+
+add_action( 'update_option_widget_zthemename_social_media', 'zthemename_update_option_widget_zthemename_social_media', 10, 3 );
