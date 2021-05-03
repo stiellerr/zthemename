@@ -27,6 +27,15 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 					'customize_selective_refresh' => true,
 				)
 			);
+
+			//write_log( get_option( $this->option_name ) );
+
+			
+			//if ( is_active_widget( false, false, $this->id_base ) ) {
+				//write_log( $this );
+				//write_log( get_option( $this->option_name ) );
+			//}
+			
 		}
 
 		/**

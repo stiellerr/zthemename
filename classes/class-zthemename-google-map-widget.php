@@ -140,7 +140,7 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'zoom' ); ?>"><?php esc_html_e( 'Zoom Level:', 'zthemename' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'zoom' ); ?>" name="<?php echo $this->get_field_name( 'zoom' ); ?>" type="range" min="0" max="21" step="1" value="<?php echo esc_attr( $instance['zoom'] ); ?>"<?php echo $this->geo ? '' : ' disabled'; ?>>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'zoom' ); ?>" name="<?php echo $this->get_field_name( 'zoom' ); ?>" type="range" min="0" max="21" step="1" value="<?php echo esc_attr( $instance['zoom'] ); ?>">
 			</p>			
 			<p>
 				<?php

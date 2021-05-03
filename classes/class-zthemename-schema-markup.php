@@ -170,7 +170,8 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 
 			unset( $schema['address']['sublocality'] );
 			unset( $schema['phone'] );
-
+			
+			//write_log( 'schema' );
 			//$schema && 
 
 			// print schema markup.
