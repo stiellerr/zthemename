@@ -173,20 +173,21 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 
 			$sidebars = get_theme_mod( 'socials' );
 
-			write_log( $sidebars );
+			if ( $sidebars ) {
 
-			$widgets = array();
+				$widgets = array();
+	
+				foreach ( $sidebars as $key => $sidebar ) {
+					$widgets = array_merge( $widgets, $sidebar );
+				}
+				
+				$socials = array_values( array_unique( $widgets ) );
 
-			foreach ( $sidebars as $key => $sidebar ) {
-				$widgets = array_merge( $widgets, $sidebar);
+				$socials && $schema['sameAs'] = $socials;
 			}
-			
-			$socials = array_unique( $widgets );
-			
-			$socials && $schema['sameAs'] = $socials;
 
 			// print schema markup.
-			printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $schema ) );
+			$schema && printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $schema ) );
 
 			//write_log( 'elapsed time in seconds' );
 			//$elapsed = microtime( true ) - $start;

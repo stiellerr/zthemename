@@ -486,6 +486,63 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 					'id'        => 'js_code',
 				)
 			);
+			/*
+			add_settings_section(
+				'zthemename_socials',
+				__( 'Social Media URL\'s', 'zthemename' ),
+				array( &$this, 'render_void' ),
+				'zthemename-options'
+			);
+
+			add_settings_field( 
+				'facebook',
+				sprintf( '<i class="fa-lg fa-fw fab fa-facebook"></i>&nbsp;%s', __( 'Facebook', 'zthemename' ) ),
+				array( &$this, 'render_url' ),
+				'zthemename-options',
+				'zthemename_socials',
+				array(
+					'label_for' => 'zthemename_options[social_media][facebook]',
+					'id'        => 'facebook'
+				)
+			);
+
+
+			add_settings_field( 
+				'instagram',
+				sprintf( '<i class="fa-lg fa-fw fab fa-instagram"></i>&nbsp;%s', __( 'Instagram', 'zthemename' ) ),
+				array( &$this, 'render_url' ),
+				'zthemename-options',
+				'zthemename_socials',
+				array(
+					'label_for' => 'zthemename_options[social_media][instagram]',
+					'id'        => 'instagram'
+				)
+			);
+
+			add_settings_field( 
+				'youtube',
+				sprintf( '<i class="fa-lg fa-fw fab fa-youtube"></i>&nbsp;%s', __( 'Youtube', 'zthemename' ) ),
+				array( &$this, 'render_url' ),
+				'zthemename-options',
+				'zthemename_socials',
+				array(
+					'label_for' => 'zthemename_options[social_media][youtube]',
+					'id'        => 'youtube'
+				)
+			);
+
+			add_settings_field( 
+				'twitter',
+				sprintf( '<i class="fa-lg fa-fw fab fa-twitter"></i>&nbsp;%s', __( 'Twitter', 'zthemename' ) ),
+				array( &$this, 'render_url' ),
+				'zthemename-options',
+				'zthemename_socials',
+				array(
+					'label_for' => 'zthemename_options[social_media][twitter]',
+					'id'        => 'twitter'
+				)
+			);
+			*/
 		}
 		
 			// render input
@@ -499,6 +556,17 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 				echo '<input id="download_data" type="button" value="Download Data" class="button button-secondary">';
 			}
 		}
+
+		// render input
+		/*
+		public function render_url( $args ) {
+			printf( 
+				'<input type="url" id="zthemename_options[social_media][%1$s]" name="zthemename_options[social_media][%1$s]" value="%2$s" class="regular-text">',
+				esc_attr( $args['id'] ),
+				$this->options ? esc_attr( $this->options['social_media'][$args['id']] ) : ''
+			);
+		}
+		*/
 
 		// render input
 		public function render_input( $args ) {

@@ -153,16 +153,16 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'facebook' ); ?>"><?php esc_html_e( 'Facebook url:', 'zthemename' ); ?></label>
+				<label for="<?php echo $this->get_field_id( 'facebook' ); ?>"><?php printf( '<i class="fa-lg fa-fw fab fa-facebook"></i>&nbsp;%s', __( 'facebook url:', 'zthemename' ) ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'facebook' ); ?>" name="<?php echo $this->get_field_name( 'facebook' ); ?>" type="url" value="<?php echo esc_url( $instance['facebook'] ); ?>">	
 				<br/>
-				<label for="<?php echo $this->get_field_id( 'instagram' ); ?>"><?php esc_html_e( 'instagram url:', 'zthemename' ); ?></label>
+				<label for="<?php echo $this->get_field_id( 'instagram' ); ?>"><?php printf( '<i class="fa-lg fa-fw fab fa-instagram"></i>&nbsp;%s', __( 'instagram url:', 'zthemename' ) ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'instagram' ); ?>" name="<?php echo $this->get_field_name( 'instagram' ); ?>" type="url" value="<?php echo esc_url( $instance['instagram'] ); ?>">	
 				<br/>
-				<label for="<?php echo $this->get_field_id( 'twitter' ); ?>"><?php esc_html_e( 'twitter url:', 'zthemename' ); ?></label>
+				<label for="<?php echo $this->get_field_id( 'twitter' ); ?>"><?php printf( '<i class="fa-lg fa-fw fab fa-twitter"></i>&nbsp;%s', __( 'twitter url:', 'zthemename' ) ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'twitter' ); ?>" name="<?php echo $this->get_field_name( 'twitter' ); ?>" type="url" value="<?php echo esc_url( $instance['twitter'] ); ?>">
 				<br/>
-				<label for="<?php echo $this->get_field_id( 'youtube' ); ?>"><?php esc_html_e( 'youtube url:', 'zthemename' ); ?></label>
+				<label for="<?php echo $this->get_field_id( 'youtube' ); ?>"><?php printf( '<i class="fa-lg fa-fw fab fa-youtube"></i>&nbsp;%s', __( 'youtube url:', 'zthemename' ) ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'youtube' ); ?>" name="<?php echo $this->get_field_name( 'youtube' ); ?>" type="url" value="<?php echo esc_url( $instance['youtube'] ); ?>">		
 			</p>
 			<?php
