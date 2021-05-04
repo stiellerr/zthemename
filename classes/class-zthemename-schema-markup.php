@@ -170,9 +170,20 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 
 			unset( $schema['address']['sublocality'] );
 			unset( $schema['phone'] );
+
+			$sidebars = get_theme_mod( 'socials' );
+
+			write_log( $sidebars );
+
+			$widgets = array();
+
+			foreach ( $sidebars as $key => $sidebar ) {
+				$widgets = array_merge( $widgets, $sidebar);
+			}
 			
-			//write_log( 'schema' );
-			//$schema && 
+			$socials = array_unique( $widgets );
+			
+			$socials && $schema['sameAs'] = $socials;
 
 			// print schema markup.
 			printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $schema ) );

@@ -171,11 +171,11 @@ if ( ! class_exists( 'Zthemename_Social_Media_Widget' ) ) {
 }
 
 /**
- * Register Reviews custom post type.
+ * Fires after the value of a specific option has been successfully updated.
  * 
- * @param string $old_value zzz.
- * @param string $value zzz.
- * @param string $option zzz.
+ * @param mixed $old_value The old option value.
+ * @param mixed $value The new option value.
+ * @param string $option Option name.
  */
 function zthemename_update_option_sidebars_widgets( $old_value, $value, $option ) {
 
@@ -203,11 +203,11 @@ function zthemename_update_option_sidebars_widgets( $old_value, $value, $option 
 add_action( 'update_option_sidebars_widgets', 'zthemename_update_option_sidebars_widgets', 10, 3 );
 
 /**
- * Register Reviews custom post type.
+ * Fires after the value of a specific option has been successfully updated.
  * 
- * @param string $old_value zzz.
- * @param string $value zzz.
- * @param string $option zzz.
+ * @param mixed $old_value The old option value.
+ * @param mixed $value The new option value.
+ * @param string $option Option name.
  */
 function zthemename_update_option_widget_zthemename_social_media( $old_value, $value, $option ) {
 
