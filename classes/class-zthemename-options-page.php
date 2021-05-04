@@ -548,14 +548,6 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 		public function sanitize_options( $data ) {
 
 			foreach ( $data as $key => $value ) {
-				/*
-				if ( 'social_media' === $key ) {
-					foreach( $value as $i => $url ) {
-						$data[ $key ][ $i ] = esc_url( $url );
-					}
-					continue;
-				}
-				*/
 				if ( 'js_code' === $key ) {
 					$code = strip_tags( $value, '<script>' );
 					if ( preg_match( '@<(script)[^>]*?>.*?</\\1>@si', $code ) ) {
