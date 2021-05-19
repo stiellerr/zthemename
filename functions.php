@@ -471,19 +471,3 @@ function zthemename_init() {
 }
 
 add_action( 'init', 'zthemename_init' );
-
-
-/**
- * Fires after a navigation menu has been successfully updated.
- * 
- * @param int   $menu_id ID of the updated menu.
- * @param array $menu_data An array of menu data.
- */
-function zthemename_wp_update_nav_menu( $menu_id, $menu_data ) {
-	write_log( 'menu_id' );
-	write_log( $menu_id );
-	write_log( 'menu_data' );
-	write_log( $menu_data );
-}
-
-add_action( 'wp_update_nav_menu', 'zthemename_wp_update_nav_menu', 10, 2 );

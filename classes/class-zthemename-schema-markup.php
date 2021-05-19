@@ -186,6 +186,67 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 				$socials && $schema['sameAs'] = $socials;
 			}
 
+			$menu_location = get_nav_menu_locations();
+
+			write_log('menu_location');
+			write_log($menu_location);
+
+			$menu_id = isset( $menu_location['menu-1'] ) ? $menu_location['menu-1'] : false;
+
+			write_log('menu_id');
+			write_log($menu_id);
+
+			if ( $menu_id ) {
+				$menu_items = wp_get_nav_menu_items( $menu_id );
+
+				if ( $menu_items ) {
+
+					$url = home_url( '/' );
+					
+					$template = array(
+						"@context" => "https://schema.org",
+						"@type"    => "BreadcrumbList",
+						"itemListElement" => array(
+							array(
+								"@type" => "ListItem",
+								"position" => 1,
+								"name" => "Home",
+								"item" =>  $url
+							)
+						)
+					);
+
+					foreach( $menu_items as $menu_item ) {
+						// bail early
+						if ( $url === $menu_item->url || strpos( $menu_item->url, $url ) === false ) {
+							continue;
+						}
+						
+						$breadcrumb = $template;
+						
+						$ListElement = array(
+							"@type" => "ListItem",
+							"position" => 2,
+							"name" => $menu_item->title,
+							"item" => $menu_item->url
+						);
+						$breadcrumb['itemListElement'][] = $ListElement;
+
+						$breadcrumbs[] = $breadcrumb;
+						
+						//write_log('breadcrumb');
+						//write_log($breadcrumb);
+					}
+				}
+				
+				write_log('breadcrumbs');
+				write_log(json_encode( $breadcrumbs ));
+				$schema[] = $breadcrumbs;
+
+			}
+
+			//get_nav_menu_locations()['menu-1']
+
 			// print schema markup.
 			$schema && printf( "<script type='application/ld+json'>\n%s\n</script>\n", json_encode( $schema ) );
 
