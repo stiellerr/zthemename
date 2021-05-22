@@ -183,7 +183,7 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 				
 				$socials = array_values( array_unique( $widgets ) );
 
-				$socials && $schema['sameAs'] = $socials;
+				//$socials && $schema['sameAs'] = $socials;
 			}
 
 			$menu_location = get_nav_menu_locations();
@@ -241,7 +241,8 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 				
 				write_log('breadcrumbs');
 				write_log(json_encode( $breadcrumbs ));
-				$schema[] = $breadcrumbs;
+				//$schema[] = $breadcrumbs;
+				$schema = $breadcrumbs;
 
 			}
 
