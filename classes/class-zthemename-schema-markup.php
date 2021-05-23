@@ -242,7 +242,8 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 				write_log('breadcrumbs');
 				write_log(json_encode( $breadcrumbs ));
 				//$schema[] = $breadcrumbs;
-				$schema = $breadcrumbs;
+				//$schema = $breadcrumbs;
+				$schema += $breadcrumbs;
 
 			}
 
