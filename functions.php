@@ -150,7 +150,7 @@ function zthemename_widgets_init() {
 			'description'   => esc_html__( 'Add widgets here to appear in your footer.', 'zthemename' ),
 			// 'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			// 'after_widget'  => '</section>',
-			'before_widget' => '<div id="%1$s" class="widget %2$s wp-block-column">',
+			'before_widget' => '<div id="%1$s" class="widget %2$s wp-block-column mt-3">',
 			'after_widget'  => '</div>',
 			'before_title'  => '<h3 class="widget-title">',
 			'after_title'   => '</h3>',

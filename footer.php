@@ -13,11 +13,11 @@
 
 
 <footer class="site-footer mt-auto">
-	<div class="container <?php echo esc_html( get_theme_mod( 'nav_theme', 'navbar-light' ) ); ?>">
+	<div class="container wp-block-columns <?php echo esc_html( get_theme_mod( 'nav_theme', 'navbar-light' ) ); ?>">
 		<?php if ( is_active_sidebar( 'sidebar-2' ) ) { ?>
-			<div class="wp-block-columns">
+			<!--<div class="wp-block-columns">-->
 				<?php dynamic_sidebar( 'sidebar-2' ); ?>
-			</div>
+			<!--</div>-->
 		<?php } ?>
 	</div>
 </footer>

@@ -38,6 +38,30 @@ header {
 */
 
 $custom_utils: (
+    margin-top: (
+        responsive: true,
+        property: margin-top,
+        class: mt,
+        values:
+            map-merge(
+                $spacers,
+                (
+                    auto: auto
+                )
+            )
+    ),
+    margin-y: (
+        responsive: false,
+        property: margin-top margin-bottom,
+        class: my,
+        values:
+            map-merge(
+                $spacers,
+                (
+                    auto: auto
+                )
+            )
+    ),
     display: (
         responsive: false,
         print: true,
@@ -77,6 +101,7 @@ $custom_utils: (
                 )
             )
     ),
+    /*
     margin-top: (
         responsive: false,
         property: margin-top,
@@ -85,12 +110,14 @@ $custom_utils: (
             auto: auto
         )
     ),
-    margin-bottom: (
-        responsive: false,
-        property: margin-bottom,
-        class: mb,
-        values: $spacers
-    ),
+    */
+        margin-bottom:
+        (
+            responsive: false,
+            property: margin-bottom,
+            class: mb,
+            values: $spacers
+        ),
     order: (
         responsive: true,
         property: order,
@@ -382,3 +409,29 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
       }
     }
 */
+
+aside > .widget_zthemename_contact_form {
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    margin: auto;
+    border-radius: 0.25rem;
+}
+
+@media (max-width: 767px) {
+    #primary.wp-block-columns > .wp-block-column {
+        flex-basis: 100% !important;
+    }
+}
+
+@media (min-width: 768px) {
+    aside.wp-block-column {
+        flex-basis: 33.33333%;
+        flex-grow: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    aside.wp-block-column {
+        flex-basis: 25%;
+    }
+}

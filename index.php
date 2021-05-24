@@ -15,8 +15,8 @@
 get_header();
 ?>
 
-	<div class="container wp-block-columns">
-		<main id="primary" class="wp-block-column">
+	<div id="primary" class="container wp-block-columns my-3">
+		<main class="wp-block-column">
 
 			<?php
 			if ( have_posts() ) :
