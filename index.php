@@ -42,16 +42,24 @@ get_header();
 
 			endif;
 			?>
-			<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" style="width: 100%;">
-				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<img src="http://localhost/wp-content/uploads/2019/02/richard-stieller-1.png" class="d-block w-100" alt="...">
-					</div>
-					<div class="carousel-item">
-						<img src="http://localhost/wp-content/uploads/2019/01/charley-jean-brown-1.png" class="d-block w-100" alt="...">
-					</div>
-					<div class="carousel-item">
-						<img src="http://localhost/wp-content/uploads/2019/02/sarah-good-1.png" class="d-block w-100" alt="...">
+			<div class="wp-block-columns">
+				<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+					<div class="carousel-inner">
+						<div class="carousel-item active">
+							<div>
+								<img src="http://localhost/wp-content/uploads/2019/02/richard-stieller-1.png" alt="...">
+							</div>
+						</div>
+						<div class="carousel-item">
+							<div>
+								<img src="http://localhost/wp-content/uploads/2019/01/charley-jean-brown-1.png" alt="...">
+							</div>
+						</div>
+						<div class="carousel-item">
+							<div>
+								<img src="http://localhost/wp-content/uploads/2019/02/sarah-good-1.png" alt="...">
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
