@@ -582,3 +582,10 @@ aside > .widget_zthemename_contact_form {
 .carousel-inner .carousel-item-start {
     transform: translateX(0);
 }
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+}
