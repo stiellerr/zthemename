@@ -176,7 +176,7 @@ function zthemename_scripts() {
 		_S_VERSION
 	);
 	
-	wp_dequeue_style( 'wp-block-library' );
+	// wp_dequeue_style( 'wp-block-library' );.
 
 	wp_enqueue_script(
 		'zthemename',
@@ -244,6 +244,12 @@ function zthemename_editor_assets() {
 			'wp-data',
 			'wp-compose',
 			'wp-dom-ready',
+			// xxx.
+			'wp-blob',
+			'wp-viewport',
+			'wp-primitives',
+			'wp-blocks',
+			'wp-keycodes',
 			
 			/*
 			'wp-hooks',

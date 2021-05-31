@@ -136,7 +136,14 @@ module.exports = (env, argv) => {
             "@wordpress/element": ["wp", "element"],
             "@wordpress/data": ["wp", "data"],
             "@wordpress/compose": ["wp", "compose"],
-            "@wordpress/dom-ready": ["wp", "domReady"]
+            "@wordpress/dom-ready": ["wp", "domReady"],
+            //
+            "@wordpress/core-data": ["wp", "coreData"],
+            "@wordpress/blob": ["wp", "blob"],
+            "@wordpress/viewport": ["wp", "viewport"],
+            "@wordpress/primitives": ["wp", "primitives"],
+            "@wordpress/blocks": ["wp", "blocks"],
+            "@wordpress/keycodes": ["wp", "keycodes"]
         }
     };
     return config;

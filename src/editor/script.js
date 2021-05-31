@@ -21,6 +21,11 @@
 /**
  * Formats
  */
-import "./formats/";
+import "./formats";
+
+/**
+ * Blocks
+ */
+import "./blocks";
 
 console.log("editor loaded");
