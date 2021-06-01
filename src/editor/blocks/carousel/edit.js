@@ -302,7 +302,7 @@ function GalleryEdit(props) {
             disableMediaButtons={hasImages && !isSelected}
             icon={!hasImages && sharedIcon}
             labels={{
-                title: !hasImages && __("Gallery"),
+                title: !hasImages && __("Carousel"),
                 instructions: !hasImages && PLACEHOLDER_TEXT
             }}
             onSelect={onSelectImages}
