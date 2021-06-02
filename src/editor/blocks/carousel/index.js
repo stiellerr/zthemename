@@ -58,7 +58,9 @@ export const settings = {
         );
     },
 	*/
-    save: () => {
+    save: (props) => {
+        console.log("save");
+        console.log(props);
         return (
             <>
                 <h1>Hello World!</h1>
