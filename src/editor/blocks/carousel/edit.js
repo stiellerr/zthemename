@@ -52,7 +52,7 @@ const MOBILE_CONTROL_PROPS_RANGE_CONTROL = Platform.select({
     native: { type: "stepper" }
 });
 
-function GalleryEdit(props) {
+function GalleryEdit2(props) {
     const {
         attributes,
         isSelected,
@@ -431,4 +431,4 @@ export default compose([
     }),
     withNotices,
     withViewportMatch({ isNarrow: "< small" })
-])(GalleryEdit);
+])(GalleryEdit2);

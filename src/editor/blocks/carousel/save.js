@@ -18,56 +18,27 @@ export default function save({ attributes }) {
         linkTo
     } = attributes;
     const className = `columns-${columns} ${imageCrop ? "is-cropped" : ""}`;
+    console.log(images);
 
     return (
-        <figure {...useBlockProps.save({ className })}>
-            <ul className="blocks-gallery-grid">
-                {images.map((image) => {
-                    let href;
-
-                    switch (linkTo) {
-                        case LINK_DESTINATION_MEDIA:
-                            href = image.fullUrl || image.url;
-                            break;
-                        case LINK_DESTINATION_ATTACHMENT:
-                            href = image.link;
-                            break;
-                    }
-
-                    const img = (
-                        <img
-                            src={image.url}
-                            alt={image.alt}
-                            data-id={image.id}
-                            data-full-url={image.fullUrl}
-                            data-link={image.link}
-                            className={image.id ? `wp-image-${image.id}` : null}
-                        />
-                    );
-
-                    return (
-                        <li key={image.id || image.url} className="blocks-gallery-item">
-                            <figure>
-                                {href ? <a href={href}>{img}</a> : img}
-                                {!RichText.isEmpty(image.caption) && (
-                                    <RichText.Content
-                                        tagName="figcaption"
-                                        className="blocks-gallery-item__caption"
-                                        value={image.caption}
-                                    />
-                                )}
-                            </figure>
-                        </li>
-                    );
-                })}
-            </ul>
-            {!RichText.isEmpty(caption) && (
-                <RichText.Content
-                    tagName="figcaption"
-                    className="blocks-gallery-caption"
-                    value={caption}
-                />
+        <>
+            {images.length && (
+                <div className="wp-block-columns">
+                    <div className="carousel slide" data-bs-ride="carousel">
+                        <div className="carousel-inner">
+                            {images.map((image, i) => {
+                                return (
+                                    <div key={image.id || image.url} className="carousel-item">
+                                        <div className="col-md-3">
+                                            <img src={image.url} />
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
             )}
-        </figure>
+        </>
     );
 }

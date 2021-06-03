@@ -10,7 +10,7 @@ import { gallery } from "@wordpress/icons";
 //import deprecated from './deprecated';
 import edit from "./edit";
 import metadata from "./block.json";
-//import save from './save';
+import save from "./save";
 //import transforms from './transforms';
 
 //import './style.scss';
@@ -57,7 +57,6 @@ export const settings = {
             </>
         );
     },
-	*/
     save: (props) => {
         console.log("save");
         console.log(props);
@@ -67,6 +66,7 @@ export const settings = {
             </>
         );
     }
-    //save,
+    */
+    save
     //deprecated,
 };

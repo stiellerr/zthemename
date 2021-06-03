@@ -7,7 +7,7 @@
             "type": "array",
             "default": [],
             "source": "query",
-            "selector": ".blocks-gallery-item",
+            "selector": ".carousel-item",
             "query": {
                 "url": {
                     "type": "string",

@@ -42,32 +42,6 @@ get_header();
 
 			endif;
 			?>
-			<div class="wp-block-columns">
-				<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-					<div class="carousel-inner">
-						<div class="carousel-item active">
-							<div class="col-md-3">
-								<img src="http://localhost/wp-content/uploads/2019/02/richard-stieller.png" alt="...">
-							</div>
-						</div>
-						<div class="carousel-item">
-							<div class="col-md-3">
-								<img src="http://localhost/wp-content/uploads/2019/01/charley-jean-brown.png" alt="...">
-							</div>
-						</div>
-						<div class="carousel-item">
-							<div class="col-md-3">
-								<img src="http://localhost/wp-content/uploads/2019/02/sarah-good.png" alt="...">
-							</div>
-						</div>
-						<div class="carousel-item">
-							<div class="col-md-3">
-								<img src="http://localhost/wp-content/uploads/2019/02/john-mcfadgen.png" alt="...">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</main><!-- #main -->
 		<?php get_sidebar(); ?>
 
