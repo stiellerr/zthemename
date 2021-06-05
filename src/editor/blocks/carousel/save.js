@@ -24,13 +24,19 @@ export default function save({ attributes }) {
         <>
             {images.length && (
                 <div className="wp-block-columns">
-                    <div className="carousel slide" data-bs-ride="carousel">
+                    <div
+                        className="carousel slide"
+                        data-bs-ride="carousel"
+                        data-bs-interval="5000"
+                        data-bs-pause="false"
+                    >
                         <div className="carousel-inner">
                             {images.map((image, i) => {
+                                const zClassName = `carousel-item${0 === i ? " active" : ""}`;
                                 return (
-                                    <div key={image.id || image.url} className="carousel-item">
+                                    <div key={i} className={zClassName}>
                                         <div className="col-md-3">
-                                            <img src={image.url} />
+                                            <img src={image.url} alt={image.alt} />
                                         </div>
                                     </div>
                                 );

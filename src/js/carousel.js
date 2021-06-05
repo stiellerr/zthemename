@@ -1,6 +1,8 @@
 import { onDOMContentLoaded } from "bootstrap/js/src/util/index";
 import SelectorEngine from "bootstrap/js/src/dom/selector-engine";
 
+//import "bootstrap";
+
 onDOMContentLoaded(() => {
     let items = SelectorEngine.find(".carousel .carousel-item");
 
