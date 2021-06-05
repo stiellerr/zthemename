@@ -36,7 +36,7 @@ export default function save({ attributes }) {
                                 return (
                                     <div key={i} className={zClassName}>
                                         <div className="col-md-3">
-                                            <img src={image.url} alt={image.alt} />
+                                            <img src={image.url} alt={image.alt || null} />
                                         </div>
                                     </div>
                                 );
