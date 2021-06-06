@@ -28,18 +28,22 @@ import { View } from "@wordpress/primitives";
 import { sharedIcon } from "./shared-icon";
 import { defaultColumnsNumber, pickRelevantMediaFiles } from "./shared";
 import Gallery from "./gallery";
+/*
 import {
     LINK_DESTINATION_ATTACHMENT,
     LINK_DESTINATION_MEDIA,
     LINK_DESTINATION_NONE
 } from "./constants";
+*/
 
 const MAX_COLUMNS = 8;
+/*
 const linkOptions = [
     { value: LINK_DESTINATION_ATTACHMENT, label: __("Attachment Page") },
     { value: LINK_DESTINATION_MEDIA, label: __("Media File") },
     { value: LINK_DESTINATION_NONE, label: __("None") }
 ];
+*/
 const ALLOWED_MEDIA_TYPES = ["image"];
 
 const PLACEHOLDER_TEXT = Platform.select({
@@ -52,27 +56,27 @@ const MOBILE_CONTROL_PROPS_RANGE_CONTROL = Platform.select({
     native: { type: "stepper" }
 });
 
-function GalleryEdit2(props) {
+function CarouselEdit(props) {
     const {
         attributes,
         isSelected,
         noticeUI,
         noticeOperations,
         mediaUpload,
-        imageSizes,
-        resizedImages,
+        //imageSizes,
+        //resizedImages,
         onFocus
     } = props;
     const {
         columns = defaultColumnsNumber(attributes),
         imageCrop,
         images,
-        linkTo,
+        //linkTo,
         sizeSlug
     } = attributes;
     const [selectedImage, setSelectedImage] = useState();
     const [attachmentCaptions, setAttachmentCaptions] = useState();
-    const { __unstableMarkNextChangeAsNotPersistent } = useDispatch("core/block-editor");
+    //const { __unstableMarkNextChangeAsNotPersistent } = useDispatch("core/block-editor");
 
     function setAttributes(newAttrs) {
         if (newAttrs.ids) {
@@ -197,10 +201,11 @@ function GalleryEdit2(props) {
         noticeOperations.createErrorNotice(message);
     }
 
+    /*
     function setLinkTo(value) {
         setAttributes({ linkTo: value });
     }
-
+    */
     function setColumnsNumber(value) {
         setAttributes({ columns: value });
     }
@@ -234,13 +239,16 @@ function GalleryEdit2(props) {
         });
     }
 
+    /*
     function getImagesSizeOptions() {
         return map(
             filter(imageSizes, ({ slug }) => some(resizedImages, (sizes) => sizes[slug])),
             ({ name, slug }) => ({ value: slug, label: name })
         );
     }
+    */
 
+    /*
     function updateImagesSize(newSizeSlug) {
         const updatedImages = map(images, (image) => {
             if (!image.id) {
@@ -255,6 +263,7 @@ function GalleryEdit2(props) {
 
         setAttributes({ images: updatedImages, sizeSlug: newSizeSlug });
     }
+    */
 
     useEffect(() => {
         if (
@@ -280,6 +289,7 @@ function GalleryEdit2(props) {
         }
     }, [isSelected]);
 
+    /*
     useEffect(() => {
         // linkTo attribute must be saved so blocks don't break when changing
         // image_default_link_type in options.php
@@ -291,6 +301,7 @@ function GalleryEdit2(props) {
             });
         }
     }, [linkTo]);
+    */
 
     const hasImages = !!images.length;
     const hasImageIds = hasImages && images.some((image) => !!image.id);
@@ -322,13 +333,13 @@ function GalleryEdit2(props) {
         return <View {...blockProps}>{mediaPlaceholder}</View>;
     }
 
-    const imageSizeOptions = getImagesSizeOptions();
-    const shouldShowSizeOptions = hasImages && !isEmpty(imageSizeOptions);
+    //const imageSizeOptions = getImagesSizeOptions();
+    //const shouldShowSizeOptions = hasImages && !isEmpty(imageSizeOptions);
 
     return (
         <>
             <InspectorControls>
-                <PanelBody title={__("Gallery settings")}>
+                <PanelBody title={__("Carousel settings")}>
                     {images.length > 1 && (
                         <RangeControl
                             label={__("Columns")}
@@ -346,12 +357,14 @@ function GalleryEdit2(props) {
                         onChange={toggleImageCrop}
                         help={getImageCropHelp}
                     />
+                    {/*
                     <SelectControl
                         label={__("Link to")}
                         value={linkTo}
                         onChange={setLinkTo}
                         options={linkOptions}
                     />
+                    
                     {shouldShowSizeOptions && (
                         <SelectControl
                             label={__("Image size")}
@@ -360,6 +373,7 @@ function GalleryEdit2(props) {
                             onChange={updateImagesSize}
                         />
                     )}
+                    */}
                 </PanelBody>
             </InspectorControls>
             {noticeUI}
@@ -381,11 +395,14 @@ function GalleryEdit2(props) {
 }
 
 export default compose([
-    withSelect((select, { attributes: { ids }, isSelected }) => {
-        const { getMedia } = select("core");
+    //withSelect((select, { attributes: { ids }, isSelected }) => {
+    withSelect((select) => {
+        //const { getMedia } = select("core");
         const { getSettings } = select("core/block-editor");
-        const { imageSizes, mediaUpload } = getSettings();
+        //const { imageSizes, mediaUpload } = getSettings();
+        const { mediaUpload } = getSettings();
 
+        /*
         const resizedImages = useMemo(() => {
             if (isSelected) {
                 return reduce(
@@ -398,13 +415,21 @@ export default compose([
                         const sizes = reduce(
                             imageSizes,
                             (currentSizes, size) => {
+                                //console.log(currentSizes);
+                                //console.log(size);
                                 const defaultUrl = get(image, ["sizes", size.slug, "url"]);
+                                //console.log("defaultUrl");
+                                //console.log(defaultUrl);
+
                                 const mediaDetailsUrl = get(image, [
                                     "media_details",
                                     "sizes",
                                     size.slug,
                                     "source_url"
                                 ]);
+
+                                //console.log("mediaDetailsUrl");
+                                //console.log(mediaDetailsUrl);
                                 return {
                                     ...currentSizes,
                                     [size.slug]: defaultUrl || mediaDetailsUrl
@@ -422,13 +447,23 @@ export default compose([
             }
             return {};
         }, [isSelected, ids, imageSizes]);
+        */
+
+        //console.log("imageSizes");
+        //console.log(imageSizes);
+
+        //console.log("mediaUpload");
+        //console.log(mediaUpload);
+
+        //console.log("resizedImages");
+        //console.log(resizedImages);
 
         return {
-            imageSizes,
-            mediaUpload,
-            resizedImages
+            //imageSizes,
+            mediaUpload
+            //resizedImages
         };
     }),
     withNotices,
     withViewportMatch({ isNarrow: "< small" })
-])(GalleryEdit2);
+])(CarouselEdit);

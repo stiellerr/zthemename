@@ -7,7 +7,7 @@ export function defaultColumnsNumber(attributes) {
     return Math.min(3, attributes.images.length);
 }
 
-export const pickRelevantMediaFiles = (image, sizeSlug = "large") => {
+export const pickRelevantMediaFiles = (image, sizeSlug = "small") => {
     const imageProps = pick(image, ["alt", "id", "link", "caption"]);
     imageProps.url =
         get(image, ["sizes", sizeSlug, "url"]) ||

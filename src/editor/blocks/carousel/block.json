@@ -68,12 +68,9 @@
             "type": "boolean",
             "default": true
         },
-        "linkTo": {
-            "type": "string"
-        },
         "sizeSlug": {
             "type": "string",
-            "default": "large"
+            "default": "small"
         }
     },
     "supports": {

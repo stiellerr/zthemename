@@ -120,6 +120,8 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 				'flex-height' => false,
 			)
 		);
+
+		add_image_size( 'small', 0, 132 );
 	}
 endif;
 add_action( 'after_setup_theme', 'zthemename_setup' );
@@ -463,12 +465,12 @@ function zthemename_init() {
 	register_post_type(
 		'zthemename_reviews',
 		array(
-			'public' => true,
+			'public'    => true,
 			'menu_icon' => 'dashicons-edit-page',
-			'labels' => array(
+			'labels'    => array(
 				'name' => esc_html__( 'Reviews', 'zthemename' ),
 			),
-			'supports' => array(
+			'supports'  => array(
 				'title',
 				'editor',
 				'author',
@@ -479,3 +481,19 @@ function zthemename_init() {
 }
 
 add_action( 'init', 'zthemename_init' );
+
+/**
+ * Register Reviews custom post type.
+ * 
+ * @param string[] $size_names Array of image size labels keyed by their name. Default values include 'Thumbnail', 'Medium', 'Large', and 'Full Size'.
+ */
+function diym_image_size_names_choose( $size_names ) {
+	return array_merge(
+		$size_names,
+		array(
+			'small' => __( 'Small', 'zthemename' ),
+		) 
+	);
+}
+
+add_filter( 'image_size_names_choose', 'diym_image_size_names_choose' );
