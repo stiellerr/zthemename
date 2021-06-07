@@ -178,7 +178,7 @@ function zthemename_scripts() {
 		_S_VERSION
 	);
 	
-	// wp_dequeue_style( 'wp-block-library' );.
+	wp_dequeue_style( 'wp-block-library' );
 
 	wp_enqueue_script(
 		'zthemename',

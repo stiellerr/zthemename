@@ -18,7 +18,7 @@ export default function save({ attributes }) {
         //linkTo
     } = attributes;
     const className = `columns-${columns} ${imageCrop ? "is-cropped" : ""}`;
-    //console.log(images);
+    console.log(images);
 
     return (
         <>
@@ -35,7 +35,7 @@ export default function save({ attributes }) {
                                 const zClassName = `carousel-item${0 === i ? " active" : ""}`;
                                 return (
                                     <div key={i} className={zClassName}>
-                                        <div className="col-md-3">
+                                        <div>
                                             <figure>
                                                 <img
                                                     src={image.url}
