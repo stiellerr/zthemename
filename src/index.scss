@@ -518,44 +518,26 @@ aside > .widget_zthemename_contact_form {
     }
 }
 
-/* large - display 3 */
-/*
-@media (min-width: 992px) {
-    .carousel-item-next:not(.carousel-item-start),
-    .active.carousel-item-end {
-        transform: translateX(33%);
-    }
-
-    .carousel-item-prev:not(.carousel-item-end),
-    .active.carousel-item-start {
-        transform: translateX(-33%);
-    }
-}
-
-.carousel-inner .carousel-item.active,
-.carousel-inner .carousel-item-next,
-.carousel-inner .carousel-item-prev {
-    display: flex;
-}
-
-.carousel-item.active,
-.carousel-item-next,
-.carousel-item-prev {
-    display: flex;
-}
-
-.carousel-item-end,
-.carousel-item-start {
-    transform: translateX(0);
-}
-*/
-
 @media (max-width: 575px) {
     .carousel-inner .carousel-item > div {
         display: none;
+        &:first-child {
+            display: block;
+        }
     }
-    .carousel-inner .carousel-item > div:first-child {
-        display: block;
+}
+
+@media (max-width: 991px) {
+    .carousel-inner .carousel-item {
+        &:first-child:nth-last-child(3),
+        &:first-child:nth-last-child(3) ~ .carousel-item {
+            > div {
+                display: none;
+                &:first-child {
+                    display: block;
+                }
+            }
+        }
     }
 }
 
@@ -571,82 +553,46 @@ aside > .widget_zthemename_contact_form {
 
 /* medium and up screens */
 @media (min-width: 576px) {
-    .carousel-item:first-child:nth-last-child(2),
-    .carousel-item:first-child:nth-last-child(2) ~ .carousel-item,
-    .carousel-item:first-child:nth-last-child(4),
-    .carousel-item:first-child:nth-last-child(4) ~ .carousel-item {
-        &.carousel-item-end.active,
-        &.carousel-item-next {
-            transform: translateX(50%);
-        }
-        &.carousel-item-start.active,
-        &.carousel-item-prev {
-            transform: translateX(-50%);
-        }
-        &.carousel-item-end,
-        &.carousel-item-start {
-            transform: translateX(0);
-        }
-        > div {
-            flex: 0 0 auto;
-            width: 50%;
-        }
-    }
-
-    /*
-    .carousel-item:not(:only-child) {
-        &.carousel-item-end.active, &.carousel-item-next {
-            transform: translateX(50%);
-        }
-        &.carousel-item-start.active, &.carousel-item-prev {
-            transform: translateX(-50%);
-        }
-        &.carousel-item-end, &.carousel-item-start {
-            transform: translateX(0);
-        }
-        > div {
-            flex: 0 0 auto;
-            width: 50%;
+    .carousel-inner > .carousel-item {
+        &:not(:only-child) {
+            &.carousel-item-end.active,
+            &.carousel-item-next {
+                transform: translateX(50%);
+            }
+            &.carousel-item-start.active,
+            &.carousel-item-prev {
+                transform: translateX(-50%);
+            }
+            &.carousel-item-end,
+            &.carousel-item-start {
+                transform: translateX(0);
+            }
+            > div {
+                flex: 0 0 auto;
+                width: 50%;
+            }
+            &:first-child:nth-last-child(3),
+            &:first-child:nth-last-child(3) ~ .carousel-item {
+                &.carousel-item-end.active,
+                &.carousel-item-next {
+                    transform: translateX(100%);
+                }
+                &.carousel-item-start.active,
+                &.carousel-item-prev {
+                    transform: translateX(-100%);
+                }
+                &.carousel-item-end,
+                &.carousel-item-start {
+                    transform: translateX(0);
+                }
+            }
         }
     }
-    */
-    /*
-    .carousel-inner:first-child:nth-last-child(2) {
-        &.carousel-item-end.active, .carousel-item-next {
-             transform: translateX(50%);
-        }
-        &.carousel-item-start.active, .carousel-item-prev {
-             transform: translateX(-50%);
-        }
-    }
-    
-    
-    
-    .carousel-inner .carousel-item-end.active,
-    .carousel-inner .carousel-item-next {
-        transform: translateX(50%);
-    }
-
-    .carousel-inner .carousel-item-start.active,
-    .carousel-inner .carousel-item-prev {
-        transform: translateX(-50%);
-    }
-
-    .carousel-inner .carousel-item-end,
-    .carousel-inner .carousel-item-start {
-        transform: translateX(0);
-    }
-
-    .carousel-inner > .carousel-item > div {
-        flex: 0 0 auto;
-        width: 50%;
-    }
-    */
 }
 
 /* medium and up screens */
 @media (min-width: 992px) {
-    .carousel-item {
+    .carousel-inner > .carousel-item {
         &:not(:only-child) {
             &.carousel-item-end.active,
             &.carousel-item-next {
@@ -698,85 +644,9 @@ aside > .widget_zthemename_contact_form {
                     transform: translateX(0);
                 }
                 > div {
-                    flex: 0 0 auto;
                     width: 50%;
                 }
             }
         }
     }
-
-    /*
-    .carousel-item:first-child:nth-last-child(3), .carousel-item:first-child:nth-last-child(3) ~ .carousel-item {
-        &.carousel-item-end.active, &.carousel-item-next {
-            transform: translateX(33%);
-        }
-        &.carousel-item-start.active, &.carousel-item-prev {
-            transform: translateX(-33%);
-        }
-        &.carousel-item-end, &.carousel-item-start {
-            transform: translateX(0);
-        }
-        > div {
-            flex: 0 0 auto;
-            width: 33%;
-        }
-    }
-
-    .carousel-item:first-child:nth-last-child(4), .carousel-item:first-child:nth-last-child(4) ~ .carousel-item {
-        &.carousel-item-end.active, &.carousel-item-next {
-            transform: translateX(25%);
-        }
-        &.carousel-item-start.active, &.carousel-item-prev {
-            transform: translateX(-25%);
-        }
-        &.carousel-item-end, &.carousel-item-start {
-            transform: translateX(0);
-        }
-        > div {
-            flex: 0 0 auto;
-            width: 25%;
-        }
-    }
-
-
-    .carousel-item:first-child:nth-last-child(3), .carousel-item:first-child:nth-last-child(3) ~ .carousel-item {
-        &.carousel-item-end.active, &.carousel-item-next {
-            transform: translateX(25%);
-        }
-        &.carousel-item-start.active, &.carousel-item-prev {
-            transform: translateX(-25%);
-        }
-        
-        &.carousel-item-end, &.carousel-item-start {
-            transform: translateX(0);
-        }
-        
-        
-        > div {
-            flex: 0 0 auto;
-            width: 25%;
-        }
-    }
-    
-
-    .carousel-inner .carousel-item-end.active,
-    .carousel-inner .carousel-item-next {
-        transform: translateX(25%);
-    }
-
-    .carousel-inner .carousel-item-start.active,
-    .carousel-inner .carousel-item-prev {
-        transform: translateX(-25%);
-    }
-
-    .carousel-inner .carousel-item-end,
-    .carousel-inner .carousel-item-start {
-        transform: translateX(0);
-    }
-
-    .carousel-inner > .carousel-item > div {
-        flex: 0 0 auto;
-        width: 25%;
-    }
-    */
 }
