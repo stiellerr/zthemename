@@ -1,5 +1,5 @@
 .wp-block-zthemename-carousel,
-.blocks-gallery-grid {
+.blocks-carousel-grid {
     display: flex;
     flex-wrap: wrap;
     list-style-type: none;
@@ -7,8 +7,8 @@
     // Some themes give all <ul> default margin instead of padding.
     //margin: 0;
 
-    .blocks-gallery-image,
-    .blocks-gallery-item {
+    //.blocks-gallery-image,
+    .blocks-carousel-item {
         // Add space between thumbnails, and unset right most thumbnails later.
         margin: 0 1em 1em 0;
         display: flex;
@@ -31,8 +31,8 @@
             // IE doesn't support flex so omit that.
             @supports (position: sticky) {
                 display: flex;
-                align-items: flex-end;
-                justify-content: flex-start;
+                align-items: center;
+                justify-content: center;
             }
         }
 
@@ -79,66 +79,22 @@
         flex-grow: 1;
     }
 
-    // Cropped
-    &.is-cropped .blocks-gallery-image,
-    &.is-cropped .blocks-gallery-item {
-        a,
-        img {
-            // IE11 doesn't support object-fit, so just make sure images aren't skewed.
-            // The following rules are for all browsers.
-            width: 100%;
-
-            // IE11 doesn't read rules inside this query. They are applied only to modern browsers.
-            @supports (position: sticky) {
-                height: 100%;
-                flex: 1;
-                object-fit: cover;
-            }
-        }
-    }
-
-    &.columns-1 .blocks-gallery-image,
-    &.columns-1 .blocks-gallery-item {
-        width: 100%;
-        margin-right: 0;
-    }
-
     // Beyond mobile viewports, we allow up to 8 columns.
     @include break-small {
-        @for $i from 3 through 8 {
-            &.columns-#{ $i } .blocks-gallery-image,
-            &.columns-#{ $i } .blocks-gallery-item {
-                width: calc(#{100% / $i} - #{1em * ($i - 1) / $i});
-                margin-right: 1em;
-            }
+        .blocks-carousel-item {
+            width: calc(25% - 0.75em);
+            margin-right: 1em;
         }
 
         // Unset the right margin on every rightmost gallery item to ensure center balance.
-        @for $column-count from 1 through 8 {
-            &.columns-#{ $column-count } .blocks-gallery-image:nth-of-type(#{ $column-count }n),
-            &.columns-#{ $column-count } .blocks-gallery-item:nth-of-type(#{ $column-count }n) {
-                margin-right: 0;
-            }
+        .blocks-carousel-item:nth-of-type(4n) {
+            margin-right: 0;
         }
     }
 
     // Last item always needs margins reset.
-    .blocks-gallery-image:last-child,
-    .blocks-gallery-item:last-child {
+    //.blocks-gallery-image:last-child,
+    .blocks-carousel-item:last-child {
         margin-right: 0;
-    }
-
-    // Apply max-width to floated items that have no intrinsic width.
-    &.alignleft,
-    &.alignright {
-        max-width: $content-width / 2;
-        width: 100%;
-    }
-
-    // If the gallery is centered, center the content inside as well.
-    &.aligncenter {
-        .blocks-gallery-item figure {
-            justify-content: center;
-        }
     }
 }

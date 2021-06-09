@@ -121,7 +121,7 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 			)
 		);
 
-		add_image_size( 'small', 0, 132 );
+		add_image_size( 'small', 0, 80 );
 	}
 endif;
 add_action( 'after_setup_theme', 'zthemename_setup' );

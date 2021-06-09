@@ -21,11 +21,10 @@ import { closeSmall, chevronLeft, chevronRight, edit, image as imageIcon } from 
  * Internal dependencies
  */
 import { pickRelevantMediaFiles } from "./shared";
-import { LINK_DESTINATION_ATTACHMENT, LINK_DESTINATION_MEDIA } from "./constants";
 
 const isTemporaryImage = (id, url) => !id && isBlobURL(url);
 
-class GalleryImage extends Component {
+class CarouselImage extends Component {
     constructor() {
         super(...arguments);
 
@@ -157,8 +156,6 @@ class GalleryImage extends Component {
             url,
             alt,
             id,
-            linkTo,
-            link,
             isFirstItem,
             isLastItem,
             isSelected,
@@ -170,17 +167,6 @@ class GalleryImage extends Component {
             "aria-label": ariaLabel
         } = this.props;
         const { isEditing } = this.state;
-
-        let href;
-
-        switch (linkTo) {
-            case LINK_DESTINATION_MEDIA:
-                href = url;
-                break;
-            case LINK_DESTINATION_ATTACHMENT:
-                href = link;
-                break;
-        }
 
         const img = (
             // Disable reason: Image itself is not meant to be interactive, but should
@@ -210,10 +196,10 @@ class GalleryImage extends Component {
 
         return (
             <figure className={className}>
-                {!isEditing && (href ? <a href={href}>{img}</a> : img)}
+                {img}
                 {isEditing && (
                     <MediaPlaceholder
-                        labels={{ title: __("Edit gallery image") }}
+                        labels={{ title: __("Edit carousel image") }}
                         icon={imageIcon}
                         onSelect={this.onSelectImageFromLibrary}
                         onSelectURL={this.onSelectCustomURL}
@@ -222,7 +208,7 @@ class GalleryImage extends Component {
                         value={{ id, src: url }}
                     />
                 )}
-                <ButtonGroup className="block-library-gallery-item__inline-menu is-left">
+                <ButtonGroup className="block-library-carousel-item__inline-menu is-left">
                     <Button
                         icon={chevronLeft}
                         onClick={isFirstItem ? undefined : onMoveBackward}
@@ -238,7 +224,7 @@ class GalleryImage extends Component {
                         disabled={!isSelected}
                     />
                 </ButtonGroup>
-                <ButtonGroup className="block-library-gallery-item__inline-menu is-right">
+                <ButtonGroup className="block-library-carousel-item__inline-menu is-right">
                     <Button
                         icon={edit}
                         onClick={this.onEdit}
@@ -284,4 +270,4 @@ export default compose([
             __unstableMarkNextChangeAsNotPersistent
         };
     })
-])(GalleryImage);
+])(CarouselImage);

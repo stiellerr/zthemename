@@ -15,18 +15,6 @@
                     "selector": "img",
                     "attribute": "src"
                 },
-                "fullUrl": {
-                    "type": "string",
-                    "source": "attribute",
-                    "selector": "img",
-                    "attribute": "data-full-url"
-                },
-                "link": {
-                    "type": "string",
-                    "source": "attribute",
-                    "selector": "img",
-                    "attribute": "data-link"
-                },
                 "alt": {
                     "type": "string",
                     "source": "attribute",
@@ -43,7 +31,7 @@
                 "caption": {
                     "type": "string",
                     "source": "html",
-                    "selector": ".blocks-gallery-item__caption"
+                    "selector": ".blocks-carousel-item__caption"
                 }
             }
         },
@@ -54,28 +42,13 @@
             },
             "default": []
         },
-        "columns": {
-            "type": "number",
-            "minimum": 1,
-            "maximum": 8
-        },
-        "caption": {
-            "type": "string",
-            "source": "html",
-            "selector": ".blocks-gallery-caption"
-        },
-        "imageCrop": {
-            "type": "boolean",
-            "default": true
-        },
         "sizeSlug": {
             "type": "string",
             "default": "small"
         }
     },
     "supports": {
-        "anchor": true,
-        "align": true
+        "anchor": true
     },
     "editorStyle": "wp-block-zthemename-carousel-editor",
     "style": "wp-block-zthemename-carousel"

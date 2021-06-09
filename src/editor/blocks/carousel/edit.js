@@ -1,24 +1,18 @@
 /**
  * External dependencies
  */
-import { every, filter, find, forEach, get, isEmpty, map, reduce, some, toString } from "lodash";
+import { every, filter, find, forEach, map, toString } from "lodash";
 
 /**
  * WordPress dependencies
  */
 import { compose } from "@wordpress/compose";
-import {
-    PanelBody,
-    SelectControl,
-    ToggleControl,
-    withNotices,
-    RangeControl
-} from "@wordpress/components";
-import { MediaPlaceholder, InspectorControls, useBlockProps } from "@wordpress/block-editor";
-import { Platform, useEffect, useState, useMemo } from "@wordpress/element";
+import { withNotices } from "@wordpress/components";
+import { MediaPlaceholder, useBlockProps } from "@wordpress/block-editor";
+import { Platform, useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { getBlobByURL, isBlobURL, revokeBlobURL } from "@wordpress/blob";
-import { useDispatch, withSelect } from "@wordpress/data";
+import { withSelect } from "@wordpress/data";
 import { withViewportMatch } from "@wordpress/viewport";
 import { View } from "@wordpress/primitives";
 
@@ -26,24 +20,9 @@ import { View } from "@wordpress/primitives";
  * Internal dependencies
  */
 import { sharedIcon } from "./shared-icon";
-import { defaultColumnsNumber, pickRelevantMediaFiles } from "./shared";
-import Gallery from "./gallery";
-/*
-import {
-    LINK_DESTINATION_ATTACHMENT,
-    LINK_DESTINATION_MEDIA,
-    LINK_DESTINATION_NONE
-} from "./constants";
-*/
+import { pickRelevantMediaFiles } from "./shared";
+import Carousel from "./carousel";
 
-const MAX_COLUMNS = 8;
-/*
-const linkOptions = [
-    { value: LINK_DESTINATION_ATTACHMENT, label: __("Attachment Page") },
-    { value: LINK_DESTINATION_MEDIA, label: __("Media File") },
-    { value: LINK_DESTINATION_NONE, label: __("None") }
-];
-*/
 const ALLOWED_MEDIA_TYPES = ["image"];
 
 const PLACEHOLDER_TEXT = Platform.select({
@@ -51,32 +30,11 @@ const PLACEHOLDER_TEXT = Platform.select({
     native: __("ADD MEDIA")
 });
 
-const MOBILE_CONTROL_PROPS_RANGE_CONTROL = Platform.select({
-    web: {},
-    native: { type: "stepper" }
-});
-
 function CarouselEdit(props) {
-    const {
-        attributes,
-        isSelected,
-        noticeUI,
-        noticeOperations,
-        mediaUpload,
-        //imageSizes,
-        //resizedImages,
-        onFocus
-    } = props;
-    const {
-        columns = defaultColumnsNumber(attributes),
-        imageCrop,
-        images,
-        //linkTo,
-        sizeSlug
-    } = attributes;
+    const { attributes, isSelected, noticeUI, noticeOperations, mediaUpload, onFocus } = props;
+    const { images, sizeSlug } = attributes;
     const [selectedImage, setSelectedImage] = useState();
     const [attachmentCaptions, setAttachmentCaptions] = useState();
-    //const { __unstableMarkNextChangeAsNotPersistent } = useDispatch("core/block-editor");
 
     function setAttributes(newAttrs) {
         if (newAttrs.ids) {
@@ -140,10 +98,7 @@ function CarouselEdit(props) {
             const newImages = filter(images, (img, i) => index !== i);
             setSelectedImage();
             setAttributes({
-                images: newImages,
-                columns: attributes.columns
-                    ? Math.min(newImages.length, attributes.columns)
-                    : attributes.columns
+                images: newImages
             });
         };
     }
@@ -189,33 +144,13 @@ function CarouselEdit(props) {
                 // block is parsed it's converted to a string. Converting
                 // to a string here ensures it's type is consistent.
                 id: toString(newImage.id)
-            })),
-            columns: attributes.columns
-                ? Math.min(newImages.length, attributes.columns)
-                : attributes.columns
+            }))
         });
     }
 
     function onUploadError(message) {
         noticeOperations.removeAllNotices();
         noticeOperations.createErrorNotice(message);
-    }
-
-    /*
-    function setLinkTo(value) {
-        setAttributes({ linkTo: value });
-    }
-    */
-    function setColumnsNumber(value) {
-        setAttributes({ columns: value });
-    }
-
-    function toggleImageCrop() {
-        setAttributes({ imageCrop: !imageCrop });
-    }
-
-    function getImageCropHelp(checked) {
-        return checked ? __("Thumbnails are cropped to align.") : __("Thumbnails are not cropped.");
     }
 
     function onFocusGalleryCaption() {
@@ -238,32 +173,6 @@ function CarouselEdit(props) {
             ]
         });
     }
-
-    /*
-    function getImagesSizeOptions() {
-        return map(
-            filter(imageSizes, ({ slug }) => some(resizedImages, (sizes) => sizes[slug])),
-            ({ name, slug }) => ({ value: slug, label: name })
-        );
-    }
-    */
-
-    /*
-    function updateImagesSize(newSizeSlug) {
-        const updatedImages = map(images, (image) => {
-            if (!image.id) {
-                return image;
-            }
-            const url = get(resizedImages, [parseInt(image.id, 10), newSizeSlug]);
-            return {
-                ...image,
-                ...(url && { url })
-            };
-        });
-
-        setAttributes({ images: updatedImages, sizeSlug: newSizeSlug });
-    }
-    */
 
     useEffect(() => {
         if (
@@ -288,20 +197,6 @@ function CarouselEdit(props) {
             setSelectedImage();
         }
     }, [isSelected]);
-
-    /*
-    useEffect(() => {
-        // linkTo attribute must be saved so blocks don't break when changing
-        // image_default_link_type in options.php
-        if (!linkTo) {
-            __unstableMarkNextChangeAsNotPersistent();
-            setAttributes({
-                linkTo:
-                    window?.wp?.media?.view?.settings?.defaultProps?.link || LINK_DESTINATION_NONE
-            });
-        }
-    }, [linkTo]);
-    */
 
     const hasImages = !!images.length;
     const hasImageIds = hasImages && images.some((image) => !!image.id);
@@ -333,51 +228,10 @@ function CarouselEdit(props) {
         return <View {...blockProps}>{mediaPlaceholder}</View>;
     }
 
-    //const imageSizeOptions = getImagesSizeOptions();
-    //const shouldShowSizeOptions = hasImages && !isEmpty(imageSizeOptions);
-
     return (
         <>
-            <InspectorControls>
-                <PanelBody title={__("Carousel settings")}>
-                    {images.length > 1 && (
-                        <RangeControl
-                            label={__("Columns")}
-                            value={columns}
-                            onChange={setColumnsNumber}
-                            min={1}
-                            max={Math.min(MAX_COLUMNS, images.length)}
-                            {...MOBILE_CONTROL_PROPS_RANGE_CONTROL}
-                            required
-                        />
-                    )}
-                    <ToggleControl
-                        label={__("Crop images")}
-                        checked={!!imageCrop}
-                        onChange={toggleImageCrop}
-                        help={getImageCropHelp}
-                    />
-                    {/*
-                    <SelectControl
-                        label={__("Link to")}
-                        value={linkTo}
-                        onChange={setLinkTo}
-                        options={linkOptions}
-                    />
-                    
-                    {shouldShowSizeOptions && (
-                        <SelectControl
-                            label={__("Image size")}
-                            value={sizeSlug}
-                            options={imageSizeOptions}
-                            onChange={updateImagesSize}
-                        />
-                    )}
-                    */}
-                </PanelBody>
-            </InspectorControls>
             {noticeUI}
-            <Gallery
+            <Carousel
                 {...props}
                 selectedImage={selectedImage}
                 mediaPlaceholder={mediaPlaceholder}
@@ -395,73 +249,12 @@ function CarouselEdit(props) {
 }
 
 export default compose([
-    //withSelect((select, { attributes: { ids }, isSelected }) => {
     withSelect((select) => {
-        //const { getMedia } = select("core");
         const { getSettings } = select("core/block-editor");
-        //const { imageSizes, mediaUpload } = getSettings();
         const { mediaUpload } = getSettings();
 
-        /*
-        const resizedImages = useMemo(() => {
-            if (isSelected) {
-                return reduce(
-                    ids,
-                    (currentResizedImages, id) => {
-                        if (!id) {
-                            return currentResizedImages;
-                        }
-                        const image = getMedia(id);
-                        const sizes = reduce(
-                            imageSizes,
-                            (currentSizes, size) => {
-                                //console.log(currentSizes);
-                                //console.log(size);
-                                const defaultUrl = get(image, ["sizes", size.slug, "url"]);
-                                //console.log("defaultUrl");
-                                //console.log(defaultUrl);
-
-                                const mediaDetailsUrl = get(image, [
-                                    "media_details",
-                                    "sizes",
-                                    size.slug,
-                                    "source_url"
-                                ]);
-
-                                //console.log("mediaDetailsUrl");
-                                //console.log(mediaDetailsUrl);
-                                return {
-                                    ...currentSizes,
-                                    [size.slug]: defaultUrl || mediaDetailsUrl
-                                };
-                            },
-                            {}
-                        );
-                        return {
-                            ...currentResizedImages,
-                            [parseInt(id, 10)]: sizes
-                        };
-                    },
-                    {}
-                );
-            }
-            return {};
-        }, [isSelected, ids, imageSizes]);
-        */
-
-        //console.log("imageSizes");
-        //console.log(imageSizes);
-
-        //console.log("mediaUpload");
-        //console.log(mediaUpload);
-
-        //console.log("resizedImages");
-        //console.log(resizedImages);
-
         return {
-            //imageSizes,
             mediaUpload
-            //resizedImages
         };
     }),
     withNotices,

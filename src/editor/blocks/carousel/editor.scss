@@ -23,12 +23,12 @@ figure.wp-block-zthemename-carousel {
 }
 
 // Necessary to to override default editor ul styles.
-.blocks-gallery-grid.blocks-gallery-grid {
+.blocks-carousel-grid.blocks-carousel-grid {
     padding-left: 0;
     margin-left: 0;
     margin-bottom: 0;
 }
-.blocks-gallery-item {
+.blocks-carousel-item {
     // Hide the focus outline that otherwise briefly appears when selecting a block.
     figure:not(.is-selected):focus,
     img:focus {
@@ -59,7 +59,7 @@ figure.wp-block-zthemename-carousel {
         opacity: 0.3;
     }
 
-    .is-selected .block-library-gallery-item__inline-menu {
+    .is-selected .block-library-carousel-item__inline-menu {
         display: inline-flex;
     }
 
@@ -73,12 +73,12 @@ figure.wp-block-zthemename-carousel {
     }
 }
 
-.block-library-gallery-item__inline-menu {
+.block-library-carousel-item__inline-menu {
     display: none;
     position: absolute;
     top: -2px;
     margin: $grid-unit-10;
-    z-index: z-index(".block-library-gallery-item__inline-menu");
+    z-index: 20;
     transition: box-shadow 0.2s ease-out;
     @include reduce-motion("transition");
     border-radius: $radius-block-ui;
@@ -89,28 +89,10 @@ figure.wp-block-zthemename-carousel {
         box-shadow: $shadow-popover;
     }
 
-    @include break-small() {
-        // Use smaller buttons to fit when there are many columns.
-        .columns-7 &,
-        .columns-8 & {
-            padding: $grid-unit-05 / 2;
-        }
-    }
-
     .components-button.has-icon {
         &:not(:focus) {
             border: none;
             box-shadow: none;
-        }
-
-        @include break-small() {
-            // Use smaller buttons to fit when there are many columns.
-            .columns-7 &,
-            .columns-8 & {
-                padding: 0;
-                width: inherit;
-                height: inherit;
-            }
         }
     }
 
@@ -123,7 +105,7 @@ figure.wp-block-zthemename-carousel {
     }
 }
 
-.blocks-gallery-item .components-spinner {
+.blocks-carousel-item .components-spinner {
     position: absolute;
     top: 50%;
     left: 50%;
