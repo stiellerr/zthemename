@@ -12,7 +12,7 @@
 /**
  * Styles
  */
-//import "./index.scss";
+import "./index.scss";
 
 //domReady(() => {
 //console.log("wpDom loaded");

@@ -262,7 +262,7 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 
 			//write_log( $result );
 
-			if ( !isset( $result->photos ) ) {
+			if ( isset( $result->photos ) ) {
 
 				//write_log( 'dowloading photos...' );
 				// download photos into image library.

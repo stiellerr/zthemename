@@ -85,8 +85,10 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 						<div class="invalid-feedback"><?php esc_html_e( 'valid email required', 'zthemename' ); ?></div>
 					</div>
 				<?php } ?>
-				<div class="wp-block-button<?php echo esc_attr( $button_outline ); ?>">
-					<button type="submit" class="wp-block-button__link"><?php esc_html_e( 'Submit.', 'zthemename' ); ?></button>
+				<div class="wp-block-buttons">
+					<div class="wp-block-button<?php echo esc_attr( $button_outline ); ?>">
+						<button type="submit" class="wp-block-button__link"><?php esc_html_e( 'Submit.', 'zthemename' ); ?></button>
+					</div>
 				</div>
 				<small>
 					<i class="fas fa-lock" data-content="f023"></i>&nbsp;<?php esc_html_e( "we'll never share your information with anyone.", 'zthemename' ); ?>
