@@ -164,19 +164,24 @@ $custom_utils: (
 //$utilities: map-merge($utilities, $custom_utils);
 $utilities: $custom_utils;
 
-$headings-font-weight: null;
+$headings-font-weight: normal;
 $display-font-weight: null;
 
+//$headings-font-weight:        500 !default;
+
 .has-huge-font-size {
-    @extend .display-1;
+    //@extend .display-1;
+    @extend h1;
 }
 
 .has-large-font-size {
-    @extend .display-4;
+    //@extend .display-4;
+    @extend h2;
 }
 
 .has-medium-font-size {
-    @extend .display-6;
+    //@extend .display-6;
+    @extend h5;
 }
 
 .has-normal-font-size {
@@ -366,10 +371,10 @@ aside > .widget_zthemename_contact_form {
 
 .wp-block-column[style*="flex-basis"] {
     flex-grow: 0;
-}
-
-.wp-block-column[style*="flex-basis"] + .wp-block-column {
-    flex: 1 0 0;
+    + .wp-block-column {
+        flex: 1 0 0;
+        margin-left: 0;
+    }
 }
 
 @media (min-width: 576px) {
@@ -554,9 +559,18 @@ figure > figcaption {
         overflow: hidden;
     }
 }
-
+/*
 .wp-block-column > p {
     margin-bottom: 0;
+}
+*/
+.wp-block-columns {
+    margin-bottom: 1rem;
+    /*
+    .wp-block-column {
+        margin-bottom: 1rem;
+    }
+    */
 }
 
 .wp-block-buttons {
@@ -609,4 +623,8 @@ figure > figcaption {
 
 .is-vertically-aligned-center {
     align-self: center;
+}
+
+main .wp-block-column > *:last-child {
+    margin-bottom: 0;
 }

@@ -1,5 +1,41 @@
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+%heading {
+    /*
+    margin-top: 0; // 1
+    margin-bottom: $headings-margin-bottom;
+    font-family: $headings-font-family;
+    font-style: $headings-font-style;
+    */
+    //font-weight: normal;
+    /*
+    line-height: $headings-line-height;
+    color: $headings-color;
+    */
+}
+
 :root .editor-styles-wrapper {
     .wp-block-image.is-style-rounded img {
         border-radius: 0.25rem;
     }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: normal;
+        //font-size: $h1-font-size;
+    }
+    /*
+    h2 {
+        font-weight: normal;
+        font-size: $h2-font-size;
+    }
+    h3 {
+        font-weight: normal;
+        font-size: $h3-font-size;
+    }
+    */
 }

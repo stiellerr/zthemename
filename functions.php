@@ -187,7 +187,7 @@ function zthemename_scripts() {
 		_S_VERSION,
 		true
 	);
-	// wp_deregister_script( 'wp-embed' );.
+	wp_deregister_script( 'wp-embed' );
 }
 
 add_action( 'wp_enqueue_scripts', 'zthemename_scripts' );
