@@ -252,6 +252,7 @@ function zthemename_editor_assets() {
 			'wp-primitives',
 			'wp-blocks',
 			'wp-keycodes',
+			'wp-hooks',
 			
 			/*
 			'wp-hooks',

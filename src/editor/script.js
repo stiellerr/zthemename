@@ -24,6 +24,11 @@ import "./index.scss";
 import "./formats";
 
 /**
+ * Filters
+ */
+import "./filters";
+
+/**
  * Blocks
  */
 import "./blocks";

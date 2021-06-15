@@ -143,7 +143,8 @@ module.exports = (env, argv) => {
             "@wordpress/viewport": ["wp", "viewport"],
             "@wordpress/primitives": ["wp", "primitives"],
             "@wordpress/blocks": ["wp", "blocks"],
-            "@wordpress/keycodes": ["wp", "keycodes"]
+            "@wordpress/keycodes": ["wp", "keycodes"],
+            "@wordpress/hooks": ["wp", "hooks"]
         }
     };
     return config;

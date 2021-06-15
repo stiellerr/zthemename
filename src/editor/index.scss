@@ -28,6 +28,14 @@
         font-weight: normal;
         //font-size: $h1-font-size;
     }
+    .wp-block-button__link {
+        background-color: var(--global--color-content-accent);
+    }
+    .is-style-outline > .wp-block-button__link:not(.has-background),
+    .wp-block-button__link.is-style-outline:not(.has-background) {
+        background-color: transparent;
+        color: var(--global--color-content-accent);
+    }
     /*
     h2 {
         font-weight: normal;

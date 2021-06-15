@@ -76,7 +76,7 @@ if ( ! class_exists( 'Zthemename_Google_Map_Widget' ) ) {
 						'https://maps.googleapis.com/maps/api/staticmap'
 					);
 
-					$output = '<img class="border" src="' . $request . '" alt="google map" width="208" height="180">';
+					$output = '<img src="' . $request . '" alt="google map" width="208" height="180">';
 
 					if ( $map_url ) {
 						$output = '<a href="' . $map_url . '" target="_blank">' . $output . '</a>';

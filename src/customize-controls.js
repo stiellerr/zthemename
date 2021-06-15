@@ -26,6 +26,9 @@ const updateAccentColors = (accent, headerFooterBackground, skipContent = false)
 
     wp.customize("accent_colors").set(value);
 
+    console.log("accent_colors");
+    console.log(value);
+
     // Small hack to save the option.
     wp.customize("accent_colors")._dirty = true;
 
