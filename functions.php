@@ -253,6 +253,9 @@ function zthemename_editor_assets() {
 			'wp-blocks',
 			'wp-keycodes',
 			'wp-hooks',
+			'wp-plugins',
+			'wp-edit-post',
+
 			
 			/*
 			'wp-hooks',

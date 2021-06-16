@@ -144,7 +144,9 @@ module.exports = (env, argv) => {
             "@wordpress/primitives": ["wp", "primitives"],
             "@wordpress/blocks": ["wp", "blocks"],
             "@wordpress/keycodes": ["wp", "keycodes"],
-            "@wordpress/hooks": ["wp", "hooks"]
+            "@wordpress/hooks": ["wp", "hooks"],
+            "@wordpress/plugins": ["wp", "plugins"],
+            "@wordpress/edit-post": ["wp", "editPost"]
         }
     };
     return config;

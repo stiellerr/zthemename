@@ -4,7 +4,7 @@
 import { addFilter } from "@wordpress/hooks";
 
 const zthemenameModifyButtonDefaults = (settings, name) => {
-    // change default border radius of button to 4px
+    // change default border radius of button to 2px
     if (name === "core/button") {
         if (settings.attributes.borderRadius) {
             settings.attributes.borderRadius = {
