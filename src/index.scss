@@ -673,6 +673,12 @@ main .wp-block-column > *:last-child {
     margin-bottom: 0;
 }
 
+main .wp-block-buttons:first-of-type {
+    position: sticky;
+    top: 1rem;
+    z-index: 1020;
+}
+
 .widget_zthemename_google_map > a > img {
     border-radius: 0.25rem;
     border: 1px solid #dee2e6;

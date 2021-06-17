@@ -33,4 +33,9 @@ import "./filters";
  */
 import "./blocks";
 
+/**
+ * Plugins
+ */
+import "./plugins";
+
 console.log("editor loaded");

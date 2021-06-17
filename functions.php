@@ -462,6 +462,13 @@ add_filter( 'get_custom_logo', 'zthemename_get_custom_logo' );
 
 
 /**
+ * Checks if current user can edit posts
+ */
+function zthemename_current_user_can_edit_posts() {
+	return current_user_can( 'edit_posts' );
+}
+
+/**
  * Register Reviews custom post type.
  */
 function zthemename_init() {
@@ -480,6 +487,33 @@ function zthemename_init() {
 				'author',
 				'thumbnail',
 			),
+		)
+	);
+
+	register_meta(
+		'post',
+		'_zthemename_post_meta',
+		array(
+			'show_in_rest'  => array(
+				'schema' => array(
+					'type'       => 'object',
+					'properties' => array(
+						'title' => array(
+							'type' => 'string',
+						),
+						'description' => array(
+							'type' => 'string',
+						),
+					),
+				),
+			),
+			'type'          => 'object',
+			'single'        => true,
+			'default'       => array(
+				'title'       => '',
+				'description' => '',
+			),
+			'auth_callback' => zthemename_current_user_can_edit_posts,
 		)
 	);
 }
@@ -501,3 +535,36 @@ function diym_image_size_names_choose( $size_names ) {
 }
 
 add_filter( 'image_size_names_choose', 'diym_image_size_names_choose' );
+
+/**
+ * Prints the custom title set in the page meta.
+ * 
+ * @param string $title Page title to be printed.
+ */
+function zthemename_print_title( $title ) {
+
+	$post_meta = get_post_meta( get_the_ID(), '_zthemename_post_meta', true );
+	
+	if ( $post_meta ) {
+		$title = $post_meta['title'] ? $post_meta['title'] : '';
+	}
+
+	return $title;
+}
+
+add_filter( 'pre_get_document_title', 'zthemename_print_title', 99999 );
+
+
+/**
+ * Prints the custom meta description set in the page meta.
+ */
+function zthemename_print_meta_description() {
+
+	$post_meta = get_post_meta( get_the_ID(), '_zthemename_post_meta', true );
+
+	if ( $post_meta && $post_meta['description'] ) {
+		printf( "<meta name='description' content='%s' />\n", esc_html( $post_meta['description'] ) );
+	}
+}
+
+add_action( 'wp_head', 'zthemename_print_meta_description', 1 );
