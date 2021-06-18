@@ -30,6 +30,7 @@
     }
     .wp-block-button__link {
         background-color: var(--global--color-content-accent);
+        border-radius: 0.25rem;
     }
     .is-style-outline > .wp-block-button__link:not(.has-background),
     .wp-block-button__link.is-style-outline:not(.has-background) {

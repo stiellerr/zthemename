@@ -433,7 +433,7 @@ require_once get_template_directory() . '/classes/class-zthemename-schema-markup
 /**
  * Filter the custom logo output. Add blogname if no image found.
  * 
- * @param string $html Custom logo HTML output.
+ * @param string $html Custom logo HTML output.class="mb-0".
  * @return string
  */
 function zthemename_get_custom_logo( $html ) {
@@ -446,7 +446,7 @@ function zthemename_get_custom_logo( $html ) {
 		$aria_current = is_front_page() && ! is_paged() ? ' aria-current="page"' : '';
 
 		$html = sprintf(
-			'<a href="%1$s" class="navbar-brand" rel="home"%2$s><h2 class="mb-0">%3$s</h2></a>',
+			'<a href="%1$s" class="navbar-brand" rel="home"%2$s><h2>%3$s</h2></a>',
 			esc_url( home_url( '/' ) ),
 			$aria_current,
 			$blog_name
@@ -459,14 +459,6 @@ function zthemename_get_custom_logo( $html ) {
 }
 
 add_filter( 'get_custom_logo', 'zthemename_get_custom_logo' );
-
-
-/**
- * Checks if current user can edit posts
- */
-function zthemename_current_user_can_edit_posts() {
-	return current_user_can( 'edit_posts' );
-}
 
 /**
  * Register Reviews custom post type.
@@ -513,7 +505,10 @@ function zthemename_init() {
 				'title'       => '',
 				'description' => '',
 			),
-			'auth_callback' => zthemename_current_user_can_edit_posts,
+			// phpcs:ignore
+			'auth_callback' => function() {
+				return current_user_can( 'edit_posts' );
+			},
 		)
 	);
 }

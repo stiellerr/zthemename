@@ -19,6 +19,7 @@ export default function save({ attributes }) {
                         data-bs-ride="carousel"
                         data-bs-interval="1500"
                         data-bs-pause="false"
+                        data-bs-keyboard="false"
                     >
                         <div className="carousel-inner">
                             {images.map((image, i) => {

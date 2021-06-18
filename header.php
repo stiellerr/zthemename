@@ -35,7 +35,7 @@ $button_outline               = get_theme_mod( 'header_footer_button_outline' ) 
 			the_custom_logo();
 			if ( $zthemename_phone ) : 
 				?>
-			<div class="wp-block-button order-md-last me-3 me-sm-0<?php echo esc_attr( $button_outline ); ?>">
+			<div class="wp-block-button order-md-last<?php echo esc_attr( $button_outline ); ?>">
 				<a class="wp-block-button__link" href="tel:<?php echo esc_attr( $zthemename_internation_phone ); ?>"><i class="fas fa-phone-alt"data-content="f879">&nbsp;</i><?php echo esc_attr( $zthemename_phone ); ?></a>
 			</div>
 			<?php endif; ?>

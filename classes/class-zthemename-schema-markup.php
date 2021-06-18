@@ -188,13 +188,13 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 
 			$menu_location = get_nav_menu_locations();
 
-			write_log('menu_location');
-			write_log($menu_location);
+			//write_log('menu_location');
+			//write_log($menu_location);
 
 			$menu_id = isset( $menu_location['menu-1'] ) ? $menu_location['menu-1'] : false;
 
-			write_log('menu_id');
-			write_log($menu_id);
+			//write_log('menu_id');
+			//write_log($menu_id);
 
 			if ( $menu_id ) {
 				$menu_items = wp_get_nav_menu_items( $menu_id );
@@ -239,11 +239,11 @@ if ( ! class_exists( 'Zthemename_Schema_Markup' ) ) {
 					}
 				}
 				
-				write_log('breadcrumbs');
-				write_log(json_encode( $breadcrumbs ));
+				//write_log('breadcrumbs');
+				//write_log(json_encode( $breadcrumbs ));
 				//$schema[] = $breadcrumbs;
 				//$schema = $breadcrumbs;
-				$schema += $breadcrumbs;
+				$breadcrumbs && $schema += $breadcrumbs;
 
 			}
 
