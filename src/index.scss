@@ -290,6 +290,13 @@ img {
 }
 */
 
+.navbar-toggler {
+    border: none;
+    &:focus {
+        box-shadow: none;
+    }
+}
+
 .wp-block-button__link {
     color: #fff;
     background-color: var(--global--color-content-accent);
