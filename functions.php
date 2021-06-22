@@ -72,6 +72,12 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 			)
 		);
 
+		register_nav_menus(
+			array(
+				'menu-2' => esc_html__( 'Secondary', 'zthemename' ),
+			)
+		);
+
 		/*
 		 * Switch default core markup for search form, comment form, and comments
 		 * to output valid HTML5.

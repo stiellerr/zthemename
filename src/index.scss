@@ -384,15 +384,41 @@ img {
 }
 
 .site-footer {
+    /*
     .widget a {
         color: var(--global--color-header-footer-accent);
         text-decoration: none;
     }
+    */
     .navbar-light .widget {
         color: $navbar-light-color;
+        a {
+            color: $navbar-light-color;
+            text-decoration: none;
+            &:hover,
+            &:focus {
+                color: $navbar-light-hover-color;
+            }
+
+            &.disabled {
+                color: $navbar-light-disabled-color;
+            }
+        }
     }
     .navbar-dark .widget {
         color: $navbar-dark-color;
+        a {
+            color: $navbar-dark-color;
+            text-decoration: none;
+            &:hover,
+            &:focus {
+                color: $navbar-dark-hover-color;
+            }
+
+            &.disabled {
+                color: $navbar-dark-disabled-color;
+            }
+        }
     }
 }
 
