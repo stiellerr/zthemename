@@ -96,6 +96,8 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 		);
 
 		// Editor color palette.
+		
+		/*
 		$primary = '#0d6efd';
 
 		add_theme_support(
@@ -108,6 +110,7 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 				),
 			)
 		);
+		*/
 
 		// Add theme support for selective refresh for widgets.
 		add_theme_support( 'customize-selective-refresh-widgets' );
@@ -569,3 +572,20 @@ function zthemename_print_meta_description() {
 }
 
 add_action( 'wp_head', 'zthemename_print_meta_description', 1 );
+
+/**
+ * Sets the responsive images sizes.
+ * 
+ * @param string $sizes A source size value for use in a 'sizes' attribute.
+ */
+function zthemename_calculate_image_sizes( $sizes ) {
+
+	if ( is_active_sidebar( 'sidebar-1' ) ) {
+		$sizes = '(max-width: 575px) calc(100vw - 1.5rem), (max-width: 767px) 517px, (max-width: 991px) 433px, (max-width: 1199px) 670px, (max-width: 1399px) 805px, 940px';
+	} else {
+		$sizes = '(max-width: 575px) calc(100vw - 1.5rem), (max-width: 767px) 517px, (max-width: 991px) 697px, (max-width: 1199px) 937px, (max-width: 1399px) 1117px, 1297px';
+	}
+	return $sizes;
+}
+
+add_filter( 'wp_calculate_image_sizes', 'zthemename_calculate_image_sizes' );
