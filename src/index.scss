@@ -384,12 +384,48 @@ img {
 }
 
 .site-footer {
+    .wp-block-columns {
+        margin-bottom: 0;
+    }
     /*
     .widget a {
         color: var(--global--color-header-footer-accent);
         text-decoration: none;
     }
     */
+    .navbar-light {
+        color: $navbar-light-color;
+        a {
+            color: $navbar-light-color;
+            text-decoration: none;
+            &:hover,
+            &:focus {
+                color: $navbar-light-hover-color;
+            }
+
+            &.disabled {
+                color: $navbar-light-disabled-color;
+            }
+        }
+    }
+
+    .navbar-dark {
+        color: $navbar-dark-color;
+        a {
+            color: $navbar-dark-color;
+            text-decoration: none;
+            &:hover,
+            &:focus {
+                color: $navbar-dark-hover-color;
+            }
+
+            &.disabled {
+                color: $navbar-dark-disabled-color;
+            }
+        }
+    }
+
+    /*
     .navbar-light .widget {
         color: $navbar-light-color;
         a {
@@ -420,6 +456,7 @@ img {
             }
         }
     }
+    */
 }
 
 @media (min-width: 768px) {
@@ -743,3 +780,58 @@ main .wp-block-buttons:first-of-type {
     border-radius: 0.25rem;
     border: 1px solid #dee2e6;
 }
+
+.footer-nav {
+    > div {
+        margin: 0.5rem 0;
+    }
+    .nav > .menu-item {
+        width: 50%;
+    }
+}
+
+@media (min-width: 576px) {
+    .footer-nav .nav > .menu-item {
+        width: auto;
+        a {
+            line-height: 1rem;
+            padding: 0 8px;
+        }
+        &:not(:last-of-type) a {
+            border-right: 1px solid;
+        }
+        &:first-of-type a {
+            padding-left: 0;
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    .footer-nav {
+        display: flex;
+        > div:last-of-type {
+            margin-left: auto;
+        }
+    }
+}
+
+/*
+@media (min-width: 576px) {
+    .nav .menu-item:not(:last-of-type) a {
+        border-right: 1px solid;
+    }
+}
+
+@media (min-width: 576px) {
+    .nav .menu-item:first-of-type a {
+        padding-left: 0;
+    }
+}
+
+@media (min-width: 576px) {
+    .nav .menu-item a {
+        line-height: 1rem;
+        padding: 0 8px;
+    }
+}
+*/
