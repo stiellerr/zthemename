@@ -22,6 +22,18 @@
                     "attribute": "alt",
                     "default": ""
                 },
+                "width": {
+                    "type": "string",
+                    "source": "attribute",
+                    "selector": "img",
+                    "attribute": "width"
+                },
+                "height": {
+                    "type": "string",
+                    "source": "attribute",
+                    "selector": "img",
+                    "attribute": "height"
+                },
                 "id": {
                     "type": "string",
                     "source": "attribute",

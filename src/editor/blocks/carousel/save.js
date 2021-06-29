@@ -31,6 +31,8 @@ export default function save({ attributes }) {
                                                 <img
                                                     src={image.url}
                                                     alt={image.alt || null}
+                                                    width={image.width || null}
+                                                    height={image.height || null}
                                                     data-id={image.id}
                                                 />
                                             </div>

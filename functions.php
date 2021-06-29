@@ -413,6 +413,8 @@ require_once get_template_directory() . '/classes/class-zthemename-customizer.ph
 require_once get_template_directory() . '/classes/class-zthemename-custom-colors.php';
 new Zthemename_Custom_Colors();
 
+// Custom color classes.
+require_once get_template_directory() . '/classes/class-zthemename-images.php';
 
 /** WP_Nav_Menu_Widget class */
 require_once get_template_directory() . '/classes/class-zthemename-contact-form-widget.php';
