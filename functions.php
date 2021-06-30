@@ -564,16 +564,23 @@ add_filter( 'pre_get_document_title', 'zthemename_print_title', 99999 );
 /**
  * Prints the custom meta description set in the page meta.
  */
-function zthemename_print_meta_description() {
+function zthemename_print_head_meta() {
 
 	$post_meta = get_post_meta( get_the_ID(), '_zthemename_post_meta', true );
 
 	if ( $post_meta && $post_meta['description'] ) {
 		printf( "<meta name='description' content='%s' />\n", esc_html( $post_meta['description'] ) );
 	}
+
+	$options = get_option( 'zthemename_options' );
+
+	if ( $options && $options['js_code'] ) {
+		echo $options['js_code'];
+	}
+
 }
 
-add_action( 'wp_head', 'zthemename_print_meta_description', 1 );
+add_action( 'wp_head', 'zthemename_print_head_meta', 1 );
 
 /**
  * Sets the responsive images sizes.

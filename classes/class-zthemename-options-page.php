@@ -550,13 +550,16 @@ if ( ! class_exists( 'Zthemename_Options_Page' ) ) {
 			foreach ( $data as $key => $value ) {
 				if ( 'js_code' === $key ) {
 					$code = strip_tags( $value, '<script>' );
+					
 					if ( preg_match( '@<(script)[^>]*?>.*?</\\1>@si', $code ) ) {
 						// remove line breaks. this could be done where the script is printed to the page?? .
-						$code = preg_replace( '/[\r\n\t ]+/', '', $code );
+						$code = preg_replace( '/[\r\n\t]+/', '', $code );
+						$code = preg_replace( '/,\s/', ',', $code );
 						$data[ $key ] = trim( $code );
 					} else {
 						$data[ $key ] = '';
 					}
+					
 					continue;
 				} 
 				$data[ $key ] = sanitize_text_field( $value );
