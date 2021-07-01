@@ -42,7 +42,7 @@ class Mailer {
 
         let formData = new FormData(event.target);
         formData.append("action", "send_form");
-        //formData.append("security", zthemename.ajax_nonce);
+        formData.append("security", zthemename.ajax_nonce);
 
         const XHR = new XMLHttpRequest();
 
@@ -53,7 +53,7 @@ class Mailer {
         XHR.onloadend = () => this._onloadend();
 
         // Set up our request
-        XHR.open("POST", "zthemename.ajax_url", true);
+        XHR.open("POST", zthemename.ajax_url, true);
         XHR.send(formData);
     }
 

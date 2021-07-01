@@ -18,6 +18,7 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 		 * Sets up a new contact form widget instance.
 		 */
 		public function __construct() {
+
 			parent::__construct(
 				'zthemename_contact_form',
 				esc_html__( 'Contact Form', 'zthemename' ),
@@ -27,9 +28,6 @@ if ( ! class_exists( 'zthemename_Contact_Form_Widget' ) ) {
 				)
 			);
 		}
-		//<?php $nav_btn_type && printf( ' %s', esc_html( $nav_btn_type ) );
-		//<?php $nav_btn_type && printf( ' %s', esc_html( $nav_btn_type ) );
-		//
 
 		/**
 		 * Outputs the content for the current Contact Form widget instance.

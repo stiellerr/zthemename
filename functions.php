@@ -196,6 +196,16 @@ function zthemename_scripts() {
 		_S_VERSION,
 		true
 	);
+
+	wp_localize_script(
+		'zthemename',
+		'zthemename',
+		array( 
+			'ajax_url'   => admin_url( 'admin-ajax.php' ),
+			'ajax_nonce' => wp_create_nonce( 'secure_nonce_name' ),
+		)
+	);
+
 	wp_deregister_script( 'wp-embed' );
 }
 
@@ -598,3 +608,56 @@ function zthemename_calculate_image_sizes( $sizes ) {
 }
 
 add_filter( 'wp_calculate_image_sizes', 'zthemename_calculate_image_sizes' );
+
+/**
+ * Sends the form data.
+ */
+function zthemename_send_form() {
+
+	// check form submit has been done from a valid source.
+	check_ajax_referer( 'secure_nonce_name', 'security' );
+
+	$ignore = array( 'action', 'security' );
+
+	$body = '';
+
+	foreach ( $_POST as $key => $value ) {
+		
+		if ( in_array( $key, $ignore, true ) ) {
+			continue;
+		}
+		$value && $body .= sprintf( '%1$s: %2$s', $key, $value ) . "\n";
+	}
+
+	$to = get_bloginfo( 'admin_email' );
+
+	if ( ! $body || ! is_email( $to ) ) {
+		wp_send_json_error( null, 400 );
+	}
+	
+	$subject = __( 'New Website Lead.', 'zthemename' );
+	
+	// get domain name...
+	$domain = wp_parse_url( home_url(), PHP_URL_HOST );
+	$name   = get_bloginfo( 'name' );
+
+	if ( $name && $domain ) {
+		$headers[] = sprintf( 'From: %1$s <noreply@%2$s>', $name, $domain );
+	}
+				
+	// send the email.
+	$result = wp_mail( $to, $subject, $body, $headers );
+
+	if ( $result ) {
+		wp_send_json_success( __( 'Thanks, we will be in touch shortly!', 'zthemename' ) );
+	}
+
+	// if we get to this point, something is wrong...
+	wp_send_json_error( null, 500 );
+}
+
+// This is for authenticated users.
+add_action( 'wp_ajax_send_form', 'zthemename_send_form' );
+
+// This is for unauthenticated users.
+add_action( 'wp_ajax_nopriv_send_form', 'zthemename_send_form' );
