@@ -1,27 +1,38 @@
 /* global ga */
-
 import { onDOMContentLoaded } from "bootstrap/js/src/util/index";
 import SelectorEngine from "bootstrap/js/src/dom/selector-engine";
 
-onDOMContentLoaded(() => {
-    // bail early if ga is undefined
+//
+export const sendEvent = (target, params = {}) => {
     if ("undefined" === typeof ga) {
         return;
     }
 
-    // grab all the telephone and email clicks.
+    const defaults = {
+        hitType: "event",
+        eventLabel: ["header", "main", "aside", "footer"].find((location) => {
+            if (target.closest(location)) {
+                return location;
+            }
+        })
+    };
+    params = Object.assign({}, defaults, params);
+
+    ga("send", params);
+};
+
+onDOMContentLoaded(() => {
+    // grab all the telephone and email clicks and attatch an event listener.
     SelectorEngine.find('a[href^="tel:"],a[href^="mailto:"]').forEach((href) => {
         href.addEventListener("click", (props) => {
             const { target } = props;
-            ["header", "main", "aside", "footer"].every((location) => {
-                if (target.closest(location)) {
-                    const data = target.href.split(":");
-                    // send click event to google analytics.
-                    ga("send", "event", data[0], data[1], location);
-                    return false;
-                }
-                return true;
-            });
+            // build params.
+            const params = ["eventCategory", "eventAction"].reduce(
+                (o, k, i) => ({ ...o, [k]: target.href.split(":")[i] }),
+                {}
+            );
+            // send event.
+            sendEvent(target, params);
         });
     });
 });

@@ -8,6 +8,6 @@ import "bootstrap/js/src/carousel";
 
 // custom
 import "./js/fa-loader";
-import "./js/mailer";
 import "./js/carousel";
 import "./js/analytics";
+import "./js/mailer";

@@ -6,6 +6,7 @@
 import { onDOMContentLoaded } from "bootstrap/js/src/util/index";
 import EventHandler from "bootstrap/js/src/dom/event-handler";
 import SelectorEngine from "bootstrap/js/src/dom/selector-engine";
+import { sendEvent } from "./analytics";
 
 /**
  * Constants
@@ -43,6 +44,7 @@ class Mailer {
         let formData = new FormData(event.target);
         formData.append("action", "send_form");
         formData.append("security", zthemename.ajax_nonce);
+        this._action = formData.get("email");
 
         const XHR = new XMLHttpRequest();
 
@@ -69,6 +71,8 @@ class Mailer {
             const response = JSON.parse(currentTarget.response);
             this._alert.innerHTML = response.data;
             this._alert.classList.add("alert-success");
+
+            sendEvent(this._element, { eventCategory: "form", eventAction: this._action });
         } else {
             this._onerror(currentTarget);
         }
@@ -90,5 +94,3 @@ class Mailer {
 onDOMContentLoaded(() => {
     SelectorEngine.find(SELECTOR_FORM).forEach((form) => new Mailer(form));
 });
-
-export default Mailer;
