@@ -130,6 +130,8 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 			)
 		);
 
+		add_theme_support( 'custom-header' );
+
 		add_image_size( 'small', 0, 80 );
 	}
 endif;
