@@ -37,7 +37,6 @@ Reece Stieller
 1) In the terminal type: "git pull"
 
 Notes...
-1) Google api key: xxx
 2) Murray Bros place id: ChIJZY4oZ0efFW0RczJOuFArzR4
 2) Michael Su place id:  ChIJSzT0_A05DW0RxX0CnXDNoQk ChIJK32hkyY5DW0RMnyC5I_57ZQ
 
