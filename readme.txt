@@ -19,10 +19,10 @@ Reece Stieller
     define( 'WP_DEBUG_DISPLAY', false );
     define( 'WP_DEBUG_LOG', true );
 13) if you are working behind a proxy ie at work, add the following settings to the bottom of the file. This will allow you to do tasks such as searching & downloading themes or plugins.
-    define('WP_PROXY_HOST', '202.175.128.101');
+    define('WP_PROXY_HOST', 'ip_address goes here');
     define('WP_PROXY_PORT', '80');
-    define('WP_PROXY_USERNAME', 'zeus\stiell11');
-    define('WP_PROXY_PASSWORD', 'Skippycorn43_');
+    define('WP_PROXY_USERNAME', 'domain\user');
+    define('WP_PROXY_PASSWORD', 'password');
     define('WP_PROXY_BYPASS_HOSTS', 'localhost');
     to allow wp "get" and "post" requests to function, add the following filter to the wp-config.php file. Note: you can also add it inside your theme or plugin. ie to your themes functions.php file
     add_filter('https_ssl_verify', '__return_false');
@@ -37,7 +37,7 @@ Reece Stieller
 1) In the terminal type: "git pull"
 
 Notes...
-1) Google api key: AIzaSyCKPAa7QAk7mOdAzqD64OHmrBMW3hT8998
+1) Google api key: xxx
 2) Murray Bros place id: ChIJZY4oZ0efFW0RczJOuFArzR4
 2) Michael Su place id:  ChIJSzT0_A05DW0RxX0CnXDNoQk ChIJK32hkyY5DW0RMnyC5I_57ZQ
 
