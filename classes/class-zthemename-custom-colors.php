@@ -2,9 +2,6 @@
 /**
  * Custom Colors Class
  *
- * @package WordPress
- * @subpackage Twenty_Twenty_One
- * @since Twenty Twenty-One 1.0
  */
 
 /**
@@ -16,8 +13,6 @@ class Zthemename_Custom_Colors {
 	 * Instantiate the object.
 	 *
 	 * @access public
-	 *
-	 * @since Twenty Twenty-One 1.0
 	 */
 	public function __construct() {
 
@@ -38,9 +33,7 @@ class Zthemename_Custom_Colors {
 	 * Both text and link colors needs to be updated.
 	 * The code below needs to be updated, because the colors are no longer theme mods.
 	 *
-	 * @access public
-	 *
-	 * @since Twenty Twenty-One 1.0
+	 * @access publi
 	 *
 	 * @param string|null $context Can be "editor" or null.
 	 *
@@ -85,7 +78,6 @@ class Zthemename_Custom_Colors {
 	 *
 	 * @access public
 	 *
-	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return void
 	 */
@@ -97,8 +89,6 @@ class Zthemename_Custom_Colors {
 	 * Editor custom color variables.
 	 *
 	 * @access public
-	 *
-	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return void
 	 */
