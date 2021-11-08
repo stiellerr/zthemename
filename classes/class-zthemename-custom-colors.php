@@ -1,7 +1,6 @@
 <?php
 /**
  * Custom Colors Class
- *
  */
 
 /**
@@ -24,8 +23,6 @@ class Zthemename_Custom_Colors {
 
 	}
 
-
-
 	/**
 	 * Generate color variables.
 	 *
@@ -33,7 +30,7 @@ class Zthemename_Custom_Colors {
 	 * Both text and link colors needs to be updated.
 	 * The code below needs to be updated, because the colors are no longer theme mods.
 	 *
-	 * @access publi
+	 * @access public
 	 *
 	 * @param string|null $context Can be "editor" or null.
 	 *
@@ -93,18 +90,8 @@ class Zthemename_Custom_Colors {
 	 * @return void
 	 */
 	public function editor_custom_color_variables() {
-		/*
-		wp_enqueue_style(
-			'twenty-twenty-one-custom-color-overrides',
-			get_theme_file_uri( 'assets/css/custom-color-overrides.css' ),
-			array(),
-			(string) filemtime( get_theme_file_path( 'assets/css/custom-color-overrides.css' ) )
-		);
 		
-		$background_color = get_theme_mod( 'background_color', 'D1E4DD' );
-		if ( 'd1e4dd' !== strtolower( $background_color ) ) {
-		*/
-			wp_add_inline_style( 'zthemename-editor', $this->generate_custom_color_variables( 'editor' ) );
-		//}
+		wp_add_inline_style( 'zthemename-editor', $this->generate_custom_color_variables( 'editor' ) );
+		
 	}
 }
