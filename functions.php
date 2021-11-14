@@ -95,23 +95,6 @@ if ( ! function_exists( 'zthemename_setup' ) ) :
 			)
 		);
 
-		// Editor color palette.
-		
-		/*
-		$primary = '#0d6efd';
-
-		add_theme_support(
-			'editor-color-palette',
-			array(
-				array(
-					'name'  => esc_html__( 'Primary', 'zthemename' ),
-					'slug'  => 'primary',
-					'color' => $primary,
-				),
-			)
-		);
-		*/
-
 		// Add theme support for selective refresh for widgets.
 		add_theme_support( 'customize-selective-refresh-widgets' );
 
@@ -161,10 +144,7 @@ function zthemename_widgets_init() {
 			'name'          => esc_html__( 'Footer', 'zthemename' ),
 			'id'            => 'sidebar-2',
 			'description'   => esc_html__( 'Add widgets here to appear in your footer.', 'zthemename' ),
-			// 'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			// 'after_widget'  => '</section>',
 			'before_widget' => '<div id="%1$s" class="widget %2$s wp-block-column mt-3">',
-			// 'before_widget' => '<div id="%1$s" class="widget %2$s col-12 col-md-6 col-lg-3 mt-3">',
 			'after_widget'  => '</div>',
 			'before_title'  => '<h3 class="widget-title">',
 			'after_title'   => '</h3>',
@@ -262,12 +242,10 @@ function zthemename_editor_assets() {
 			'wp-components',
 			'wp-i18n',
 			'wp-dom',
-			// "wp-primitives",
 			'wp-element',
 			'wp-data',
 			'wp-compose',
 			'wp-dom-ready',
-			// xxx.
 			'wp-blob',
 			'wp-viewport',
 			'wp-primitives',
@@ -276,28 +254,10 @@ function zthemename_editor_assets() {
 			'wp-hooks',
 			'wp-plugins',
 			'wp-edit-post',
-
 			
-			/*
-			'wp-hooks',
-			'wp-element',
-			'wp-data',
-			'wp-block-editor',
-			'wp-rich-text',
-			'wp-blocks',
-			'wp-i18n',
-			'wp-block-editor',
-			'wp-components',
-			'lodash',
-			'wp-plugins',
-			'wp-edit-post',
-			'wp-compose'
-			'jquery',
-			'wp-compose',
-			'wp-data',
+			/* 
+			TODO
 			'wp-editor',
-			'wp-element',
-			'wp-rich-text',
 			*/
 		),
 		_S_VERSION,
